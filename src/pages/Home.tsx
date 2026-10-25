@@ -300,6 +300,9 @@ export function Home() {
             {person.email}
           </a>
           <div className="contact-links">
+            <a href={`tel:${person.phoneHref}`}>
+              {t.phone} {person.phoneDisplay}
+            </a>
             <a href={person.linkedin} target="_blank" rel="noreferrer">
               {t.linkedin}
             </a>
