@@ -298,19 +298,13 @@ export const cases: CaseStudy[] = [
       zh: "用無人機送達緊急藥物",
     },
     summary: {
-      en: "With Business+Tech I am designing a platform for drones to deliver emergency medicine. The current design lives in Figma.",
-      zh: "我在 Business+Tech 參與設計一個無人機運送緊急藥物的平台。目前的設計在 Figma。",
+      en: "With Business+Tech I am designing a platform for drones to deliver emergency medicine. One side is the person waiting on the order. The other is the operator assigning the drone.",
+      zh: "我在 Business+Tech 參與設計一個無人機運送緊急藥物的平台。一邊是等藥的人，另一邊是調度無人機的人。",
     },
     metrics: [
       {
-        value: "Figma",
-        label: { en: "current design, not a shipped product", zh: "目前的設計，產品尚未上線" },
-      },
-    ],
-    links: [
-      {
-        href: "https://www.figma.com/design/aPI8ZHWqL3G6tjZKFpZJHc/Emergency-drone-delivery-platform?node-id=0-1",
-        label: { en: "Open in Figma", zh: "在 Figma 打開" },
+        value: "Now",
+        label: { en: "design in progress, not a shipped product", zh: "設計進行中，產品尚未上線" },
       },
     ],
     sections: [
@@ -318,16 +312,16 @@ export const cases: CaseStudy[] = [
         id: "situation",
         heading: { en: "Situation", zh: "情境" },
         body: {
-          en: "Emergency medicine has to move when roads and ordinary delivery are the wrong tool. Business+Tech is the team I am building this with.",
-          zh: "緊急藥物需要在道路和一般配送不適用的時候送達。我是在 Business+Tech 和團隊一起做這件事。",
+          en: "Emergency medicine sometimes has to move when ordinary delivery is the wrong tool. The design has two sides: the person placing the order, and the operator who decides which drone goes. I am doing this with Business+Tech.",
+          zh: "緊急藥物有時不能靠一般配送。這份設計有兩邊：下單的人，以及決定派哪一台無人機的人。我是在 Business+Tech 和團隊一起做。",
         },
       },
       {
         id: "decision",
-        heading: { en: "Where it is", zh: "目前進度" },
+        heading: { en: "What the design covers", zh: "設計涵蓋的範圍" },
         body: {
-          en: "The platform is still a design. The working file is the Figma linked on this page: an emergency drone-delivery platform. I am not treating the frames as a launched service.",
-          zh: "平台目前還是設計。這一頁連到的 Figma 是現在的檔案：緊急藥物的無人機配送平台。那些畫面還不是已上線的服務。",
+          en: "On the order side, a person reviews the delivery and the prescription, then waits for a medical review before a drone is sent. After that, they can follow the flight. On the operator side, a console shows which drones are free and assigns one mission at a time. The work is still in progress, so this page does not treat it as a launched product.",
+          zh: "下單的人先確認配送和處方，等醫療審核通過才派出無人機，之後可以看飛行進度。調度的人在另一個畫面看哪些無人機有空，再指派一趟任務。工作還在進行，這一頁不把它寫成已上線的產品。",
         },
       },
     ],
