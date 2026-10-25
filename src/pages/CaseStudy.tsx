@@ -76,11 +76,6 @@ export function CaseStudy() {
             </div>
           ) : null}
         </header>
-        {item.embed ? (
-          <div className="case-embed">
-            <iframe title={item.embed.title[locale]} src={item.embed.src} allowFullScreen />
-          </div>
-        ) : null}
         {item.chart ? (
           <CompareChart
             caption={item.chart.caption[locale]}

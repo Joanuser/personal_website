@@ -27,7 +27,6 @@ export type CaseStudy = {
   study?: "market";
   status?: "progress";
   links?: { href: string; label: Record<Locale, string> }[];
-  embed?: { src: string; title: Record<Locale, string> };
   chart?: {
     caption: Record<Locale, string>;
     rows: { label: Record<Locale, string>; value: number; display: string }[];
@@ -314,13 +313,6 @@ export const cases: CaseStudy[] = [
         label: { en: "Open in Figma", zh: "在 Figma 打開" },
       },
     ],
-    embed: {
-      src: "https://embed.figma.com/design/aPI8ZHWqL3G6tjZKFpZJHc/Emergency-drone-delivery-platform?node-id=0-1&embed-host=share",
-      title: {
-        en: "Emergency drone delivery platform in Figma",
-        zh: "Figma 裡的緊急藥物無人機平台",
-      },
-    },
     sections: [
       {
         id: "situation",

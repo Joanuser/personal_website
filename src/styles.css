@@ -475,15 +475,6 @@ html[lang="zh-Hant"] .lede { max-width: 14em; letter-spacing: 0; }
 }
 .case-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
 .case-links .button { gap: 8px; }
-.case-embed {
-  margin: 8px 0 28px;
-  overflow: hidden;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  aspect-ratio: 16 / 10;
-}
-.case-embed iframe { width: 100%; height: 100%; border: 0; }
 .work-row:hover .pill, .work-row.is-hot .pill { color: var(--maize); }
 .section { padding: 56px 0; }
 .education-label {
