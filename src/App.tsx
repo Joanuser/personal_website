@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes, useLocation } from "react-router-dom";
 import { SiteFooter, SiteHeader } from "./components/Chrome";
 import { LanguageProvider, useI18n } from "./i18n";
 import { CaseStudy } from "./pages/CaseStudy";
@@ -29,9 +29,9 @@ function NotFound() {
     <main id="content" className="wrap not-found">
       <h1>{t.notFoundTitle}</h1>
       <p>{t.notFoundBody}</p>
-      <a className="button primary" href="/">
+      <Link className="button primary" to="/">
         {t.home}
-      </a>
+      </Link>
     </main>
   );
 }
@@ -54,7 +54,7 @@ function Shell() {
 export function App() {
   return (
     <LanguageProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "")}>
         <Shell />
       </BrowserRouter>
     </LanguageProvider>
