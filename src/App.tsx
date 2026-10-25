@@ -3,6 +3,7 @@ import { BrowserRouter, Link, Route, Routes, useLocation } from "react-router-do
 import { SiteFooter, SiteHeader } from "./components/Chrome";
 import { LanguageProvider, useI18n } from "./i18n";
 import { CaseStudy } from "./pages/CaseStudy";
+import { Chapter } from "./pages/Chapter";
 import { Home } from "./pages/Home";
 
 function ScrollManager() {
@@ -43,6 +44,7 @@ function Shell() {
       <SiteHeader />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/chapter/:id" element={<Chapter />} />
         <Route path="/work/:slug" element={<CaseStudy />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

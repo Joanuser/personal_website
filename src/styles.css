@@ -129,6 +129,8 @@ button, input { font: inherit; color: inherit; }
   color: var(--paper);
 }
 .menu-toggle { display: none; }
+.header.is-book .nav-links,
+.header.is-book .menu-toggle { display: none; }
 .track {
   display: block;
   height: 8px;
@@ -407,6 +409,127 @@ button, input { font: inherit; color: inherit; }
 .boat { width: min(100%, 150px); height: auto; }
 .voyage .logo { height: 26px; max-width: 100%; }
 .harbor strong { color: var(--blue); }
+.desk-scene {
+  min-height: calc(100vh - var(--header));
+  padding: 36px 16px 64px;
+  background:
+    radial-gradient(700px 280px at 50% 0%, rgba(255, 236, 196, 0.35), transparent 70%),
+    linear-gradient(180deg, #8d6844, #6b4630 55%, #543624);
+}
+.spread {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(1040px, 100%);
+  margin: 0 auto;
+  min-height: 640px;
+  background: #f7f1e4;
+  border-radius: 6px 14px 14px 6px;
+  box-shadow: 0 28px 60px rgba(40, 22, 8, 0.35);
+  position: relative;
+}
+.spread::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 34px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, rgba(90, 58, 28, 0.08), rgba(255, 252, 245, 0.7), rgba(90, 58, 28, 0.16));
+  pointer-events: none;
+}
+.page {
+  min-width: 0;
+  padding: 32px 40px 28px;
+  max-height: min(780px, calc(100vh - 150px));
+  overflow: auto;
+}
+.page + .page { padding-left: 48px; }
+.frontispiece { width: 100%; height: auto; border-radius: 6px; }
+.story-line {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.35;
+  margin: 16px 0 8px;
+}
+.story-sign, .story-mail { color: var(--ink-soft); }
+.story-mail { display: inline-block; margin-top: 18px; }
+.contents-kicker {
+  margin: 0;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.contents-title {
+  margin: 6px 0 18px;
+  font-family: var(--serif);
+  font-weight: 560;
+  font-size: clamp(48px, 6vw, 76px);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+.contents-list { list-style: none; margin: 0; padding: 0; }
+.contents-list a {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: baseline;
+  padding: 12px 0;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(28, 36, 48, 0.08);
+}
+.contents-list .num { font-family: var(--serif); font-size: 22px; color: var(--coral); }
+.contents-list .leader { border-bottom: 1px dotted rgba(28, 36, 48, 0.35); }
+.contents-list .name { font-family: var(--serif); font-size: 28px; }
+.contents-list a:hover .name { color: var(--blue-2); }
+.voyage-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+.voyage-stack .ship {
+  width: 100%;
+  min-height: 0;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+.voyage-stack .boat { width: 86px; flex: 0 0 auto; }
+.voyage-stack .ship.is-selected { background: rgba(255, 253, 248, 0.86); }
+.page-story h2 {
+  margin: 0 0 6px;
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 46px);
+  letter-spacing: -0.03em;
+  font-weight: 560;
+}
+.page-story .project-grid,
+.page-story .work-row { grid-template-columns: 1fr; }
+.proof-page { display: grid; gap: 10px; margin-top: 16px; }
+.proof-page a {
+  display: block;
+  text-decoration: none;
+  background: var(--blue);
+  color: var(--paper);
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+.proof-page strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 32px;
+  color: var(--maize);
+}
+.proof-page a span { color: rgba(243, 239, 230, 0.82); }
 .hero {
   display: grid;
   grid-template-columns: 1.35fr 0.8fr;
@@ -882,11 +1005,13 @@ html[lang="zh-Hant"] .lede { max-width: 14em; letter-spacing: 0; }
     gap: 14px;
   }
   .header.is-open .nav-links { display: flex; }
+  .spread { grid-template-columns: 1fr; min-height: 0; }
+  .spread::before { display: none; }
+  .page, .page + .page { max-height: none; padding: 22px 18px; }
+  .contents-title { font-size: 52px; }
   .metric-pill, .work-row h3 { text-align: left; }
   .section-head, .footer, .status { flex-direction: column; align-items: flex-start; }
   .case-metrics, .project-grid, .fact-grid, .method ol, .method-inner, .voyage { grid-template-columns: 1fr; }
-  .voyage { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
-  .voyage li { flex: 0 0 168px; scroll-snap-align: start; }
   .chapter-sheet { padding: 18px 14px 12px; }
   .chapter-next strong { font-size: 22px; }
   .logo-rail-inner { flex-direction: column; align-items: flex-start; gap: 12px; }

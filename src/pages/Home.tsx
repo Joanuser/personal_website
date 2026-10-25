@@ -1,21 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { cases, education, experience, person, proof, skills } from "../content";
-import { CompareChart, percentIn, tenureMonths } from "../components/Charts";
-import { Voyage } from "../components/Voyage";
+import { person } from "../content";
 import { useI18n } from "../i18n";
 
-function scrollToId(id: string) {
-  const node = document.getElementById(id);
-  if (!node) return;
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  node.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+function Frontispiece() {
+  return (
+    <svg className="frontispiece" viewBox="0 0 360 240" role="img" aria-hidden="true">
+      <rect width="360" height="240" fill="#f4efe4" />
+      <ellipse cx="70" cy="48" rx="70" ry="36" fill="#d5e6f2" opacity="0.85" />
+      <ellipse cx="250" cy="36" rx="90" ry="32" fill="#e7f0c8" opacity="0.7" />
+      <ellipse cx="300" cy="150" rx="70" ry="48" fill="#c9d7a4" />
+      <ellipse cx="210" cy="168" rx="54" ry="40" fill="#8eaa62" />
+      <ellipse cx="250" cy="150" rx="28" ry="22" fill="#d7e7a8" />
+      <path d="M40 188c40-16 80-16 140-4s90 8 150-10v66H40V188z" fill="#d9c39a" />
+      <path d="M118 176V104h92v72" fill="#f7f3ea" stroke="#243044" strokeWidth="2" />
+      <path d="M108 108L164 62l66 46" fill="#6e8f62" stroke="#243044" strokeWidth="2" strokeLinejoin="round" />
+      <rect x="148" y="132" width="22" height="44" fill="#3d5c7a" stroke="#243044" strokeWidth="2" />
+      <rect x="132" y="118" width="16" height="16" fill="#d5e6f2" stroke="#243044" strokeWidth="1.5" />
+      <rect x="178" y="118" width="16" height="16" fill="#d5e6f2" stroke="#243044" strokeWidth="1.5" />
+      <rect x="210" y="78" width="10" height="28" fill="#c46a58" />
+      <ellipse cx="78" cy="168" rx="26" ry="18" fill="#e7b3a2" />
+      <ellipse cx="96" cy="176" rx="16" ry="12" fill="#f3d2c4" />
+    </svg>
+  );
 }
 
 export function Home() {
-  const { locale, t } = useI18n();
-  const [active, setActive] = useState<string | null>(null);
-  const story = [...experience].reverse();
+  const { t } = useI18n();
   const chapters = [
     { id: "intro", num: "01", label: t.navIntro },
     { id: "experience", num: "02", label: t.navExperience },
@@ -28,319 +39,33 @@ export function Home() {
     document.title = "Chih-Chi Huang — Technical Product Management";
   }, []);
 
-  const focusCase = (slug: string) => {
-    setActive(slug);
-    scrollToId("projects");
-  };
-
   return (
-    <main id="content">
-      <nav className="book-nav" aria-label={t.contents}>
-        <div className="wrap book-nav-inner">
-          {chapters.map((chapter) => (
-            <a key={chapter.id} href={`#${chapter.id}`}>
-              <span>{chapter.num}</span>
-              {chapter.label}
-            </a>
-          ))}
+    <main id="content" className="desk-scene">
+      <article className="spread">
+        <div className="page">
+          <Frontispiece />
+          <p className="story-line">{t.lede}</p>
+          <p className="story-sign">{person.name}</p>
         </div>
-      </nav>
-
-      <section className="chapter" id="intro">
-        <div className="wrap chapter-sheet">
-          <header className="chapter-kicker">
-            <span>01</span>
-            <h2>{t.navIntro}</h2>
-          </header>
-          <div className="hero">
-            <div>
-              <p className="kicker">
-                <span>{t.kickerSchool}</span>
-                <span>{t.kickerProgram}</span>
-              </p>
-              <h1 className="lockup">
-                Chih-Chi
-                <br />
-                Huang <i>{person.short}</i>
-              </h1>
-              <p className="lede">{t.lede}</p>
-              <p className="support">{t.support}</p>
-              <p className="support">{t.aboutBody}</p>
-              <p className="support">{t.alsoBody}</p>
-              <div className="status">
-                <span>
-                  {t.nowLabel}
-                  <b>
-                    {t.nowValue}
-                    <small>{t.nowProgram}</small>
-                  </b>
-                </span>
-                <span>
-                  {t.nextLabel}
-                  <b>{t.nextValue}</b>
-                </span>
-              </div>
-              <div className="hero-actions">
-                <a className="button primary" href="#projects">
-                  {t.seeWork}
-                </a>
-                <a className="button ghost" href={`mailto:${person.email}`}>
-                  {t.write}
-                </a>
-              </div>
-            </div>
-            <aside className="proof">
-              <header>
-                <h2>{t.proofTitle}</h2>
-                <p>{t.proofHint}</p>
-              </header>
-              {proof.map((item) => {
-                const amount = percentIn(item.value) ?? 0;
-                return (
-                  <button key={item.slug} type="button" onClick={() => focusCase(item.slug)}>
-                    <strong>{item.value}</strong>
-                    <span className="track" aria-hidden="true">
-                      <span style={{ width: `${amount}%` }} />
-                    </span>
-                    <span>{item.label[locale]}</span>
-                  </button>
-                );
-              })}
-            </aside>
-          </div>
-          <section className="method" aria-label={t.methodTitle}>
-            <div className="method-inner">
-              <p>{t.methodTitle}</p>
-              <ol>
-                {t.methodSteps.map((step, index) => (
-                  <li key={step}>
-                    <span>0{index + 1}</span>
-                    {step}
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </section>
-          <a className="chapter-next" href="#experience">
-            <span>{t.nextChapter}</span>
-            <strong>02 {t.navExperience}</strong>
-          </a>
-        </div>
-      </section>
-
-      <section className="chapter" id="experience">
-        <div className="wrap chapter-sheet">
-          <header className="chapter-kicker">
-            <span>02</span>
-            <h2>{t.experienceTitle}</h2>
-          </header>
-          <p className="chapter-note">{t.experienceNote}</p>
-          <Voyage nextHref="#skills" nextLabel={t.navSkills} />
-          {story.map((role) => {
-            const months = tenureMonths(role.dates);
-            const longest = Math.max(...story.map((item) => tenureMonths(item.dates) ?? 1));
-            return (
-              <article className="role" key={role.company} id={role.logoId ? `role-${role.logoId}` : undefined}>
-                <div>
-                  <h3>{role.company}</h3>
-                  <p className="role-meta">
-                    <span>{role.place[locale]}</span>
-                    <span>{role.dates}</span>
-                  </p>
-                  {months ? (
-                    <div className="track track-ink tenure" aria-hidden="true">
-                      <span style={{ width: `${(months / longest) * 100}%` }} />
-                    </div>
-                  ) : null}
-                </div>
-                <div>
-                  <p className="role-meta">{role.role[locale]}</p>
-                  <ul>
-                    {role.points[locale].map((point) => (
-                      <li key={point}>{point}</li>
-                    ))}
-                  </ul>
-                  {role.caseSlug ? (
-                    <Link className="more" to={`/work/${role.caseSlug}`}>
-                      {t.readCase} →
-                    </Link>
-                  ) : null}
-                </div>
-              </article>
-            );
-          })}
-          <a className="chapter-next" href="#skills">
-            <span>{t.nextChapter}</span>
-            <strong>03 {t.navSkills}</strong>
-          </a>
-        </div>
-      </section>
-
-      <section className="chapter" id="skills">
-        <div className="wrap chapter-sheet">
-          <header className="chapter-kicker">
-            <span>03</span>
-            <h2>{t.navSkills}</h2>
-          </header>
-          <div className="panel">
-            {skills.map((group) => (
-              <div className="skill" key={group.label.en}>
-                <h3>{group.label[locale]}</h3>
-                <div className="chips">
-                  {group.items[locale].map((chip) => (
-                    <span className="chip" key={chip.name}>
-                      {chip.name}
-                      {chip.note ? <small>{chip.note}</small> : null}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          <a className="chapter-next" href="#projects">
-            <span>{t.nextChapter}</span>
-            <strong>04 {t.navProjects}</strong>
-          </a>
-        </div>
-      </section>
-
-      <section className="chapter" id="projects">
-        <div className="wrap chapter-sheet">
-          <header className="chapter-kicker">
-            <span>04</span>
-            <h2>{t.navProjects}</h2>
-          </header>
-          <p className="chapter-note">{t.workNote}</p>
-          <div className="project-grid">
-            {cases.slice(0, 4).map((item) => (
-              <article key={item.slug} className="project-card" id={`case-${item.slug}`}>
-                <Link to={`/work/${item.slug}`} className="project-card-body">
-                  <div className="project-card-top">
-                    <span className="idx">{item.index}</span>
-                    <span className="lens">{item.lens[locale]}</span>
-                    {item.status === "progress" ? <span className="pill">{t.inProgress}</span> : null}
-                  </div>
-                  <h3>{item.title[locale]}</h3>
-                  {item.chart ? (
-                    <CompareChart
-                      caption={item.chart.caption[locale]}
-                      rows={item.chart.rows.map((row) => ({
-                        label: row.label[locale],
-                        value: row.value,
-                        display: row.display,
-                      }))}
-                    />
-                  ) : (
-                    <p className="card-summary">{item.summary[locale]}</p>
-                  )}
-                  <p className="card-meta">
-                    <span>{item.company}</span>
-                    <span>{item.dates}</span>
-                  </p>
+        <div className="page">
+          <p className="contents-kicker">{t.contentsLede}</p>
+          <h1 className="contents-title">{t.contents}</h1>
+          <ol className="contents-list">
+            {chapters.map((chapter) => (
+              <li key={chapter.id}>
+                <Link to={`/chapter/${chapter.id}`}>
+                  <span className="num">{chapter.num}</span>
+                  <span className="leader" aria-hidden="true" />
+                  <span className="name">{chapter.label}</span>
                 </Link>
-                {item.links && item.links.length > 0 ? (
-                  <div className="card-links">
-                    {item.links.map((link) => (
-                      <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
-                        {link.label[locale]}
-                        <span aria-hidden="true">↗</span>
-                      </a>
-                    ))}
-                  </div>
-                ) : null}
-              </article>
+              </li>
             ))}
-          </div>
-          <h3 className="education-label">{t.earlierWork}</h3>
-          <div className="work-list">
-            {cases.slice(4).map((item) => {
-              const amount = percentIn(item.metrics[0]?.value ?? "");
-              return (
-                <Link
-                  key={item.slug}
-                  to={`/work/${item.slug}`}
-                  className={active === item.slug ? "work-row is-hot" : "work-row"}
-                  id={`case-${item.slug}`}
-                >
-                  <span className="idx">{item.index}</span>
-                  <span>
-                    <p className="lens">{item.lens[locale]}</p>
-                    <h3>{item.title[locale]}</h3>
-                    <p className="meta">
-                      <span>{item.company}</span>
-                      <span>{item.dates}</span>
-                    </p>
-                    {amount ? (
-                      <span className="track track-ink" aria-hidden="true">
-                        <span style={{ width: `${amount}%` }} />
-                      </span>
-                    ) : null}
-                  </span>
-                  <span className="metric-pill">{item.metrics[0]?.value}</span>
-                  <span className="arrow" aria-hidden="true">
-                    →
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-          <p className="chapter-note">{t.aboutSite}</p>
-          <a className="chapter-next" href="#education">
-            <span>{t.nextChapter}</span>
-            <strong>05 {t.navEducation}</strong>
-          </a>
-        </div>
-      </section>
-
-      <section className="chapter" id="education">
-        <div className="wrap chapter-sheet">
-          <header className="chapter-kicker">
-            <span>05</span>
-            <h2>{t.navEducation}</h2>
-          </header>
-          {education.map((school) => (
-            <article className="edu" key={school.school.en}>
-              <h3>{school.school[locale]}</h3>
-              <div className="edu-facts">
-                <span>{school.detail[locale]}</span>
-                <span>{school.place[locale]}</span>
-                <span>{school.dates}</span>
-                <span>{school.note[locale]}</span>
-              </div>
-              {school.points[locale].length > 0 ? (
-                <ul>
-                  {school.points[locale].map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-              ) : null}
-            </article>
-          ))}
-          <a className="chapter-next" href="#contact">
-            <span>{t.nextChapter}</span>
-            <strong>{t.navContact}</strong>
-          </a>
-        </div>
-      </section>
-
-      <section className="wrap section" id="contact">
-        <div className="contact">
-          <h2>{t.contactTitle}</h2>
-          <p>{t.contactBody}</p>
-          <a className="email" href={`mailto:${person.email}`}>
+          </ol>
+          <a className="story-mail" href={`mailto:${person.email}`}>
             {person.email}
           </a>
-          <div className="contact-links">
-            <a href={person.linkedin} target="_blank" rel="noreferrer">
-              {t.linkedin}
-            </a>
-            <a href={person.github} target="_blank" rel="noreferrer">
-              {t.github}
-            </a>
-            <span>{person.location[locale]}</span>
-          </div>
         </div>
-      </section>
+      </article>
     </main>
   );
 }
