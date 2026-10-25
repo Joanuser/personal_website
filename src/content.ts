@@ -906,6 +906,8 @@ export const ui = {
     lede: "I find where a system is failing the people who have to use it, then get the right fix shipped.",
     support:
       "MSI student at the School of Information, concentrating in Product Management. Before Ann Arbor I was a Sales Operation Analyst at Uber in Taipei. The work before that was pricing systems, Salesforce adoption, audit, and financial analysis. I am aiming at technical product management in big technology companies and large global firms.",
+    paintingAlt:
+      "Watercolor of a pale building, a blue door, flowers over the doorway, a bicycle, and a small table.",
     seeWork: "See the work",
     write: "Email Joan",
     nowLabel: "Now",
@@ -934,7 +936,7 @@ export const ui = {
     aboutBody:
       "I trained in business administration and finance at National Central University, then spent four years inside companies where the product was often an internal system: a quotation tool, a price catalog, an approval path, a set of audit papers. The pattern across those jobs is the same. Name the user problem, choose what to fix first, and leave the people who depend on it with a short, honest update. At Michigan I am building the product-management toolkit around that pattern, including the interface craft on this site.",
     aboutSite:
-      "This website is part of the work sample. The hierarchy, the bilingual reading, and the case structure are here so you can see how I organize a product story.",
+      "This website is part of the work sample. The hierarchy, the bilingual reading, and the case structure show how I organize a product story. The watercolor is the personal layer around that structure.",
     alsoTitle: "Also",
     alsoBody:
       "I translate financial reports, articles of association, and shareholder handbooks as a freelance practice. Outside work I trade stocks, practice yoga, and do pilates. The market dashboard in the selected work grew out of that trading practice.",
@@ -969,6 +971,7 @@ export const ui = {
     lede: "我先找到系統卡在使用者身上的地方，再把該修的部分送上線。",
     support:
       "我是密西根大學資訊學院碩士生，主修產品管理。來安娜堡之前，我在台北的 Uber 擔任 Sales Operation Analyst。更早的工作涵蓋報價系統、Salesforce 採用、查核與財務分析。下一步想進大型科技公司或大型外商，做 Technical Product Manager。",
+    paintingAlt: "水彩：淺色房子、藍色的門、門口的花、一台腳踏車和一張小桌。",
     seeWork: "看作品",
     write: "寫信給 Joan",
     nowLabel: "現在",
@@ -996,7 +999,7 @@ export const ui = {
     aboutBody:
       "我在中央大學讀企業管理與財務金融，之後四年待在公司裡。那些「產品」常常是內部系統：報價工具、價格目錄、核准流程、一套查核底稿。這幾份工作的形狀很接近。先說清楚使用者的問題，決定先修什麼，再留給依賴它的人一份短而誠實的更新。在密西根，我把產品管理的方法疊到這個形狀上，也包括這個網站上的介面。",
     aboutSite:
-      "這個網站本身就是作品的一部分。階層、雙語閱讀，以及案例的結構，是為了讓你看見我怎麼組織一個產品故事。",
+      "這個網站本身就是作品的一部分。階層、雙語閱讀，以及案例的結構，是為了讓你看見我怎麼組織一個產品故事。上方的水彩是包在這套結構外面的個人層。",
     alsoTitle: "其他",
     alsoBody:
       "我接案翻譯財務報告、公司章程與股東手冊。工作之外會看股票、練瑜伽和皮拉提斯。精選作品裡的市場儀表板，就是從看盤長出來的。",
