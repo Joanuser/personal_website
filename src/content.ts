@@ -55,8 +55,6 @@ export const person = {
   name: "Chih-Chi Huang",
   short: "Joan",
   email: "chihchi@umich.edu",
-  phoneDisplay: "+1 (734) 646-3520",
-  phoneHref: "+17346463520",
   location: { en: "Ann Arbor, Michigan", zh: "密西根州安娜堡" },
   linkedin: "https://www.linkedin.com/in/chihchi-h-b862a9136",
   github: "https://github.com/Joanuser",
@@ -889,10 +887,15 @@ export const skills: {
 export const ui = {
   en: {
     skip: "Skip to content",
-    navWork: "Work",
+    navIntro: "Introduction",
     navExperience: "Experience",
-    navAbout: "About",
+    navSkills: "Skills",
+    navProjects: "Projects",
+    navEducation: "Education",
     navContact: "Contact",
+    contents: "Chapters",
+    nextChapter: "Next chapter",
+    voyageNote: "Five companies, one route. Each ship is a role, and the last one sails into the next chapter.",
     menu: "Menu",
     close: "Close",
     kickerSchool: "University of Michigan",
@@ -900,9 +903,7 @@ export const ui = {
     lede: "I find where a system is failing the people who have to use it, then get the right fix shipped.",
     support:
       "MSI student at the School of Information, concentrating in Product Management. Before Ann Arbor I was a Sales Operation Analyst at Uber in Taipei. The work before that was pricing systems, Salesforce adoption, audit, and financial analysis. I am aiming at technical product management in big technology companies and large global firms.",
-    paintingAlt:
-      "Watercolor of a pale building, a blue door, flowers over the doorway, a bicycle, and a small table.",
-    seeWork: "See the work",
+    seeWork: "Open the projects",
     write: "Email Joan",
     nowLabel: "Now",
     nowValue: "UMSI",
@@ -925,12 +926,12 @@ export const ui = {
       "Current work at Michigan comes first. Earlier operating roles follow. Dates sit on every row.",
     readCase: "Read the story",
     experienceTitle: "Experience",
-    experienceNote: "Same facts as the résumé, in the order I held the roles.",
+    experienceNote: "The same résumé facts, told from the first role forward.",
     aboutTitle: "About",
     aboutBody:
       "I trained in business administration and finance at National Central University, then spent four years inside companies where the product was often an internal system: a quotation tool, a price catalog, an approval path, a set of audit papers. The pattern across those jobs is the same. Name the user problem, choose what to fix first, and leave the people who depend on it with a short, honest update. At Michigan I am building the product-management toolkit around that pattern, including the interface craft on this site.",
     aboutSite:
-      "This website is part of the work sample. The hierarchy, the bilingual reading, and the case structure show how I organize a product story. The watercolor is the personal layer around that structure.",
+      "This website is part of the work sample. The chapters, the bilingual reading, and the case structure show how I organize a product story.",
     alsoTitle: "Also",
     alsoBody:
       "I translate financial reports, articles of association, and shareholder handbooks as a freelance practice. Outside work I trade stocks, practice yoga, and do pilates. The market dashboard in the selected work grew out of that trading practice.",
@@ -938,7 +939,6 @@ export const ui = {
     contactTitle: "Let’s talk about the product role.",
     contactBody:
       "I read every note. The best ones name the team, the product, and what you want a technical product manager to be responsible for.",
-    phone: "Phone",
     linkedin: "LinkedIn",
     github: "GitHub",
     back: "All work",
@@ -954,10 +954,15 @@ export const ui = {
   },
   zh: {
     skip: "跳到本文",
-    navWork: "作品",
-    navExperience: "經歷",
-    navAbout: "關於",
+    navIntro: "自我介紹",
+    navExperience: "工作經歷",
+    navSkills: "技能",
+    navProjects: "專案經驗",
+    navEducation: "教育背景",
     navContact: "聯絡",
+    contents: "章節",
+    nextChapter: "下一章",
+    voyageNote: "五家公司，一條航線。每艘船是一段工作，最後一艘開進下一章。",
     menu: "選單",
     close: "關閉",
     kickerSchool: "密西根大學資訊學院",
@@ -965,8 +970,7 @@ export const ui = {
     lede: "我先找到系統卡在使用者身上的地方，再把該修的部分送上線。",
     support:
       "我是密西根大學資訊學院碩士生，主修產品管理。來安娜堡之前，我在台北的 Uber 擔任 Sales Operation Analyst。更早的工作涵蓋報價系統、Salesforce 採用、查核與財務分析。下一步想進大型科技公司或大型外商，做 Technical Product Manager。",
-    paintingAlt: "水彩：淺色房子、藍色的門、門口的花、一台腳踏車和一張小桌。",
-    seeWork: "看作品",
+    seeWork: "打開專案",
     write: "寫信給 Joan",
     nowLabel: "現在",
     nowValue: "UMSI",
@@ -988,12 +992,12 @@ export const ui = {
     workNote: "現在在密西根做的放前面，先前的營運工作接在後面。日期寫在每一列上。",
     readCase: "閱讀過程",
     experienceTitle: "工作經歷",
-    experienceNote: "與履歷同一組事實，依任職順序排列。",
+    experienceNote: "與履歷同一組事實，從第一份工作往後說。",
     aboutTitle: "關於",
     aboutBody:
       "我在中央大學讀企業管理與財務金融，之後四年待在公司裡。那些「產品」常常是內部系統：報價工具、價格目錄、核准流程、一套查核底稿。這幾份工作的形狀很接近。先說清楚使用者的問題，決定先修什麼，再留給依賴它的人一份短而誠實的更新。在密西根，我把產品管理的方法疊到這個形狀上，也包括這個網站上的介面。",
     aboutSite:
-      "這個網站本身就是作品的一部分。階層、雙語閱讀，以及案例的結構，是為了讓你看見我怎麼組織一個產品故事。上方的水彩是包在這套結構外面的個人層。",
+      "這個網站本身就是作品的一部分。章節、雙語閱讀，以及案例的結構，是為了讓你看見我怎麼組織一個產品故事。",
     alsoTitle: "其他",
     alsoBody:
       "我接案翻譯財務報告、公司章程與股東手冊。工作之外會看股票、練瑜伽和皮拉提斯。精選作品裡的市場儀表板，就是從看盤長出來的。",
@@ -1001,7 +1005,6 @@ export const ui = {
     contactTitle: "如果有產品職缺，寫信給我。",
     contactBody:
       "每封信我都會看。最好順便寫上團隊、產品，以及你希望一位 Technical Product Manager 負責什麼。",
-    phone: "電話",
     linkedin: "LinkedIn",
     github: "GitHub",
     back: "全部作品",

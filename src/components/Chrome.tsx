@@ -41,10 +41,11 @@ export function SiteHeader() {
             {open ? t.close : t.menu}
           </button>
           <div className="nav-links">
-            <Link to="/#work" onClick={close}>{t.navWork}</Link>
+            <Link to="/#intro" onClick={close}>{t.navIntro}</Link>
             <Link to="/#experience" onClick={close}>{t.navExperience}</Link>
-            <Link to="/#about" onClick={close}>{t.navAbout}</Link>
-            <Link to="/#contact" onClick={close}>{t.navContact}</Link>
+            <Link to="/#skills" onClick={close}>{t.navSkills}</Link>
+            <Link to="/#projects" onClick={close}>{t.navProjects}</Link>
+            <Link to="/#education" onClick={close}>{t.navEducation}</Link>
           </div>
         </nav>
       </div>

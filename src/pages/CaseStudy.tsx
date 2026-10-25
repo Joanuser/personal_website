@@ -38,7 +38,7 @@ export function CaseStudy() {
     <main id="content">
       <article className="wrap">
         <header className="case-hero">
-          <Link className="back" to="/#work">
+          <Link className="back" to="/#projects">
             ← {t.back}
           </Link>
           <p className="kicker">

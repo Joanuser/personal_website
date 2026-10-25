@@ -292,27 +292,127 @@ button, input { font: inherit; color: inherit; }
 .case-metrics .track { margin-top: 14px; }
 .role-meta { display: flex; flex-direction: column; gap: 2px; }
 
+.book-nav {
+  position: sticky;
+  top: var(--header);
+  z-index: 30;
+  background: rgba(246, 241, 230, 0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.book-nav-inner {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 0;
+}
+.book-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fffdf8;
+  font-size: 14px;
+}
+.book-nav a span {
+  font-family: var(--serif);
+  color: var(--blue-2);
+}
+.book-nav a:hover { border-color: var(--blue); }
+.chapter { padding: 22px 0; scroll-margin-top: 132px; }
+.chapter-sheet {
+  background: rgba(255, 253, 248, 0.78);
+  border: 1.5px solid rgba(28, 36, 48, 0.16);
+  border-radius: 28px;
+  padding: 26px 26px 18px;
+  box-shadow: 0 18px 40px rgba(36, 48, 68, 0.06);
+}
+.chapter-kicker {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.chapter-kicker span {
+  font-family: var(--serif);
+  font-size: 28px;
+  color: var(--coral);
+}
+.chapter-kicker h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 48px);
+  letter-spacing: -0.04em;
+  font-weight: 560;
+}
+.chapter-note { margin: 0 0 8px; max-width: 62ch; color: var(--ink-soft); }
+.chapter-next {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(28, 36, 48, 0.28);
+  text-decoration: none;
+}
+.chapter-next span {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.chapter-next strong {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 560;
+  letter-spacing: -0.03em;
+}
+.sea {
+  margin: 12px 0 8px;
+  padding: 14px 12px 18px;
+  border-radius: 24px;
+  background:
+    radial-gradient(180px 60px at 12% 78%, rgba(255, 255, 255, 0.55), transparent 70%),
+    linear-gradient(#f7fbfe, #d7e6f1 55%, #c5d9e8);
+  border: 1px solid rgba(111, 151, 179, 0.45);
+}
+.voyage-note { margin: 0 8px 8px; color: var(--ink-soft); }
+.voyage {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  align-items: end;
+}
+.ship {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: 210px;
+  padding: 6px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--ink);
+}
+.ship strong { font-size: 14px; line-height: 1.25; }
+.ship span { color: var(--ink-soft); font-size: 12px; }
+.boat { width: min(100%, 150px); height: auto; }
+.voyage .logo { height: 26px; max-width: 100%; }
+.harbor strong { color: var(--blue); }
 .hero {
   display: grid;
-  grid-template-columns: 1.25fr 0.75fr;
-  gap: 28px 40px;
-  padding: 36px 0 28px;
-  align-items: start;
-}
-.painting {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  margin: 0;
-  padding: 10px;
-  background: #fffdf8;
-  border: 1px solid var(--line);
-  border-radius: 28px;
-  box-shadow: 0 18px 40px rgba(36, 48, 68, 0.08);
-}
-.painting img {
-  width: 100%;
-  height: auto;
-  border-radius: 20px;
+  grid-template-columns: 1.35fr 0.8fr;
+  gap: 36px;
+  padding: 8px 0 12px;
+  align-items: end;
 }
 .kicker {
   display: flex;
@@ -428,7 +528,7 @@ html[lang="zh-Hant"] .lede { max-width: 14em; letter-spacing: 0; }
 .proof button .track { margin-top: 10px; }
 .proof button .track > span { margin-top: 0; }
 
-#work, #experience, #about, #contact, .role { scroll-margin-top: 92px; }
+#intro, #experience, #skills, #projects, #education, #contact, .role { scroll-margin-top: 132px; }
 .sr {
   position: absolute;
   width: 1px;
@@ -474,7 +574,7 @@ html[lang="zh-Hant"] .lede { max-width: 14em; letter-spacing: 0; }
   text-decoration: none;
 }
 .logo { display: block; width: auto; object-fit: contain; }
-.logo-uber { height: 42px; width: 42px; }
+.logo-uber { height: 22px; }
 .logo-ey { height: 52px; }
 .logo-lvmh { height: 48px; }
 .logo-meadjohnson { height: 40px; }
@@ -760,7 +860,6 @@ html[lang="zh-Hant"] .lede { max-width: 14em; letter-spacing: 0; }
   .hero, .about-grid, .edu-block, .case-layout, .role, .work-row, .desk-grid {
     grid-template-columns: 1fr;
   }
-  .painting { grid-column: 1; grid-row: auto; }
   .menu-toggle {
     display: inline-flex;
     background: transparent;
@@ -785,7 +884,11 @@ html[lang="zh-Hant"] .lede { max-width: 14em; letter-spacing: 0; }
   .header.is-open .nav-links { display: flex; }
   .metric-pill, .work-row h3 { text-align: left; }
   .section-head, .footer, .status { flex-direction: column; align-items: flex-start; }
-  .case-metrics, .project-grid, .fact-grid, .method ol, .method-inner { grid-template-columns: 1fr; }
+  .case-metrics, .project-grid, .fact-grid, .method ol, .method-inner, .voyage { grid-template-columns: 1fr; }
+  .voyage { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+  .voyage li { flex: 0 0 168px; scroll-snap-align: start; }
+  .chapter-sheet { padding: 18px 14px 12px; }
+  .chapter-next strong { font-size: 22px; }
   .logo-rail-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
   .brand { font-size: 14px; }
   .brand small { display: none; }
