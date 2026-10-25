@@ -55,8 +55,6 @@ export const person = {
   name: "Chih-Chi Huang",
   short: "Joan",
   email: "chihchi@umich.edu",
-  phoneDisplay: "+1 (734) 646-3520",
-  phoneHref: "+17346463520",
   location: { en: "Ann Arbor, Michigan", zh: "密西根州安娜堡" },
   linkedin: "https://www.linkedin.com/in/chihchi-h-b862a9136",
   github: "https://github.com/Joanuser",
@@ -944,7 +942,6 @@ export const ui = {
     contactTitle: "Let’s talk about the product role.",
     contactBody:
       "I read every note. The best ones name the team, the product, and what you want a technical product manager to be responsible for.",
-    phone: "Phone",
     linkedin: "LinkedIn",
     github: "GitHub",
     back: "All work",
@@ -1007,7 +1004,6 @@ export const ui = {
     contactTitle: "如果有產品職缺，寫信給我。",
     contactBody:
       "每封信我都會看。最好順便寫上團隊、產品，以及你希望一位 Technical Product Manager 負責什麼。",
-    phone: "電話",
     linkedin: "LinkedIn",
     github: "GitHub",
     back: "全部作品",

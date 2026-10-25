@@ -471,17 +471,14 @@ html[lang="zh-Hant"] .lede { max-width: 14em; letter-spacing: 0; }
   display: flex;
   align-items: center;
   color: var(--ink);
-  opacity: 0.82;
   text-decoration: none;
 }
-.logo-rail a:hover { opacity: 1; }
-.logo { display: block; }
-.logo-uber { height: 46px; width: 46px; }
-.logo-ey, .logo-lvmh, .logo-mj, .logo-cloud { height: 28px; width: auto; }
-.logo-ey { font-family: var(--sans); font-size: 24px; font-weight: 600; }
-.logo-lvmh { font-family: var(--serif); font-size: 22px; font-weight: 560; letter-spacing: 0.12em; }
-.logo-mj { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; }
-.logo-cloud { font-family: var(--sans); font-size: 16px; font-weight: 560; }
+.logo { display: block; width: auto; object-fit: contain; }
+.logo-uber { height: 42px; width: 42px; }
+.logo-ey { height: 52px; }
+.logo-lvmh { height: 48px; }
+.logo-meadjohnson { height: 40px; }
+.logo-ecloudvalley { height: 46px; }
 .pill {
   display: inline-flex;
   margin-left: 8px;
