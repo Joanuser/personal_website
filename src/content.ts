@@ -25,6 +25,12 @@ export type CaseStudy = {
   metrics: { value: string; label: Record<Locale, string> }[];
   sections: Section[];
   study?: "market";
+  status?: "progress";
+  links?: { href: string; label: Record<Locale, string> }[];
+  chart?: {
+    caption: Record<Locale, string>;
+    rows: { label: Record<Locale, string>; value: number; display: string }[];
+  };
 };
 
 export type Role = {
@@ -33,8 +39,17 @@ export type Role = {
   place: Record<Locale, string>;
   dates: string;
   caseSlug?: string;
+  logoId?: string;
   points: Record<Locale, string[]>;
 };
+
+export const employers = [
+  { id: "uber", name: "Uber" },
+  { id: "ey", name: "EY" },
+  { id: "lvmh", name: "LVMH" },
+  { id: "meadjohnson", name: "Mead Johnson" },
+  { id: "ecloudvalley", name: "eCloudvalley" },
+] as const;
 
 export const person = {
   name: "Chih-Chi Huang",
@@ -76,8 +91,250 @@ export const proof: Metric[] = [
 
 export const cases: CaseStudy[] = [
   {
-    slug: "apac-quotation",
+    slug: "campusbite",
     index: "01",
+    lens: { en: "Campus product", zh: "校園產品" },
+    company: "MHacks",
+    role: {
+      en: "Started the project with a team",
+      zh: "和團隊一起發起",
+    },
+    place: { en: "Ann Arbor, Michigan", zh: "安娜堡" },
+    dates: "Oct 2026",
+    title: {
+      en: "Campus leftovers, found before they are thrown out",
+      zh: "在剩食被丟掉之前，讓學生找得到",
+    },
+    summary: {
+      en: "At MHacks I started CampusBite with a team: a live way for Michigan students to find surplus catering from campus events.",
+      zh: "在 MHacks，我和團隊發起 CampusBite，讓密西根學生即時找到校園活動的剩食。",
+    },
+    metrics: [
+      {
+        value: "26.7×",
+        label: {
+          en: "discovery gap in the team's calendar audit",
+          zh: "團隊日曆盤點裡的發現落差",
+        },
+      },
+      {
+        value: "3→~80",
+        label: {
+          en: "“free food” listings versus catered sessions",
+          zh: "「免費食物」清單對上有餐點的場次",
+        },
+      },
+    ],
+    links: [
+      {
+        href: "https://devpost.com/software/campusbite-q0p47g",
+        label: { en: "Devpost", zh: "Devpost" },
+      },
+    ],
+    chart: {
+      caption: {
+        en: "The team’s audit of Michigan’s public events calendar",
+        zh: "團隊對密西根大學公開活動日曆的盤點",
+      },
+      rows: [
+        {
+          label: { en: "Search for free food", zh: "搜尋免費食物" },
+          value: 3,
+          display: "3",
+        },
+        {
+          label: { en: "Search the words hosts use", zh: "搜尋主辦人實際用詞" },
+          value: 80,
+          display: "~80",
+        },
+      ],
+    },
+    sections: [
+      {
+        id: "situation",
+        heading: { en: "Situation", zh: "情境" },
+        body: {
+          en: "Campus events leave catering behind, and students looking for a meal rarely see it. Hosts almost never write “free food.” The team’s audit of Michigan’s public calendar found 3 listings under that phrase and about 80 sessions once they searched the words hosts actually use, such as lunch, dinner, and pizza. They published that as a 26.7× discovery gap.",
+          zh: "校園活動結束後，餐點常常留下來，找東西吃的學生卻很少看得到。主辦人幾乎不會寫「免費食物」。團隊盤點密西根大學的公開日曆，用這個詞只找到 3 場；改搜主辦人真正會寫的字，像午餐、晚餐、披薩，大約有 80 場。他們把這個落差寫成 26.7 倍。",
+        },
+      },
+      {
+        id: "decision",
+        heading: { en: "What we shipped", zh: "我們做出的產品" },
+        body: {
+          en: "CampusBite is a real-time leftover-food platform. It reads public event listings for the language hosts use, puts active pickups on a campus map, and lets students report whether food is still there. A host can post leftovers without an account. A photo is required, and a private key sent by email can close only that host’s event. The published build uses Python for the listings, Node for the service, and React for the interface, with desktop and mobile layouts designed in Figma.",
+          zh: "CampusBite 是即時的剩食平台。它讀公開活動資訊裡主辦人真正使用的說法，把還可以拿的餐點放上校園地圖，並讓學生回報食物還在不在。主辦人不必註冊就能發布剩食，但需要照片；系統用電子郵件寄出一把私鑰，只能關閉自己的那一場。公開的做法是用 Python 整理活動、用 Node 做服務、用 React 做介面，桌面和手機版面在 Figma 裡設計。",
+        },
+      },
+      {
+        id: "outcome",
+        heading: { en: "My part", zh: "我的部分" },
+        body: {
+          en: "I started CampusBite at MHacks with the team. The calendar audit, the product, and the impact notes are the team’s, and they are published on Devpost.",
+          zh: "CampusBite 是我在 MHacks 和團隊一起發起的。日曆盤點、產品和影響估計都是團隊的成果，已經公開在 Devpost。",
+        },
+      },
+    ],
+  },
+  {
+    slug: "catalyst-lab",
+    index: "02",
+    status: "progress",
+    lens: { en: "User experience", zh: "使用者體驗" },
+    company: "Beyond Code Collective",
+    role: {
+      en: "User experience for Catalyst Lab",
+      zh: "Catalyst Lab 使用者體驗",
+    },
+    place: { en: "Remote", zh: "遠端" },
+    dates: "2026",
+    title: {
+      en: "Making Catalyst Lab easier to move through",
+      zh: "把 Catalyst Lab 的使用路徑改清楚",
+    },
+    summary: {
+      en: "I am improving the user experience of Catalyst Lab, part of Beyond Code Collective’s workforce program for adults moving into tech.",
+      zh: "我正在優化 Catalyst Lab 的使用者體驗。它屬於 Beyond Code Collective 幫助成人轉進科技業的職能計畫。",
+    },
+    metrics: [
+      {
+        value: "Now",
+        label: {
+          en: "experience work on the live program",
+          zh: "在已經上線的計畫上做體驗",
+        },
+      },
+    ],
+    links: [
+      {
+        href: "https://www.wearebcc.org/en/catalyst",
+        label: { en: "Catalyst", zh: "Catalyst" },
+      },
+    ],
+    sections: [
+      {
+        id: "situation",
+        heading: { en: "Situation", zh: "情境" },
+        body: {
+          en: "Catalyst is an 8–12 week, cohort-based program from Beyond Code Collective. Adults without a prior tech background learn live, with instructors, and the program also connects them to employers. Catalyst Lab sits inside that experience.",
+          zh: "Catalyst 是 Beyond Code Collective 為期 8 到 12 週的同期班。沒有科技背景的成人由講師帶著上課，計畫也把學員接到雇主。Catalyst Lab 是這段體驗裡的一部分。",
+        },
+      },
+      {
+        id: "decision",
+        heading: { en: "What I am doing", zh: "我在做的事" },
+        body: {
+          en: "I am working on the user experience of Catalyst Lab: how people understand the lab and get through it. The changes are still in progress, so this page does not claim a finished flow or a measured lift.",
+          zh: "我在處理 Catalyst Lab 的使用者體驗，也就是人怎麼理解這個 lab、怎麼走完它。改動還在進行，這一頁不寫成已經完成的流程，也沒有宣稱量到的提升。",
+        },
+      },
+    ],
+  },
+  {
+    slug: "ovpr-competition",
+    index: "03",
+    status: "progress",
+    lens: { en: "Process", zh: "流程" },
+    company: "U-M OVPR",
+    role: {
+      en: "Internal research competition",
+      zh: "校內研究競賽流程",
+    },
+    place: { en: "Ann Arbor, Michigan", zh: "安娜堡" },
+    dates: "2026",
+    title: {
+      en: "A clearer path through OVPR’s research competition",
+      zh: "把 OVPR 研究競賽的流程走順",
+    },
+    summary: {
+      en: "I am helping the University of Michigan Office of the Vice President for Research improve the process for an internal research competition.",
+      zh: "我在協助密西根大學研究副校長辦公室，優化一項校內研究競賽的流程。",
+    },
+    metrics: [
+      {
+        value: "Now",
+        label: { en: "process work with OVPR", zh: "和 OVPR 一起改流程" },
+      },
+    ],
+    links: [
+      {
+        href: "https://research.umich.edu/",
+        label: { en: "U-M Research", zh: "U-M Research" },
+      },
+    ],
+    sections: [
+      {
+        id: "situation",
+        heading: { en: "Situation", zh: "情境" },
+        body: {
+          en: "The Office of the Vice President for Research runs internal competitions for the Michigan research community. The people moving through that process need a path they can follow without losing time to unclear steps.",
+          zh: "研究副校長辦公室為密西根的研究社群辦理校內競賽。走在這個流程裡的人，需要一條不用把時間耗在看不懂的步驟上的路。",
+        },
+      },
+      {
+        id: "decision",
+        heading: { en: "What I am doing", zh: "我在做的事" },
+        body: {
+          en: "I am helping OVPR improve how that internal research competition runs. The work is underway. This page will stay free of outcome numbers until the process change is something I can show.",
+          zh: "我在協助 OVPR 改善這項校內研究競賽怎麼運作。工作還在進行。在流程改動可以拿出來之前，這一頁不會放結果數字。",
+        },
+      },
+    ],
+  },
+  {
+    slug: "emergency-drone",
+    index: "04",
+    status: "progress",
+    lens: { en: "Product design", zh: "產品設計" },
+    company: "Business+Tech",
+    role: {
+      en: "Designing the platform",
+      zh: "平台設計",
+    },
+    place: { en: "Ann Arbor, Michigan", zh: "安娜堡" },
+    dates: "2026",
+    title: {
+      en: "A drone platform for emergency medicine",
+      zh: "用無人機送達緊急藥物",
+    },
+    summary: {
+      en: "With Business+Tech I am designing a platform for drones to deliver emergency medicine. The current design lives in Figma.",
+      zh: "我在 Business+Tech 參與設計一個無人機運送緊急藥物的平台。目前的設計在 Figma。",
+    },
+    metrics: [
+      {
+        value: "Figma",
+        label: { en: "current design, not a shipped product", zh: "目前的設計，產品尚未上線" },
+      },
+    ],
+    links: [
+      {
+        href: "https://www.figma.com/design/aPI8ZHWqL3G6tjZKFpZJHc/Emergency-drone-delivery-platform?node-id=0-1",
+        label: { en: "Figma", zh: "Figma" },
+      },
+    ],
+    sections: [
+      {
+        id: "situation",
+        heading: { en: "Situation", zh: "情境" },
+        body: {
+          en: "Emergency medicine has to move when roads and ordinary delivery are the wrong tool. Business+Tech is the team I am building this with.",
+          zh: "緊急藥物需要在道路和一般配送不適用的時候送達。我是在 Business+Tech 和團隊一起做這件事。",
+        },
+      },
+      {
+        id: "decision",
+        heading: { en: "Where it is", zh: "目前進度" },
+        body: {
+          en: "The platform is still a design. The working file is the Figma linked on this page: an emergency drone-delivery platform. I am not treating the frames as a launched service.",
+          zh: "平台目前還是設計。這一頁連到的 Figma 是現在的檔案：緊急藥物的無人機配送平台。那些畫面還不是已上線的服務。",
+        },
+      },
+    ],
+  },
+  {
+    slug: "apac-quotation",
+    index: "05",
     lens: { en: "Launch quality", zh: "上線品質" },
     company: "Uber",
     role: {
@@ -146,7 +403,7 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "pricing-catalog",
-    index: "02",
+    index: "06",
     lens: { en: "Workflow", zh: "工作流程" },
     company: "eCloudvalley",
     role: {
@@ -209,7 +466,7 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "salesforce-adoption",
-    index: "03",
+    index: "07",
     lens: { en: "Adoption", zh: "採用與上手" },
     company: "Mead Johnson Nutrition",
     role: {
@@ -271,7 +528,7 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "market-desk",
-    index: "04",
+    index: "08",
     lens: { en: "Interface", zh: "介面" },
     company: "Independent",
     role: {
@@ -334,7 +591,7 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "margin-review",
-    index: "05",
+    index: "09",
     lens: { en: "Commercial judgment", zh: "商業判斷" },
     company: "LVMH Watches & Jewelry",
     role: {
@@ -393,7 +650,7 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "initial-audit",
-    index: "06",
+    index: "10",
     lens: { en: "Ambiguity", zh: "在模糊裡建立節奏" },
     company: "Ernst & Young",
     role: {
@@ -452,6 +709,7 @@ export const cases: CaseStudy[] = [
 export const experience: Role[] = [
   {
     company: "Uber Technologies",
+    logoId: "uber",
     role: {
       en: "Sales Operation Analyst",
       zh: "Sales Operation Analyst｜銷售營運分析師",
@@ -474,6 +732,7 @@ export const experience: Role[] = [
   },
   {
     company: "eCloudvalley Digital Technology",
+    logoId: "ecloudvalley",
     role: {
       en: "IT System Engineer",
       zh: "IT System Engineer｜資訊系統工程師",
@@ -501,6 +760,7 @@ export const experience: Role[] = [
     place: { en: "Taipei, Taiwan", zh: "台北" },
     dates: "Jul 2024 – Sep 2024",
     caseSlug: "margin-review",
+    logoId: "lvmh",
     points: {
       en: [
         "Located the causes of gross-margin swings and rising expenses through variance analysis. The readout supported product sales strategy and cut management review time by 80%.",
@@ -521,6 +781,7 @@ export const experience: Role[] = [
     place: { en: "Taipei, Taiwan", zh: "台北" },
     dates: "Jul 2022 – Jul 2024",
     caseSlug: "initial-audit",
+    logoId: "ey",
     points: {
       en: [
         "Built audit working papers from scratch on an ambiguous initial audit, standardized the trail for compliance, and cut follow-up queries by 90%.",
@@ -541,6 +802,7 @@ export const experience: Role[] = [
     place: { en: "Taipei, Taiwan", zh: "台北" },
     dates: "Jan 2022 – Aug 2022",
     caseSlug: "salesforce-adoption",
+    logoId: "meadjohnson",
     points: {
       en: [
         "Ran the contract-approval workflow end to end, coordinating signers so deliveries were no longer waiting on signatures, and saved sales managers 50% of that administrative time.",
@@ -597,26 +859,35 @@ export const education = [
   },
 ];
 
-export const skills: { label: Record<Locale, string>; items: Record<Locale, string[]> }[] = [
+export const skills: {
+  label: Record<Locale, string>;
+  items: Record<Locale, { name: string; note?: string }[]>;
+}[] = [
   {
     label: { en: "Languages", zh: "語言" },
     items: {
-      en: ["Mandarin · native", "English · proficient"],
-      zh: ["中文 · 母語", "英文 · 精通"],
+      en: [
+        { name: "Mandarin", note: "Native" },
+        { name: "English", note: "Proficient" },
+      ],
+      zh: [
+        { name: "中文", note: "母語" },
+        { name: "英文", note: "精通" },
+      ],
     },
   },
   {
     label: { en: "Tools", zh: "工具" },
     items: {
-      en: ["Salesforce", "SOQL", "Python", "Jira", "Slack automation", "MS Office"],
-      zh: ["Salesforce", "SOQL", "Python", "Jira", "Slack 自動化", "MS Office"],
+      en: ["Salesforce", "SOQL", "Python", "Jira", "Slack automation", "MS Office"].map((name) => ({ name })),
+      zh: ["Salesforce", "SOQL", "Python", "Jira", "Slack 自動化", "MS Office"].map((name) => ({ name })),
     },
   },
   {
     label: { en: "Licenses", zh: "證照" },
     items: {
-      en: ["Senior Securities Specialist", "Futures Specialist", "ERP planner"],
-      zh: ["高級證券商業務員", "期貨商業務員", "企業資源規劃師"],
+      en: ["Senior Securities Specialist", "Futures Specialist", "ERP planner"].map((name) => ({ name })),
+      zh: ["高級證券商業務員", "期貨商業務員", "企業資源規劃師"].map((name) => ({ name })),
     },
   },
 ];
@@ -630,21 +901,32 @@ export const ui = {
     navContact: "Contact",
     menu: "Menu",
     close: "Close",
-    kicker: "University of Michigan · Product Management",
+    kickerSchool: "University of Michigan",
+    kickerProgram: "Product Management",
     lede: "I find where a system is failing the people who have to use it, then get the right fix shipped.",
     support:
       "MSI student at the School of Information, concentrating in Product Management. Before Ann Arbor I was a Sales Operation Analyst at Uber in Taipei. The work before that was pricing systems, Salesforce adoption, audit, and financial analysis. I am aiming at technical product management in big technology companies and large global firms.",
     seeWork: "See the work",
     write: "Email Joan",
     nowLabel: "Now",
-    nowValue: "UMSI · Product Management",
+    nowValue: "UMSI",
+    nowProgram: "Product Management",
     nextLabel: "Aiming at",
     nextValue: "Technical product management",
     proofTitle: "Selected outcomes",
     proofHint: "Choose a result to jump to the work behind it.",
+    logoLabel: "Where I have worked",
+    inProgress: "In progress",
+    methodTitle: "How I work",
+    methodSteps: ["Name the failure", "Rank what to fix", "Leave a short update"],
+    factOrg: "Organization",
+    factRole: "Role",
+    factPlace: "Place",
+    factWhen: "When",
+    earlierWork: "Earlier work",
     workTitle: "Selected work",
     workNote:
-      "Ordered by the product question each piece answers. Dates sit on every row. The employment timeline is just below.",
+      "Current work at Michigan comes first. Earlier operating roles follow. Dates sit on every row.",
     readCase: "Read the story",
     experienceTitle: "Experience",
     experienceNote: "Same facts as the résumé, in the order I held the roles.",
@@ -666,7 +948,8 @@ export const ui = {
     back: "All work",
     previous: "Previous",
     next: "Next",
-    writtenFrom: "Written from the roles and results on my résumé. I can walk through the working detail in conversation.",
+    writtenFrom:
+      "Employment stories follow my résumé. Current projects are the work I am doing now, with a public link when one exists.",
     notFoundTitle: "This page is not on the site.",
     notFoundBody: "The work, the timeline, and a way to write to me are on the home page.",
     home: "Back home",
@@ -681,20 +964,31 @@ export const ui = {
     navContact: "聯絡",
     menu: "選單",
     close: "關閉",
-    kicker: "密西根大學資訊學院 · 產品管理",
+    kickerSchool: "密西根大學資訊學院",
+    kickerProgram: "產品管理",
     lede: "我先找到系統卡在使用者身上的地方，再把該修的部分送上線。",
     support:
       "我是密西根大學資訊學院碩士生，主修產品管理。來安娜堡之前，我在台北的 Uber 擔任 Sales Operation Analyst。更早的工作涵蓋報價系統、Salesforce 採用、查核與財務分析。下一步想進大型科技公司或大型外商，做 Technical Product Manager。",
     seeWork: "看作品",
     write: "寫信給 Joan",
     nowLabel: "現在",
-    nowValue: "UMSI · 產品管理",
+    nowValue: "UMSI",
+    nowProgram: "產品管理",
     nextLabel: "目標",
     nextValue: "Technical Product Manager",
     proofTitle: "幾個結果",
     proofHint: "點一個數字，跳到它後面的那份工作。",
+    logoLabel: "待過的公司",
+    inProgress: "進行中",
+    methodTitle: "我怎麼做事",
+    methodSteps: ["先說清楚哪裡失靈", "排出先修什麼", "留一份短的更新"],
+    factOrg: "單位",
+    factRole: "角色",
+    factPlace: "地點",
+    factWhen: "時間",
+    earlierWork: "更早的工作",
     workTitle: "精選作品",
-    workNote: "順序依照每一則在回答的產品問題。日期寫在每一列上。任職時間軸就在下面。",
+    workNote: "現在在密西根做的放前面，先前的營運工作接在後面。日期寫在每一列上。",
     readCase: "閱讀過程",
     experienceTitle: "工作經歷",
     experienceNote: "與履歷同一組事實，依任職順序排列。",
@@ -716,7 +1010,7 @@ export const ui = {
     back: "全部作品",
     previous: "上一則",
     next: "下一則",
-    writtenFrom: "內容依照履歷上的職位與結果撰寫。細節可以在談話裡展開。",
+    writtenFrom: "任職故事依照履歷。現在的專案是我正在做的事，已經公開的會附上連結。",
     notFoundTitle: "這個頁面不在站上。",
     notFoundBody: "作品、時間軸，以及寫信給我的方式，都在首頁。",
     home: "回首頁",

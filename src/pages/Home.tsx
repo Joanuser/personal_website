@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { cases, education, experience, person, proof, skills } from "../content";
+import { cases, education, employers, experience, person, proof, skills } from "../content";
+import { CompareChart, percentIn, tenureMonths } from "../components/Charts";
+import { Logo } from "../components/Logos";
 import { useI18n } from "../i18n";
 
 function scrollToId(id: string) {
@@ -27,7 +29,10 @@ export function Home() {
     <main id="content">
       <div className="wrap hero">
         <div>
-          <p className="kicker">{t.kicker}</p>
+          <p className="kicker">
+            <span>{t.kickerSchool}</span>
+            <span>{t.kickerProgram}</span>
+          </p>
           <h1 className="lockup">
             Chih-Chi
             <br />
@@ -38,7 +43,10 @@ export function Home() {
           <div className="status">
             <span>
               {t.nowLabel}
-              <b>{t.nowValue}</b>
+              <b>
+                {t.nowValue}
+                <small>{t.nowProgram}</small>
+              </b>
             </span>
             <span>
               {t.nextLabel}
@@ -59,42 +67,116 @@ export function Home() {
             <h2>{t.proofTitle}</h2>
             <p>{t.proofHint}</p>
           </header>
-          {proof.map((item) => (
-            <button key={item.slug} type="button" onClick={() => focusCase(item.slug)}>
-              <strong>{item.value}</strong>
-              <span>{item.label[locale]}</span>
-            </button>
-          ))}
+          {proof.map((item) => {
+            const amount = percentIn(item.value) ?? 0;
+            return (
+              <button key={item.slug} type="button" onClick={() => focusCase(item.slug)}>
+                <strong>{item.value}</strong>
+                <span className="track" aria-hidden="true">
+                  <span style={{ width: `${amount}%` }} />
+                </span>
+                <span>{item.label[locale]}</span>
+              </button>
+            );
+          })}
         </aside>
       </div>
+
+      <section className="logo-rail" aria-label={t.logoLabel}>
+        <div className="wrap logo-rail-inner">
+          <p>{t.logoLabel}</p>
+          <ul>
+            {employers.map((employer) => (
+              <li key={employer.id}>
+                <a href={`#role-${employer.id}`}>
+                  <Logo id={employer.id} />
+                  <span className="sr">{employer.name}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="method" aria-label={t.methodTitle}>
+        <div className="wrap method-inner">
+          <p>{t.methodTitle}</p>
+          <ol>
+            {t.methodSteps.map((step, index) => (
+              <li key={step}>
+                <span>0{index + 1}</span>
+                {step}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
       <section className="wrap section" id="work">
         <div className="section-head">
           <h2>{t.workTitle}</h2>
           <p>{t.workNote}</p>
         </div>
-        <div className="work-list">
-          {cases.map((item) => (
-            <Link
-              key={item.slug}
-              to={`/work/${item.slug}`}
-              className={active === item.slug ? "work-row is-hot" : "work-row"}
-              id={`case-${item.slug}`}
-            >
-              <span className="idx">{item.index}</span>
-              <span>
-                <p className="lens">{item.lens[locale]}</p>
-                <h3>{item.title[locale]}</h3>
-                <p className="meta">
-                  {item.company} · {item.dates}
-                </p>
-              </span>
-              <span className="metric-pill">{item.metrics[0]?.value}</span>
-              <span className="arrow" aria-hidden="true">
-                →
-              </span>
+        <div className="project-grid">
+          {cases.slice(0, 4).map((item) => (
+            <Link key={item.slug} to={`/work/${item.slug}`} className="project-card" id={`case-${item.slug}`}>
+              <div className="project-card-top">
+                <span className="idx">{item.index}</span>
+                <span className="lens">{item.lens[locale]}</span>
+                {item.status === "progress" ? <span className="pill">{t.inProgress}</span> : null}
+              </div>
+              <h3>{item.title[locale]}</h3>
+              {item.chart ? (
+                <CompareChart
+                  caption={item.chart.caption[locale]}
+                  rows={item.chart.rows.map((row) => ({
+                    label: row.label[locale],
+                    value: row.value,
+                    display: row.display,
+                  }))}
+                />
+              ) : (
+                <p className="card-summary">{item.summary[locale]}</p>
+              )}
+              <p className="card-meta">
+                <span>{item.company}</span>
+                <span>{item.dates}</span>
+              </p>
             </Link>
           ))}
+        </div>
+        <h3 className="education-label">{t.earlierWork}</h3>
+        <div className="work-list">
+          {cases.slice(4).map((item) => {
+            const amount = percentIn(item.metrics[0]?.value ?? "");
+            return (
+              <Link
+                key={item.slug}
+                to={`/work/${item.slug}`}
+                className={active === item.slug ? "work-row is-hot" : "work-row"}
+                id={`case-${item.slug}`}
+              >
+                <span className="idx">{item.index}</span>
+                <span>
+                  <p className="lens">{item.lens[locale]}</p>
+                  <h3>{item.title[locale]}</h3>
+                  <p className="meta">
+                    <span>{item.company}</span>
+                    <span>{item.dates}</span>
+                  </p>
+                  {amount ? (
+                    <span className="track track-ink" aria-hidden="true">
+                      <span style={{ width: `${amount}%` }} />
+                    </span>
+                  ) : null}
+                </span>
+                <span className="metric-pill">{item.metrics[0]?.value}</span>
+                <span className="arrow" aria-hidden="true">
+                  →
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
@@ -103,15 +185,24 @@ export function Home() {
           <h2>{t.experienceTitle}</h2>
           <p>{t.experienceNote}</p>
         </div>
-        {experience.map((role) => (
-          <article className="role" key={role.company}>
+        {experience.map((role) => {
+          const months = tenureMonths(role.dates);
+          const longest = Math.max(
+            ...experience.map((item) => tenureMonths(item.dates) ?? 1),
+          );
+          return (
+          <article className="role" key={role.company} id={role.logoId ? `role-${role.logoId}` : undefined}>
             <div>
               <h3>{role.company}</h3>
               <p className="role-meta">
-                {role.place[locale]}
-                <br />
-                {role.dates}
+                <span>{role.place[locale]}</span>
+                <span>{role.dates}</span>
               </p>
+              {months ? (
+                <div className="track track-ink tenure" aria-hidden="true">
+                  <span style={{ width: `${(months / longest) * 100}%` }} />
+                </div>
+              ) : null}
             </div>
             <div>
               <p className="role-meta">{role.role[locale]}</p>
@@ -127,7 +218,8 @@ export function Home() {
               ) : null}
             </div>
           </article>
-        ))}
+          );
+        })}
       </section>
 
       <section className="wrap section" id="about">
@@ -145,7 +237,14 @@ export function Home() {
             {skills.map((group) => (
               <div className="skill" key={group.label.en}>
                 <h3>{group.label[locale]}</h3>
-                <p>{group.items[locale].join(" · ")}</p>
+                <div className="chips">
+                  {group.items[locale].map((chip) => (
+                    <span className="chip" key={chip.name}>
+                      {chip.name}
+                      {chip.note ? <small>{chip.note}</small> : null}
+                    </span>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -155,9 +254,12 @@ export function Home() {
           {education.map((school) => (
             <article className="edu" key={school.school.en}>
               <h3>{school.school[locale]}</h3>
-              <p className="role-meta">
-                {school.detail[locale]} · {school.place[locale]} · {school.dates} · {school.note[locale]}
-              </p>
+              <div className="edu-facts">
+                <span>{school.detail[locale]}</span>
+                <span>{school.place[locale]}</span>
+                <span>{school.dates}</span>
+                <span>{school.note[locale]}</span>
+              </div>
               {school.points[locale].length > 0 ? (
                 <ul>
                   {school.points[locale].map((point) => (

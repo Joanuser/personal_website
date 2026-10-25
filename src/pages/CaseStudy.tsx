@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { cases } from "../content";
+import { CompareChart, percentIn } from "../components/Charts";
 import { MarketStudy } from "../components/MarketStudy";
 import { useI18n } from "../i18n";
 
@@ -40,23 +41,65 @@ export function CaseStudy() {
           <Link className="back" to="/#work">
             ← {t.back}
           </Link>
-          <p className="kicker">{item.lens[locale]}</p>
+          <p className="kicker">
+            {item.lens[locale]}
+            {item.status === "progress" ? <span className="pill">{t.inProgress}</span> : null}
+          </p>
           <h1>{item.title[locale]}</h1>
           <p className="support">{item.summary[locale]}</p>
-          <div className="case-meta">
-            <span>{item.company}</span>
-            <span>{item.role[locale]}</span>
-            <span>{item.place[locale]}</span>
-            <span>{item.dates}</span>
-          </div>
+          <dl className="fact-grid">
+            <div>
+              <dt>{t.factOrg}</dt>
+              <dd>{item.company}</dd>
+            </div>
+            <div>
+              <dt>{t.factRole}</dt>
+              <dd>{item.role[locale]}</dd>
+            </div>
+            <div>
+              <dt>{t.factPlace}</dt>
+              <dd>{item.place[locale]}</dd>
+            </div>
+            <div>
+              <dt>{t.factWhen}</dt>
+              <dd>{item.dates}</dd>
+            </div>
+          </dl>
+          {item.links && item.links.length > 0 ? (
+            <div className="case-links">
+              {item.links.map((link) => (
+                <a key={link.href} className="button ghost" href={link.href} target="_blank" rel="noreferrer">
+                  {link.label[locale]}
+                </a>
+              ))}
+            </div>
+          ) : null}
         </header>
+        {item.chart ? (
+          <CompareChart
+            caption={item.chart.caption[locale]}
+            rows={item.chart.rows.map((row) => ({
+              label: row.label[locale],
+              value: row.value,
+              display: row.display,
+            }))}
+          />
+        ) : null}
         <div className="case-metrics">
-          {item.metrics.map((metric) => (
-            <article key={metric.value}>
-              <strong>{metric.value}</strong>
-              <span>{metric.label[locale]}</span>
-            </article>
-          ))}
+          {item.metrics.map((metric) => {
+            const amount = percentIn(metric.value);
+            return (
+              <article key={`${metric.value}-${metric.label.en}`}>
+                <strong>{metric.value}</strong>
+                <span>{metric.label[locale]}</span>
+                {amount ? (
+                  <span className="track" aria-hidden="true">
+                    <span style={{ width: `${amount}%` }} />
+                  </span>
+                ) : null}
+              </article>
+            );
+          })}
         </div>
         <div className="case-layout">
           <nav className="toc" aria-label="Sections">
