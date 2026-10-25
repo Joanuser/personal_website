@@ -68,13 +68,19 @@ export function CaseStudy() {
           {item.links && item.links.length > 0 ? (
             <div className="case-links">
               {item.links.map((link) => (
-                <a key={link.href} className="button ghost" href={link.href} target="_blank" rel="noreferrer">
+                <a key={link.href} className="button primary" href={link.href} target="_blank" rel="noreferrer">
                   {link.label[locale]}
+                  <span aria-hidden="true">↗</span>
                 </a>
               ))}
             </div>
           ) : null}
         </header>
+        {item.embed ? (
+          <div className="case-embed">
+            <iframe title={item.embed.title[locale]} src={item.embed.src} allowFullScreen />
+          </div>
+        ) : null}
         {item.chart ? (
           <CompareChart
             caption={item.chart.caption[locale]}

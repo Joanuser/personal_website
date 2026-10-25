@@ -119,30 +119,42 @@ export function Home() {
         </div>
         <div className="project-grid">
           {cases.slice(0, 4).map((item) => (
-            <Link key={item.slug} to={`/work/${item.slug}`} className="project-card" id={`case-${item.slug}`}>
-              <div className="project-card-top">
-                <span className="idx">{item.index}</span>
-                <span className="lens">{item.lens[locale]}</span>
-                {item.status === "progress" ? <span className="pill">{t.inProgress}</span> : null}
-              </div>
-              <h3>{item.title[locale]}</h3>
-              {item.chart ? (
-                <CompareChart
-                  caption={item.chart.caption[locale]}
-                  rows={item.chart.rows.map((row) => ({
-                    label: row.label[locale],
-                    value: row.value,
-                    display: row.display,
-                  }))}
-                />
-              ) : (
-                <p className="card-summary">{item.summary[locale]}</p>
-              )}
-              <p className="card-meta">
-                <span>{item.company}</span>
-                <span>{item.dates}</span>
-              </p>
-            </Link>
+            <article key={item.slug} className="project-card" id={`case-${item.slug}`}>
+              <Link to={`/work/${item.slug}`} className="project-card-body">
+                <div className="project-card-top">
+                  <span className="idx">{item.index}</span>
+                  <span className="lens">{item.lens[locale]}</span>
+                  {item.status === "progress" ? <span className="pill">{t.inProgress}</span> : null}
+                </div>
+                <h3>{item.title[locale]}</h3>
+                {item.chart ? (
+                  <CompareChart
+                    caption={item.chart.caption[locale]}
+                    rows={item.chart.rows.map((row) => ({
+                      label: row.label[locale],
+                      value: row.value,
+                      display: row.display,
+                    }))}
+                  />
+                ) : (
+                  <p className="card-summary">{item.summary[locale]}</p>
+                )}
+                <p className="card-meta">
+                  <span>{item.company}</span>
+                  <span>{item.dates}</span>
+                </p>
+              </Link>
+              {item.links && item.links.length > 0 ? (
+                <div className="card-links">
+                  {item.links.map((link) => (
+                    <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
+                      {link.label[locale]}
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+            </article>
           ))}
         </div>
         <h3 className="education-label">{t.earlierWork}</h3>
