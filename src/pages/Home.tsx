@@ -27,14 +27,6 @@ export function Home() {
 
   return (
     <main id="content">
-      <figure className="wrap painting">
-        <img
-          src={`${import.meta.env.BASE_URL}art/watercolor-door.jpg`}
-          alt={t.paintingAlt}
-          width={864}
-          height={1152}
-        />
-      </figure>
       <div className="wrap hero">
         <div>
           <p className="kicker">
@@ -70,6 +62,14 @@ export function Home() {
             </a>
           </div>
         </div>
+        <figure className="painting">
+          <img
+            src={`${import.meta.env.BASE_URL}art/watercolor-door.jpg`}
+            alt={t.paintingAlt}
+            width={864}
+            height={1152}
+          />
+        </figure>
         <aside className="proof">
           <header>
             <h2>{t.proofTitle}</h2>
