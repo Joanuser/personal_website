@@ -445,7 +445,19 @@ button, input { font: inherit; color: inherit; }
   overflow: auto;
 }
 .page + .page { padding-left: 48px; }
-.frontispiece { width: 100%; height: auto; border-radius: 6px; }
+.cover-frame {
+  background: #f7f1e4;
+  isolation: isolate;
+}
+.frontispiece {
+  display: block;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
 .story-line {
   font-family: var(--serif);
   font-style: italic;
