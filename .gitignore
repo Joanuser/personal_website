@@ -3,3 +3,6 @@ dist
 .DS_Store
 *.local
 .vite
+internships/.cache/
+__pycache__/
+*.pyc

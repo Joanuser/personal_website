@@ -4,6 +4,14 @@ Personal site for a UMSI product-management student aiming at technical product 
 
 The biography, case studies, and both languages live in `src/content.ts`. Case studies stay inside the roles and results on the résumé.
 
+## F-1 internships
+
+`/internships` merges the public Simplify, Vansh, sndsh, and Jobright lists. When a row does not mention a visa, the employer’s own posting is opened (including Workday, Greenhouse, Lever, and Ashby) and the visa sentences on that page decide. A role is kept as accepted only when that page accepts CPT, OPT, or US visa sponsorship. InternTrack and JobSpy are tools rather than posting lists, so they are not a feed here. Refresh the data with:
+
+```bash
+python3 internships/aggregate.py
+```
+
 ## Run
 
 ```bash
