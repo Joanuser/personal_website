@@ -1,12 +1,17 @@
-name: Refresh F-1 internships
+name: Refresh internship dashboard
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 14 * * *"
+    # GitHub cron is UTC and does not follow daylight saving.
+    # 10:00 UTC is 6:00 AM EDT. 11:00 UTC is 6:00 AM EST.
+    # The job below keeps only the run whose Detroit hour is 6.
+    - cron: "0 10 * * *"
+    - cron: "0 11 * * *"
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   refresh:
@@ -14,20 +19,48 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Keep the 6 AM Detroit run
+        id: gate
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          hour=$(TZ=America/Detroit date +%H)
+          echo "America/Detroit hour is ${hour}"
+          if [ "$hour" = "06" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          EVENT_NAME: ${{ github.event_name }}
       - name: Setup Python
+        if: steps.gate.outputs.run == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Rebuild the list from official postings
+        if: steps.gate.outputs.run == 'true'
         run: python3 internships/aggregate.py
       - name: Commit the list
+        id: commit
+        if: steps.gate.outputs.run == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/internships.json
           if git diff --staged --quiet; then
             echo "No listing changes"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "Refresh F-1 internship listings"
+            git commit -m "Refresh internship listings"
             git push
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
+      # A push made with GITHUB_TOKEN does not start Deploy site on its own.
+      - name: Republish the site
+        if: steps.gate.outputs.run == 'true' && steps.commit.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run pages.yml --ref main
