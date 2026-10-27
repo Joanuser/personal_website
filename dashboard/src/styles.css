@@ -160,15 +160,6 @@ a { color: var(--accent); }
 .board-badge.is-sponsorship,
 .board-badge.is-cpt_opt,
 .board-badge.is-international { background: var(--yes); color: #1d4a32; }
-.more {
-  margin-top: 16px;
-  background: transparent;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: 999px;
-  padding: 8px 16px;
-  cursor: pointer;
-}
 .sr-only {
   position: absolute;
   width: 1px;

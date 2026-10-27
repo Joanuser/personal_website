@@ -101,7 +101,6 @@ export function App() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [windowDays, setWindowDays] = useState("all");
-  const [shown, setShown] = useState(48);
 
   useEffect(() => {
     document.title = "Dashboard";
@@ -121,10 +120,6 @@ export function App() {
   useEffect(() => {
     setCategory("all");
   }, [region]);
-
-  useEffect(() => {
-    setShown(48);
-  }, [region, visa, query, category, windowDays]);
 
   const copy = zh
     ? {
@@ -155,7 +150,6 @@ export function App() {
         colCompanySite: "公司官網",
         unknownVisa: "未查",
         empty: "這個條件下面沒有職缺。",
-        more: "再看一些",
         open: "打開官網職缺",
         openLink: "打開連結",
         company: "公司官網",
@@ -204,7 +198,6 @@ export function App() {
         colCompanySite: "Company site",
         unknownVisa: "Not checked",
         empty: "Nothing matches these filters.",
-        more: "Show more",
         open: "Open the official posting",
         openLink: "Open the link",
         company: "Company site",
@@ -411,7 +404,7 @@ export function App() {
               </tr>
             </thead>
             <tbody>
-              {filtered.slice(0, shown).map((role) => {
+              {filtered.map((role) => {
                 const href = role.officialUrl || role.applyUrl;
                 const status = badge(role) || copy.unknownVisa;
                 return (
@@ -449,11 +442,6 @@ export function App() {
             </tbody>
           </table>
         </div>
-      )}
-      {shown < filtered.length && (
-        <button type="button" className="more" onClick={() => setShown((value) => value + 48)}>
-          {copy.more}
-        </button>
       )}
       </main>
     </>
