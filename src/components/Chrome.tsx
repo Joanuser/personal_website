@@ -7,9 +7,7 @@ export function SiteHeader() {
   const { t, locale, setLocale } = useI18n();
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
-  const pathname = useLocation().pathname;
-  const home = pathname === "/";
-  const onInternships = pathname.startsWith("/internships") || pathname.startsWith("/dashboard");
+  const home = useLocation().pathname === "/";
 
   return (
     <header className={open ? "header is-open" : home ? "header is-book" : "header"}>
@@ -35,13 +33,6 @@ export function SiteHeader() {
               中文
             </button>
           </div>
-          <Link
-            className={onInternships ? "nav-tool is-active" : "nav-tool"}
-            to="/dashboard"
-            onClick={close}
-          >
-            {t.navInternships}
-          </Link>
           <button
             className="menu-toggle"
             type="button"

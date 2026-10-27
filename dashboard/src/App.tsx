@@ -1,5 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
-import { useI18n } from "../i18n";
+
+type Locale = "en" | "zh";
+
+function initialLocale(): Locale {
+  try {
+    const saved = localStorage.getItem("dashboard-locale");
+    if (saved === "en" || saved === "zh") return saved;
+  } catch {
+    /* private mode */
+  }
+  if (typeof navigator !== "undefined" && navigator.language.toLowerCase().startsWith("zh")) {
+    return "zh";
+  }
+  return "en";
+}
 
 type Acceptance =
   | "sponsorship"
@@ -68,9 +82,18 @@ function regionOf(role: Role): Region {
   return role.region === "other" ? "other" : "us";
 }
 
-export function Internships() {
-  const { locale } = useI18n();
+export function App() {
+  const [locale, setLocale] = useState<Locale>(initialLocale);
   const zh = locale === "zh";
+
+  useEffect(() => {
+    document.documentElement.lang = zh ? "zh-Hant" : "en";
+    try {
+      localStorage.setItem("dashboard-locale", locale);
+    } catch {
+      /* private mode */
+    }
+  }, [locale, zh]);
   const [payload, setPayload] = useState<Payload | null>(null);
   const [error, setError] = useState("");
   const [region, setRegion] = useState<Region>("us");
@@ -273,10 +296,23 @@ export function Internships() {
   }
 
   return (
-    <main id="content" className="wrap board">
-      <p className="board-kicker">F-1 · CPT · OPT</p>
-      <h1>{copy.title}</h1>
-      <p className="board-lede">{copy.lede}</p>
+    <>
+      <header className="topbar">
+        <div>
+          <p className="kicker">F-1 · CPT · OPT</p>
+          <h1>{copy.title}</h1>
+        </div>
+        <div className="lang" role="group" aria-label={zh ? "語言" : "Language"}>
+          <button type="button" aria-pressed={locale === "en"} onClick={() => setLocale("en")}>
+            EN
+          </button>
+          <button type="button" aria-pressed={locale === "zh"} onClick={() => setLocale("zh")}>
+            中文
+          </button>
+        </div>
+      </header>
+      <main id="content" className="wrap">
+      <p className="lede">{copy.lede}</p>
       {payload ? (
         <p className="board-meta">
           {copy.updated} {updated} {copy.detroit}. {copy.rejected} {payload.stats.rejected}
@@ -404,10 +440,11 @@ export function Internships() {
         </div>
       )}
       {shown < filtered.length && (
-        <button type="button" className="button ghost board-more" onClick={() => setShown((value) => value + 48)}>
+        <button type="button" className="more" onClick={() => setShown((value) => value + 48)}>
           {copy.more}
         </button>
       )}
-    </main>
+      </main>
+    </>
   );
 }

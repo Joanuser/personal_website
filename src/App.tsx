@@ -5,7 +5,6 @@ import { LanguageProvider, useI18n } from "./i18n";
 import { CaseStudy } from "./pages/CaseStudy";
 import { Chapter } from "./pages/Chapter";
 import { Home } from "./pages/Home";
-import { Internships } from "./pages/Internships";
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
@@ -47,8 +46,6 @@ function Shell() {
         <Route path="/" element={<Home />} />
         <Route path="/chapter/:id" element={<Chapter />} />
         <Route path="/work/:slug" element={<CaseStudy />} />
-        <Route path="/dashboard" element={<Internships />} />
-        <Route path="/internships" element={<Internships />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <SiteFooter />

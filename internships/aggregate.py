@@ -24,7 +24,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT_PATH = ROOT / "public" / "internships.json"
+OUT_PATH = ROOT / "dashboard" / "public" / "internships.json"
 CACHE_PATH = ROOT / "internships" / ".cache" / "pages.json"
 TODAY = datetime.now(ZoneInfo("America/Detroit")).date()
 UA = (

@@ -11,7 +11,6 @@ on:
 
 permissions:
   contents: write
-  actions: write
 
 jobs:
   refresh:
@@ -44,23 +43,14 @@ jobs:
         if: steps.gate.outputs.run == 'true'
         run: python3 internships/aggregate.py
       - name: Commit the list
-        id: commit
         if: steps.gate.outputs.run == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/internships.json
+          git add dashboard/public/internships.json
           if git diff --staged --quiet; then
             echo "No listing changes"
-            echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "Refresh internship listings"
             git push
-            echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
-      # A push made with GITHUB_TOKEN does not start Deploy site on its own.
-      - name: Republish the site
-        if: steps.gate.outputs.run == 'true' && steps.commit.outputs.pushed == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run pages.yml --ref main
