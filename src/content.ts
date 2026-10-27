@@ -909,6 +909,9 @@ export const ui = {
     close: "Close",
     kickerSchool: "University of Michigan",
     kickerProgram: "Product Management",
+    hello: "hey there! I'm Joan.",
+    helloRole: "I'm a product manager. I find where a system is failing the people who use it, then get the right fix shipped.",
+    seeCases: "See the work",
     lede: "I find where a system is failing the people who have to use it, then get the right fix shipped.",
     support:
       "MSI student at the School of Information, concentrating in Product Management. Before Ann Arbor I was a Sales Operation Analyst at Uber in Taipei. The work before that was pricing systems, Salesforce adoption, audit, and financial analysis. I am aiming at technical product management in big technology companies and large global firms.",
@@ -985,6 +988,9 @@ export const ui = {
     close: "關閉",
     kickerSchool: "密西根大學資訊學院",
     kickerProgram: "產品管理",
+    hello: "嗨，我是 Joan。",
+    helloRole: "我是產品經理。我先找到系統卡在使用者身上的地方，再把該修的部分送上線。",
+    seeCases: "看作品",
     lede: "我先找到系統卡在使用者身上的地方，再把該修的部分送上線。",
     support:
       "我是密西根大學資訊學院碩士生，主修產品管理。來安娜堡之前，我在台北的 Uber 擔任 Sales Operation Analyst。更早的工作涵蓋報價系統、Salesforce 採用、查核與財務分析。下一步想進大型科技公司或大型外商，做 Technical Product Manager。",

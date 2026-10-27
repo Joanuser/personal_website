@@ -15,14 +15,8 @@ export function SiteHeader() {
         {t.skip}
       </a>
       <div className="header-inner">
-        <Link to="/" className="brand" onClick={close}>
-          <span className="brand-mark" aria-hidden="true">
-            CH
-          </span>
-          <span>
-            {person.name}
-            <small>{person.short}</small>
-          </span>
+        <Link to="/" className="brand brand-hello" onClick={close}>
+          <span>{person.short}</span>
         </Link>
         <nav className="nav" aria-label="Primary">
           <div className="lang" role="group" aria-label={t.langLabel}>
@@ -42,10 +36,9 @@ export function SiteHeader() {
             {open ? t.close : t.menu}
           </button>
           <div className="nav-links">
-            <Link to="/chapter/intro" aria-current={pathname === "/chapter/intro" ? "page" : undefined} onClick={close}>{t.navIntro}</Link>
-            <Link to="/chapter/experience" aria-current={pathname === "/chapter/experience" ? "page" : undefined} onClick={close}>{t.navExperience}</Link>
-            <Link to="/chapter/skills" aria-current={pathname === "/chapter/skills" ? "page" : undefined} onClick={close}>{t.navSkills}</Link>
             <Link to="/chapter/projects" aria-current={pathname === "/chapter/projects" ? "page" : undefined} onClick={close}>{t.navProjects}</Link>
+            <Link to="/chapter/experience" aria-current={pathname === "/chapter/experience" ? "page" : undefined} onClick={close}>{t.navExperience}</Link>
+            <Link to="/chapter/intro" aria-current={pathname === "/chapter/intro" ? "page" : undefined} onClick={close}>{t.navIntro}</Link>
             <Link to="/chapter/education" aria-current={pathname === "/chapter/education" ? "page" : undefined} onClick={close}>{t.navEducation}</Link>
           </div>
         </nav>

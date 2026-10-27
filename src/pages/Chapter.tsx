@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { cases, education, experience, person, proof, skills } from "../content";
-import { CompareChart } from "../components/Charts";
 import { Logo } from "../components/Logos";
 import { useI18n } from "../i18n";
 
@@ -58,11 +57,8 @@ export function Chapter() {
   return (
     <main id="content" className="wrap module-page">
       <Link className="back" to="/">
-        ← {t.modules}
+        ← {person.short}
       </Link>
-      <p className="kicker">
-        <span>0{index + 1}</span>
-      </p>
       <h1>{titles[id]}</h1>
       {id === "experience" ? <p className="chapter-note">{t.experienceNote}</p> : null}
       {id === "intro" ? <Intro locale={locale} /> : null}
@@ -130,6 +126,11 @@ function Intro({ locale }: { locale: "en" | "zh" }) {
       <p>{t.aboutSite}</p>
       <h2>{t.alsoTitle}</h2>
       <p>{t.alsoBody}</p>
+      <p>
+        <Link className="more" to="/chapter/skills">
+          {t.navSkills} →
+        </Link>
+      </p>
     </>
   );
 }
@@ -191,13 +192,13 @@ function ProjectsPage({ locale }: { locale: "en" | "zh" }) {
   return (
     <>
       <p className="chapter-note">{t.workNote}</p>
-      <div className="project-grid">
+      <div className="case-posters">
         {cases.slice(0, 4).map((item) => (
           <ProjectCard key={item.slug} item={item} locale={locale} />
         ))}
       </div>
       <h3 className="education-label">{t.earlierWork}</h3>
-      <div className="project-grid">
+      <div className="case-posters">
         {cases.slice(4).map((item) => (
           <ProjectCard key={item.slug} item={item} locale={locale} />
         ))}
@@ -215,48 +216,35 @@ function ProjectCard({
 }) {
   const { t } = useI18n();
   return (
-    <article className="project-card">
-      <div className="project-card-top">
-        <span className="idx">{item.index}</span>
-        <span className="lens">{item.lens[locale]}</span>
-        {item.status === "progress" ? <span className="pill">{t.inProgress}</span> : null}
-      </div>
-      <h3>{item.title[locale]}</h3>
-      <p className="card-summary">{item.summary[locale]}</p>
-      <div className="card-links">
-        {item.links?.map((link) => (
-          <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
-            {link.label[locale]}
-            <span aria-hidden="true">↗</span>
-          </a>
-        ))}
-        <Link to={`/work/${item.slug}`}>
-          {t.readCase}
-          <span aria-hidden="true">→</span>
-        </Link>
-      </div>
-      <ul className="metric-lines">
-        {item.metrics.map((metric) => (
-          <li key={`${metric.value}-${metric.label.en}`}>
-            <strong>{metric.value}</strong>
-            <span>{metric.label[locale]}</span>
-          </li>
-        ))}
-      </ul>
-      {item.chart ? (
-        <CompareChart
-          caption={item.chart.caption[locale]}
-          rows={item.chart.rows.map((row) => ({
-            label: row.label[locale],
-            value: row.value,
-            display: row.display,
-          }))}
-        />
+    <article className={`case-poster case-poster-${Number(item.index) % 4}`}>
+      <Link to={`/work/${item.slug}`} className="case-poster-link">
+        <p className="lens">
+          {item.lens[locale]}
+          {item.status === "progress" ? <span className="pill">{t.inProgress}</span> : null}
+        </p>
+        <h3>{item.title[locale]}</h3>
+        <p className="card-summary">{item.summary[locale]}</p>
+        {item.metrics[0] ? (
+          <p className="case-poster-metric">
+            <strong>{item.metrics[0].value}</strong>
+            <span>{item.metrics[0].label[locale]}</span>
+          </p>
+        ) : null}
+        <p className="card-meta">
+          <span>{item.company}</span>
+          <span>{item.dates}</span>
+        </p>
+      </Link>
+      {item.links && item.links.length > 0 ? (
+        <div className="card-links">
+          {item.links.map((link) => (
+            <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
+              {link.label[locale]}
+              <span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
       ) : null}
-      <p className="card-meta">
-        <span>{item.company}</span>
-        <span>{item.dates}</span>
-      </p>
     </article>
   );
 }
