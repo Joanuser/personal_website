@@ -1,55 +1,48 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { person } from "../content";
+import { person, proof } from "../content";
 import { useI18n } from "../i18n";
 
 export function Home() {
-  const { t } = useI18n();
-  const chapters = [
-    { id: "intro", num: "01", label: t.navIntro },
-    { id: "experience", num: "02", label: t.navExperience },
-    { id: "skills", num: "03", label: t.navSkills },
-    { id: "projects", num: "04", label: t.navProjects },
-    { id: "education", num: "05", label: t.navEducation },
-  ];
+  const { locale, t } = useI18n();
 
   useEffect(() => {
     document.title = "Chih-Chi Huang — Technical Product Management";
   }, []);
 
   return (
-    <main id="content" className="desk-scene">
-      <article className="spread">
-        <div className="page">
-          <div className="cover-frame">
-            <img
-              className="frontispiece"
-              src={`${import.meta.env.BASE_URL}cover.png`}
-              alt={t.coverAlt}
-            />
-          </div>
-          <p className="story-line">{t.lede}</p>
-          <p className="story-sign">{person.name}</p>
-        </div>
-        <div className="page">
-          <p className="contents-kicker">{t.contentsLede}</p>
-          <h1 className="contents-title">{t.contents}</h1>
-          <ol className="contents-list">
-            {chapters.map((chapter) => (
-              <li key={chapter.id}>
-                <Link to={`/chapter/${chapter.id}`}>
-                  <span className="num">{chapter.num}</span>
-                  <span className="leader" aria-hidden="true" />
-                  <span className="name">{chapter.label}</span>
+    <main id="content" className="hello-page">
+      <div className="hello">
+        <div className="hello-copy">
+          <h1>{t.hello}</h1>
+          <p className="hello-role">{t.helloRole}</p>
+          <p className="hello-more">{t.support}</p>
+          <p className="hello-where">
+            {person.location[locale]} · {person.email}
+          </p>
+          <ul className="hello-proof">
+            {proof.map((item) => (
+              <li key={item.slug}>
+                <Link to={`/work/${item.slug}`}>
+                  <strong>{item.value}</strong>
+                  <span>{item.label[locale]}</span>
                 </Link>
               </li>
             ))}
-          </ol>
-          <a className="story-mail" href={`mailto:${person.email}`}>
-            {person.email}
-          </a>
+          </ul>
         </div>
-      </article>
+        <figure className="hello-art">
+          <img src={`${import.meta.env.BASE_URL}cover.png`} alt={t.coverAlt} />
+        </figure>
+      </div>
+      <Link className="hello-arrow" to="/chapter/projects" aria-label={t.seeCases}>
+        <svg viewBox="0 0 88 88" aria-hidden="true">
+          <circle cx="44" cy="44" r="40" />
+          <path d="M44 24v36" />
+          <path d="M28 46l16 16 16-16" />
+        </svg>
+        <span>{t.seeCases}</span>
+      </Link>
     </main>
   );
 }
