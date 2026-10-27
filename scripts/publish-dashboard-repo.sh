@@ -108,14 +108,18 @@ jobs:
             echo "run=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          hour=$(TZ=America/Detroit date +%H)
-          if [ "$hour" = "06" ]; then
+          offset=$(TZ=America/Detroit date +%z)
+          echo "America/Detroit offset is ${offset}; schedule is ${SCHEDULE}"
+          if [ "$SCHEDULE" = "0 10 * * *" ] && [ "$offset" = "-0400" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          elif [ "$SCHEDULE" = "0 11 * * *" ] && [ "$offset" = "-0500" ]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
           fi
         env:
           EVENT_NAME: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
       - uses: actions/setup-python@v5
         if: steps.gate.outputs.run == 'true'
         with:

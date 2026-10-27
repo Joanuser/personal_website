@@ -5,7 +5,8 @@ on:
   schedule:
     # GitHub cron is UTC and does not follow daylight saving.
     # 10:00 UTC is 6:00 AM EDT. 11:00 UTC is 6:00 AM EST.
-    # The job below keeps only the run whose Detroit hour is 6.
+    # GitHub may start the cron hours late, so the gate uses the Detroit
+    # offset instead of requiring the clock to still say 6.
     - cron: "0 10 * * *"
     - cron: "0 11 * * *"
 
@@ -25,15 +26,18 @@ jobs:
             echo "run=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          hour=$(TZ=America/Detroit date +%H)
-          echo "America/Detroit hour is ${hour}"
-          if [ "$hour" = "06" ]; then
+          offset=$(TZ=America/Detroit date +%z)
+          echo "America/Detroit offset is ${offset}; schedule is ${SCHEDULE}"
+          if [ "$SCHEDULE" = "0 10 * * *" ] && [ "$offset" = "-0400" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          elif [ "$SCHEDULE" = "0 11 * * *" ] && [ "$offset" = "-0500" ]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
           fi
         env:
           EVENT_NAME: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
       - name: Setup Python
         if: steps.gate.outputs.run == 'true'
         uses: actions/setup-python@v5
