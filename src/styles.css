@@ -164,13 +164,44 @@ button, input { font: inherit; color: inherit; }
   margin: 0;
   font-family: var(--serif);
   font-weight: 560;
-  font-size: clamp(40px, 6vw, 68px);
+  font-size: clamp(36px, 5vw, 56px);
   line-height: 1.05;
   letter-spacing: -0.03em;
 }
-.board-lede { max-width: 68ch; font-size: 19px; }
-.board-steps { max-width: 74ch; padding-left: 1.2em; }
-.board-steps li { margin: 8px 0; }
+.board-lede { max-width: 62ch; font-size: 18px; margin-bottom: 0; }
+.board-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  gap: 10px;
+  margin: 22px 0 6px;
+}
+.board-metric {
+  text-align: left;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.48);
+  border-radius: 16px;
+  padding: 14px 16px 12px;
+  cursor: pointer;
+}
+.board-metric strong {
+  display: block;
+  font-size: 32px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+.board-metric span {
+  display: block;
+  margin-top: 8px;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+.board-metric.is-selected {
+  background: var(--blue);
+  color: var(--paper);
+  border-color: var(--blue);
+}
+.board-metric.is-selected span { color: var(--paper); }
 .board-meta, .board-help, .board-from, .board-where, .board-company { color: var(--ink-soft); }
 .board-sources { display: flex; flex-wrap: wrap; gap: 8px 14px; }
 .board-sources a { color: var(--blue); }
@@ -198,6 +229,9 @@ button, input { font: inherit; color: inherit; }
 }
 .board-count { margin: 0 0 12px; font-variant-numeric: tabular-nums; }
 .board-list { display: grid; gap: 14px; }
+@media (min-width: 960px) {
+  .board-list { grid-template-columns: 1fr 1fr; align-items: start; }
+}
 .board-card {
   background: rgba(255, 255, 255, 0.48);
   border: 1px solid var(--line);

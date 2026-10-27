@@ -83,8 +83,8 @@ export function Internships() {
   const [shown, setShown] = useState(48);
 
   useEffect(() => {
-    document.title = zh ? "實習看板" : "Internship boards";
-  }, [zh]);
+    document.title = "Dashboard";
+  }, []);
 
   useEffect(() => {
     const url = `${import.meta.env.BASE_URL}internships.json`;
@@ -99,7 +99,6 @@ export function Internships() {
 
   useEffect(() => {
     setCategory("all");
-    setVisa("all");
   }, [region]);
 
   useEffect(() => {
@@ -108,14 +107,8 @@ export function Internships() {
 
   const copy = zh
     ? {
-        title: "實習看板",
-        lede: "美國的職缺都在第一張看板：官網寫明接受的會標出來，沒寫簽證的、頁面打不開的也留在上面，附上名稱和連結。美國以外的在另一張看板。",
-        steps: [
-          "先把 Simplify、Vansh、sndsh，以及 Jobright 的產品管理與商業分析清單合在一起，去掉重複。",
-          "美國職缺如果清單沒寫簽證，會打開官網那一則。寫明接受的會標成 CPT、OPT 或簽證贊助。",
-          "官網沒提到簽證的，以及頁面讀不到的，仍列在美國看板上。讀不到的只顯示名稱和連結，自己打開看。",
-          "官網寫不贊助、限公民或要安全許可的美國職缺會拿掉。其他國家不拿掉，改列在另一張看板。",
-        ],
+        title: "Dashboard",
+        lede: "點上面的數字切換清單。沒寫簽證的、頁面打不開的都在美國這一格，其他國家在最後一格。",
         us: "美國",
         other: "其他國家",
         allVisa: "全部簽證狀態",
@@ -150,14 +143,8 @@ export function Internships() {
         otherHelp: "這些職缺不在美國。每筆都有名稱和連結，簽證資訊請打開那一頁看。",
       }
     : {
-        title: "Internship boards",
-        lede: "US roles stay on the first board, including ones that never mention a visa and ones whose page would not open. Each of those still has a name and a link. Roles outside the US are on a second board.",
-        steps: [
-          "Simplify, Vansh, sndsh, and Jobright’s product and business-analyst lists are merged and de-duplicated.",
-          "For a US role, the official posting is opened when the row is silent. A page that accepts CPT, OPT, or sponsorship is marked.",
-          "US roles whose page never mentions a visa, and roles whose page could not be read, stay on this board. Unreadable rows keep the name and link.",
-          "US roles that refuse sponsorship, require citizenship or a clearance, or are closed are removed. Other countries stay, on the other board.",
-        ],
+        title: "Dashboard",
+        lede: "The numbers are the boards. US roles stay listed when a visa is not mentioned or the page would not open. Other countries are the last tile.",
         us: "United States",
         other: "Other countries",
         allVisa: "Any visa note",
@@ -225,8 +212,19 @@ export function Internships() {
     });
   }, [regionRoles, region, visa, query, category, windowDays]);
 
-  const usCount = (payload?.roles ?? []).filter((role) => regionOf(role) === "us").length;
+  const usRoles = (payload?.roles ?? []).filter((role) => regionOf(role) === "us");
+  const usCount = usRoles.length;
+  const acceptCount = usRoles.filter((role) => ACCEPT.has(role.acceptance)).length;
+  const silentCount = usRoles.filter((role) => role.acceptance === "silent").length;
+  const unreadCount = usRoles.filter((role) => role.acceptance === "unread").length;
   const otherCount = (payload?.roles ?? []).filter((role) => regionOf(role) === "other").length;
+  const slice =
+    region === "other" ? "other" : visa === "all" ? "us" : visa;
+
+  function openSlice(nextRegion: Region, nextVisa: VisaFilter) {
+    setRegion(nextRegion);
+    setVisa(nextVisa);
+  }
   const updated = payload
     ? new Intl.DateTimeFormat(zh ? "zh-Hant" : "en-US", {
         timeZone: "America/Detroit",
@@ -250,11 +248,6 @@ export function Internships() {
       <p className="board-kicker">F-1 · CPT · OPT</p>
       <h1>{copy.title}</h1>
       <p className="board-lede">{copy.lede}</p>
-      <ol className="board-steps">
-        {copy.steps.map((step) => (
-          <li key={step}>{step}</li>
-        ))}
-      </ol>
       {payload ? (
         <p className="board-meta">
           {copy.updated} {updated} {copy.detroit}. {copy.rejected} {payload.stats.rejected}
@@ -263,33 +256,27 @@ export function Internships() {
       ) : (
         <p className="board-meta">{error || copy.loading}</p>
       )}
-      {payload && (
-        <p className="board-sources">
-          {payload.sources.map((source) => (
-            <a key={source.id} href={source.url}>
-              {source.label}
-            </a>
-          ))}
-        </p>
-      )}
 
-      <div className="board-tabs" role="tablist" aria-label={copy.title}>
+      <div className="board-metrics" role="tablist" aria-label={copy.title}>
         {(
           [
-            ["us", copy.us, usCount],
-            ["other", copy.other, otherCount],
+            ["us", "us", "all", copy.us, usCount],
+            ["accept", "us", "accept", copy.accept, acceptCount],
+            ["silent", "us", "silent", copy.silent, silentCount],
+            ["unread", "us", "unread", copy.unread, unreadCount],
+            ["other", "other", "all", copy.other, otherCount],
           ] as const
-        ).map(([id, label, count]) => (
+        ).map(([id, nextRegion, nextVisa, label, count]) => (
           <button
             key={id}
             type="button"
             role="tab"
-            aria-selected={region === id}
-            className={region === id ? "is-selected" : ""}
-            onClick={() => setRegion(id)}
+            aria-selected={slice === id}
+            className={slice === id ? "board-metric is-selected" : "board-metric"}
+            onClick={() => openSlice(nextRegion, nextVisa)}
           >
-            {label}
-            <span>{count}</span>
+            <strong>{count}</strong>
+            <span>{label}</span>
           </button>
         ))}
       </div>
@@ -305,17 +292,6 @@ export function Internships() {
             type="search"
           />
         </label>
-        {region === "us" && (
-          <label>
-            <span className="sr-only">{copy.allVisa}</span>
-            <select value={visa} onChange={(event) => setVisa(event.target.value as VisaFilter)}>
-              <option value="all">{copy.allVisa}</option>
-              <option value="accept">{copy.accept}</option>
-              <option value="silent">{copy.silent}</option>
-              <option value="unread">{copy.unread}</option>
-            </select>
-          </label>
-        )}
         <label>
           <span className="sr-only">{copy.allCategories}</span>
           <select value={category} onChange={(event) => setCategory(event.target.value)}>

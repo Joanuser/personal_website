@@ -9,7 +9,7 @@ export function SiteHeader() {
   const close = () => setOpen(false);
   const pathname = useLocation().pathname;
   const home = pathname === "/";
-  const onInternships = pathname.startsWith("/internships");
+  const onInternships = pathname.startsWith("/internships") || pathname.startsWith("/dashboard");
 
   return (
     <header className={open ? "header is-open" : home ? "header is-book" : "header"}>
@@ -37,7 +37,7 @@ export function SiteHeader() {
           </div>
           <Link
             className={onInternships ? "nav-tool is-active" : "nav-tool"}
-            to="/internships"
+            to="/dashboard"
             onClick={close}
           >
             {t.navInternships}
