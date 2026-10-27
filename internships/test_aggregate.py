@@ -157,6 +157,11 @@ class ClassifyTests(unittest.TestCase):
 class LocationTests(unittest.TestCase):
     def test_us_city(self):
         self.assertTrue(aggregate.is_us_location("New York, NY, United States"))
+        self.assertTrue(aggregate.is_us_location("NYC"))
+        self.assertTrue(aggregate.is_us_location("SF / NYC"))
+        self.assertTrue(aggregate.is_us_location("South SF"))
+        self.assertTrue(aggregate.is_us_location("Chicago"))
+        self.assertFalse(aggregate.is_us_location("London, UK"))
 
     def test_ontario_california(self):
         self.assertTrue(aggregate.is_us_location("Ontario, CA"))
@@ -171,6 +176,21 @@ class LocationTests(unittest.TestCase):
 
     def test_split_us_and_canada(self):
         self.assertTrue(aggregate.is_us_location("Seattle, WA / Vancouver, BC"))
+
+    def test_other_country_stays_on_the_second_board(self):
+        self.assertEqual(aggregate.region_for("Toronto, ON, Canada"), "other")
+        self.assertEqual(aggregate.region_for("New York, NY"), "us")
+        decision = aggregate.decide(
+            {
+                "location": "London, United Kingdom",
+                "closed": False,
+                "citizenship": False,
+                "noSponsorship": False,
+            },
+            "Join our London internship.",
+            True,
+        )
+        self.assertEqual(decision["acceptance"], "silent")
 
 
 class ParseTests(unittest.TestCase):

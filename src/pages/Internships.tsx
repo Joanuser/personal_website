@@ -7,7 +7,10 @@ type Acceptance =
   | "international"
   | "company_policy"
   | "silent"
-  | "unread";
+  | "unread"
+  | "listed";
+
+type Region = "us" | "other";
 
 type Role = {
   id: string;
@@ -21,6 +24,7 @@ type Role = {
   posted: string | null;
   workModel: string | null;
   sources: string[];
+  region?: Region;
   acceptance: Acceptance;
   evidence: string;
   checkedOfficial: boolean;
@@ -36,11 +40,12 @@ type Payload = {
     rejected: number;
     listed: number;
     byAcceptance: Record<string, number>;
+    byRegion?: Record<string, number>;
   };
   roles: Role[];
 };
 
-type Tab = "accept" | "silent" | "unread";
+type VisaFilter = "all" | "accept" | "silent" | "unread";
 
 const ACCEPT = new Set<Acceptance>(["sponsorship", "cpt_opt", "international", "company_policy"]);
 
@@ -61,19 +66,24 @@ function daysSince(posted: string | null): number | null {
   return Math.floor((Date.now() - then) / 86_400_000);
 }
 
+function regionOf(role: Role): Region {
+  return role.region === "other" ? "other" : "us";
+}
+
 export function Internships() {
   const { locale } = useI18n();
   const zh = locale === "zh";
   const [payload, setPayload] = useState<Payload | null>(null);
   const [error, setError] = useState("");
-  const [tab, setTab] = useState<Tab>("accept");
+  const [region, setRegion] = useState<Region>("us");
+  const [visa, setVisa] = useState<VisaFilter>("all");
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [windowDays, setWindowDays] = useState("all");
   const [shown, setShown] = useState(48);
 
   useEffect(() => {
-    document.title = zh ? "F-1 可投的美國實習" : "F-1 internships in the US";
+    document.title = zh ? "實習看板" : "Internship boards";
   }, [zh]);
 
   useEffect(() => {
@@ -88,22 +98,30 @@ export function Internships() {
   }, [zh]);
 
   useEffect(() => {
+    setCategory("all");
+    setVisa("all");
+  }, [region]);
+
+  useEffect(() => {
     setShown(48);
-  }, [tab, query, category, windowDays]);
+  }, [region, visa, query, category, windowDays]);
 
   const copy = zh
     ? {
-        title: "收 F-1 的美國實習",
-        lede: "清單本身通常沒寫簽證。這裡會打開申請連結後面的官網職缺，讀 CPT、OPT 或簽證贊助那幾句，只把寫明接受、人在美國、而且還開著的留下。",
+        title: "實習看板",
+        lede: "美國的職缺都在第一張看板：官網寫明接受的會標出來，沒寫簽證的、頁面打不開的也留在上面，附上名稱和連結。美國以外的在另一張看板。",
         steps: [
           "先把 Simplify、Vansh、sndsh，以及 Jobright 的產品管理與商業分析清單合在一起，去掉重複。",
-          "職缺列沒寫簽證時，改開官網那一則（Greenhouse、Lever、Ashby、Workday、SmartRecruiters 或公司招募頁），用頁面上的句子判斷。",
-          "官網寫不贊助、限公民、要安全許可，或清單標了不贊助／限公民的，會拿掉。加拿大和其他國家也拿掉，因為 CPT 和 OPT 是美國的。",
-          "公司過往的 H-1B 件數不算。Jobright 那種「有贊助紀錄、不保證這一則」不會被當成接受。",
+          "美國職缺如果清單沒寫簽證，會打開官網那一則。寫明接受的會標成 CPT、OPT 或簽證贊助。",
+          "官網沒提到簽證的，以及頁面讀不到的，仍列在美國看板上。讀不到的只顯示名稱和連結，自己打開看。",
+          "官網寫不贊助、限公民或要安全許可的美國職缺會拿掉。其他國家不拿掉，改列在另一張看板。",
         ],
+        us: "美國",
+        other: "其他國家",
+        allVisa: "全部簽證狀態",
         accept: "官網寫明接受",
-        silent: "官網沒提到簽證",
-        unread: "官網頁打不開",
+        silent: "官網沒寫",
+        unread: "只有連結",
         search: "搜公司、職稱、地點",
         allCategories: "全部職類",
         allDates: "不限日期",
@@ -112,6 +130,7 @@ export function Internships() {
         empty: "這個條件下面沒有職缺。",
         more: "再看一些",
         open: "打開官網職缺",
+        openLink: "打開連結",
         company: "公司官網",
         evidenceFrom: "同一公司的官網職缺",
         wrote: "寫著",
@@ -119,29 +138,32 @@ export function Internships() {
         updated: "更新時間",
         detroit: "美東",
         rejected: "已排除",
-        rejectedNote: "筆（官網寫不收、限公民或要許可、已關閉，或地點不在美國）。",
+        rejectedNote: "筆（官網寫不收、限公民或要許可，或已關閉）。",
         loading: "正在讀清單…",
         sponsorship: "簽證贊助",
         cpt: "CPT / OPT",
         intl: "歡迎國際生",
         policy: "同公司職缺有寫",
         silentBadge: "官網沒寫",
-        unreadBadge: "頁面讀不到",
-        silentHelp: "官網職缺說明已經讀過，裡面沒有 CPT、OPT 或贊助。要不要投，請再打開原文確認。",
-        unreadHelp: "這一則的說明沒有從招募頁讀到。連結仍是官網職缺，簽證資訊要在那一頁自己看。",
+        unreadBadge: "自己打開看",
+        usHelp: "沒有寫明簽證的，和頁面打不開的，都在這張看板上。打不開的請用名稱旁的連結自己看。",
+        otherHelp: "這些職缺不在美國。每筆都有名稱和連結，簽證資訊請打開那一頁看。",
       }
     : {
-        title: "US internships that accept F-1",
-        lede: "The lists rarely mention visas. This page opens the employer posting behind each application link and keeps a role when that page accepts CPT, OPT, or visa sponsorship.",
+        title: "Internship boards",
+        lede: "US roles stay on the first board, including ones that never mention a visa and ones whose page would not open. Each of those still has a name and a link. Roles outside the US are on a second board.",
         steps: [
           "Simplify, Vansh, sndsh, and Jobright’s product and business-analyst lists are merged and de-duplicated.",
-          "When the row is silent, the official posting is opened (Greenhouse, Lever, Ashby, Workday, SmartRecruiters, or the company career page) and the visa sentences on that page decide.",
-          "Roles that refuse sponsorship, require citizenship or a clearance, are closed, or sit outside the US are removed. CPT and OPT are US authorizations.",
-          "A company’s past H-1B count is not a yes. Jobright’s “track record, not a guarantee” line is ignored.",
+          "For a US role, the official posting is opened when the row is silent. A page that accepts CPT, OPT, or sponsorship is marked.",
+          "US roles whose page never mentions a visa, and roles whose page could not be read, stay on this board. Unreadable rows keep the name and link.",
+          "US roles that refuse sponsorship, require citizenship or a clearance, or are closed are removed. Other countries stay, on the other board.",
         ],
+        us: "United States",
+        other: "Other countries",
+        allVisa: "Any visa note",
         accept: "Official page says yes",
         silent: "Official page is silent",
-        unread: "Official page unreadable",
+        unread: "Link only",
         search: "Search company, role, location",
         allCategories: "All categories",
         allDates: "Any date",
@@ -150,6 +172,7 @@ export function Internships() {
         empty: "Nothing matches these filters.",
         more: "Show more",
         open: "Open the official posting",
+        openLink: "Open the link",
         company: "Company site",
         evidenceFrom: "Another posting at this company",
         wrote: "says",
@@ -157,33 +180,40 @@ export function Internships() {
         updated: "Updated",
         detroit: "ET",
         rejected: "Removed",
-        rejectedNote: " roles whose official text refuses sponsorship, requires citizenship or a clearance, is closed, or is outside the US.",
+        rejectedNote: " roles whose official text refuses sponsorship, requires citizenship or a clearance, or is closed.",
         loading: "Loading the list…",
         sponsorship: "Visa sponsorship",
         cpt: "CPT / OPT",
         intl: "International students",
         policy: "Sibling posting says yes",
         silentBadge: "Not mentioned",
-        unreadBadge: "Page unreadable",
-        silentHelp: "The official description was read and does not mention CPT, OPT, or sponsorship. Open it before you apply.",
-        unreadHelp: "The description did not come back from the career page. The link is still the official posting, so the visa line has to be checked there.",
+        unreadBadge: "Open it yourself",
+        usHelp: "Roles that never mention a visa, and roles whose page would not open, are on this board. Use the link next to the name when the page could not be read.",
+        otherHelp: "These roles are outside the US. Each one has a name and a link; check the visa line on that page.",
       };
 
+  const regionRoles = useMemo(
+    () => (payload?.roles ?? []).filter((role) => regionOf(role) === region),
+    [payload, region],
+  );
+
   const categories = useMemo(() => {
-    const names = new Set((payload?.roles ?? []).map((role) => role.category));
+    const names = new Set(regionRoles.map((role) => role.category));
     return [...names].sort();
-  }, [payload]);
+  }, [regionRoles]);
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
-    return (payload?.roles ?? []).filter((role) => {
-      const onTab =
-        tab === "accept"
-          ? ACCEPT.has(role.acceptance)
-          : tab === "silent"
-            ? role.acceptance === "silent"
-            : role.acceptance === "unread";
-      if (!onTab) return false;
+    return regionRoles.filter((role) => {
+      if (region === "us" && visa !== "all") {
+        const matches =
+          visa === "accept"
+            ? ACCEPT.has(role.acceptance)
+            : visa === "silent"
+              ? role.acceptance === "silent"
+              : role.acceptance === "unread";
+        if (!matches) return false;
+      }
       if (category !== "all" && role.category !== category) return false;
       if (windowDays !== "all") {
         const age = daysSince(role.posted);
@@ -193,14 +223,10 @@ export function Internships() {
       const hay = `${role.company} ${role.role} ${role.location} ${role.evidence}`.toLowerCase();
       return hay.includes(needle);
     });
-  }, [payload, tab, query, category, windowDays]);
+  }, [regionRoles, region, visa, query, category, windowDays]);
 
-  const counts = payload?.stats.byAcceptance ?? {};
-  const acceptCount =
-    (counts.sponsorship ?? 0) +
-    (counts.cpt_opt ?? 0) +
-    (counts.international ?? 0) +
-    (counts.company_policy ?? 0);
+  const usCount = (payload?.roles ?? []).filter((role) => regionOf(role) === "us").length;
+  const otherCount = (payload?.roles ?? []).filter((role) => regionOf(role) === "other").length;
   const updated = payload
     ? new Intl.DateTimeFormat(zh ? "zh-Hant" : "en-US", {
         timeZone: "America/Detroit",
@@ -215,12 +241,13 @@ export function Internships() {
     if (role.acceptance === "international") return copy.intl;
     if (role.acceptance === "company_policy") return copy.policy;
     if (role.acceptance === "silent") return copy.silentBadge;
-    return copy.unreadBadge;
+    if (role.acceptance === "unread") return copy.unreadBadge;
+    return "";
   }
 
   return (
     <main id="content" className="wrap board">
-      <p className="board-kicker">F-1 · CPT · OPT · US</p>
+      <p className="board-kicker">F-1 · CPT · OPT</p>
       <h1>{copy.title}</h1>
       <p className="board-lede">{copy.lede}</p>
       <ol className="board-steps">
@@ -249,26 +276,24 @@ export function Internships() {
       <div className="board-tabs" role="tablist" aria-label={copy.title}>
         {(
           [
-            ["accept", copy.accept, acceptCount],
-            ["silent", copy.silent, counts.silent ?? 0],
-            ["unread", copy.unread, counts.unread ?? 0],
+            ["us", copy.us, usCount],
+            ["other", copy.other, otherCount],
           ] as const
         ).map(([id, label, count]) => (
           <button
             key={id}
             type="button"
             role="tab"
-            aria-selected={tab === id}
-            className={tab === id ? "is-selected" : ""}
-            onClick={() => setTab(id)}
+            aria-selected={region === id}
+            className={region === id ? "is-selected" : ""}
+            onClick={() => setRegion(id)}
           >
             {label}
             <span>{count}</span>
           </button>
         ))}
       </div>
-      {tab === "silent" && <p className="board-help">{copy.silentHelp}</p>}
-      {tab === "unread" && <p className="board-help">{copy.unreadHelp}</p>}
+      <p className="board-help">{region === "us" ? copy.usHelp : copy.otherHelp}</p>
 
       <div className="board-filters">
         <label>
@@ -280,6 +305,17 @@ export function Internships() {
             type="search"
           />
         </label>
+        {region === "us" && (
+          <label>
+            <span className="sr-only">{copy.allVisa}</span>
+            <select value={visa} onChange={(event) => setVisa(event.target.value as VisaFilter)}>
+              <option value="all">{copy.allVisa}</option>
+              <option value="accept">{copy.accept}</option>
+              <option value="silent">{copy.silent}</option>
+              <option value="unread">{copy.unread}</option>
+            </select>
+          </label>
+        )}
         <label>
           <span className="sr-only">{copy.allCategories}</span>
           <select value={category} onChange={(event) => setCategory(event.target.value)}>
@@ -306,11 +342,13 @@ export function Internships() {
       <div className="board-list">
         {filtered.slice(0, shown).map((role) => {
           const href = role.officialUrl || role.applyUrl;
+          const label = badge(role);
+          const linkText = role.acceptance === "unread" || role.acceptance === "listed" ? copy.openLink : copy.open;
           return (
-            <article key={role.id} className="board-card">
+            <article key={`${role.region ?? "us"}-${role.id}`} className="board-card">
               <div className="board-card-top">
                 <span>{role.category}</span>
-                <span className={`board-badge is-${role.acceptance}`}>{badge(role)}</span>
+                {label && <span className={`board-badge is-${role.acceptance}`}>{label}</span>}
               </div>
               <h2>{role.role}</h2>
               <p className="board-company">{role.company}</p>
@@ -331,7 +369,7 @@ export function Internships() {
               <div className="board-actions">
                 {href && (
                   <a className="button primary" href={href} target="_blank" rel="noreferrer">
-                    {copy.open}
+                    {linkText}
                   </a>
                 )}
                 {role.companyUrl && (

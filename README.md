@@ -6,7 +6,7 @@ The biography, case studies, and both languages live in `src/content.ts`. Case s
 
 ## F-1 internships
 
-`/internships` merges the public Simplify, Vansh, sndsh, and Jobright lists. When a row does not mention a visa, the employer’s own posting is opened (including Workday, Greenhouse, Lever, and Ashby) and the visa sentences on that page decide. A role is kept as accepted only when that page accepts CPT, OPT, or US visa sponsorship. InternTrack and JobSpy are tools rather than posting lists, so they are not a feed here. Refresh the data with:
+`/internships` has two boards. The US board lists open roles even when the official page never mentions a visa, and it keeps the name and link when that page cannot be read. A US role is removed only when the posting refuses sponsorship, requires citizenship or a clearance, or is closed. Roles outside the US are on the other board. InternTrack and JobSpy are tools rather than posting lists, so they are not a feed here. Refresh the data with:
 
 ```bash
 python3 internships/aggregate.py

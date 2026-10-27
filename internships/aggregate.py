@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Build a US internship list that keeps F-1 roles only.
+"""Build two internship boards from the public lists.
 
-The GitHub lists rarely say whether a role sponsors. This script opens the
-official posting behind each application link and reads the visa, CPT, and OPT
-language there. Company H-1B history is not treated as a yes.
+The US board keeps open roles even when the official page never mentions a
+visa, and it keeps a name and link when that page cannot be read. A role is
+left off only when the official text refuses sponsorship or requires
+citizenship or a clearance. Roles outside the US go on a second board.
 """
 
 from __future__ import annotations
@@ -101,6 +102,10 @@ FOREIGN = re.compile(
     r"switzerland|sweden|denmark|finland|norway|portugal|italy|belgium|austria|"
     r"romania|vietnam|philippines|indonesia|malaysia|thailand|dubai|hong kong|"
     r"europe|emea|toronto|vancouver|montreal|ottawa|calgary|waterloo|mississauga)\b",
+    re.I,
+)
+US_CITY = re.compile(
+    r"\b(nyc|sf|san francisco|south san francisco|south sf|chicago|st\.?\s*louis|auburn hills|new york city)\b",
     re.I,
 )
 US_NAME = re.compile(
@@ -457,6 +462,12 @@ def is_us_location(location: str) -> bool:
     if foreign and not states and not US_NAME.search(low):
         return False
     if states or US_NAME.search(low):
+        return True
+    if re.search(r"(?:,|\s)us$", low):
+        return True
+    if US_CITY.search(low) and not foreign:
+        return True
+    if "multiple location" in low and not foreign:
         return True
     if low == "remote" or low.startswith("remote"):
         return foreign is None
@@ -1285,14 +1296,16 @@ def search_official(company: str, role: str, cache: Cache) -> str:
     return found
 
 
+def region_for(location: str) -> str:
+    return "us" if is_us_location(location) else "other"
+
+
 def decide(role: dict, text: str, read: bool) -> dict:
     kind, evidence = classify_text(text) if read else ("unknown", "")
     if kind == "no":
         acceptance = "rejected"
     elif kind in {"sponsorship", "cpt_opt", "international"}:
         acceptance = kind
-    elif not is_us_location(role.get("location") or ""):
-        acceptance = "rejected"
     elif role.get("closed"):
         acceptance = "rejected"
     elif not read:
@@ -1308,8 +1321,6 @@ def decide(role: dict, text: str, read: bool) -> dict:
     }:
         acceptance = "rejected"
     if role.get("closed"):
-        acceptance = "rejected"
-    if not is_us_location(role.get("location") or ""):
         acceptance = "rejected"
     return {
         "acceptance": acceptance,
@@ -1334,22 +1345,12 @@ def load_sources() -> list[dict]:
     return roles
 
 
-def enrich(roles: list[dict], cache: Cache, limit: int | None = None) -> list[dict]:
-    candidates = []
-    for role in roles:
-        if role.get("closed") or not is_us_location(role.get("location") or ""):
-            role["decision"] = decide(role, "", False)
-            role["decision"]["acceptance"] = "rejected"
-            continue
-        candidates.append(role)
-    if limit is not None:
-        candidates = candidates[:limit]
-
-    log(f"resolve {sum(1 for role in candidates if is_shortener(role.get('applyUrl') or ''))} shorteners")
+def resolve_shorteners(roles: list[dict], cache: Cache) -> None:
+    log(f"resolve {sum(1 for role in roles if is_shortener(role.get('applyUrl') or ''))} shorteners")
     with ThreadPoolExecutor(max_workers=12) as pool:
         futures = {
             pool.submit(resolve_url, role.get("applyUrl") or "", cache): role
-            for role in candidates
+            for role in roles
             if is_shortener(role.get("applyUrl") or "")
         }
         for future in as_completed(futures):
@@ -1362,7 +1363,36 @@ def enrich(roles: list[dict], cache: Cache, limit: int | None = None) -> list[di
             if resolved:
                 role["applyUrl"] = resolved
 
-    unique = merge_roles(candidates)
+
+def enrich(roles: list[dict], cache: Cache, limit: int | None = None) -> list[dict]:
+    closed = []
+    us_roles = []
+    other_roles = []
+    for role in roles:
+        if role.get("closed"):
+            role["decision"] = decide(role, "", False)
+            role["decision"]["acceptance"] = "rejected"
+            closed.append(role)
+            continue
+        if region_for(role.get("location") or "") == "us":
+            us_roles.append(role)
+        else:
+            other_roles.append(role)
+    if limit is not None:
+        us_roles = us_roles[:limit]
+        other_roles = other_roles[:limit]
+
+    resolve_shorteners(us_roles + other_roles, cache)
+    unique = merge_roles(us_roles)
+    other = merge_roles(other_roles)
+    for role in other:
+        role["officialUrl"] = role.get("applyUrl") or ""
+        role["decision"] = {
+            "acceptance": "listed",
+            "evidence": "",
+            "read": False,
+            "kind": "unknown",
+        }
     prime_ats([role.get("applyUrl") or "" for role in unique], cache)
     log(f"read official pages for {len(unique)} US roles")
     with ThreadPoolExecutor(max_workers=10) as pool:
@@ -1424,7 +1454,7 @@ def enrich(roles: list[dict], cache: Cache, limit: int | None = None) -> list[di
             if finished % 20 == 0:
                 log(f"  searched {finished}/{len(pending)}")
 
-    return unique
+    return closed + unique + other
 
 
 def public_role(role: dict) -> dict | None:
@@ -1444,6 +1474,7 @@ def public_role(role: dict) -> dict | None:
         "posted": role.get("posted"),
         "workModel": role.get("workModel"),
         "sources": role.get("sources") or [],
+        "region": region_for(role.get("location") or ""),
         "acceptance": acceptance,
         "evidence": decision.get("evidence") or "",
         "checkedOfficial": bool(decision.get("read")),
@@ -1462,20 +1493,20 @@ def build(limit: int | None = None) -> dict:
     log(f"parsed {len(parsed)} rows, {len(merged_preview)} unique before location filter")
     # Resolve and read inside enrich, which also merges the US subset.
     # Run enrich on the unmerged parsed rows so shorteners can be resolved first.
-    us_open = [
-        role
-        for role in parsed
-        if is_us_location(role.get("location") or "") and not role.get("closed")
-    ]
-    rejected_early = len(parsed) - len(us_open)
-    enriched = enrich(us_open, cache, limit)
+    enriched = enrich(parsed, cache, limit)
     cache.save()
     public = [item for item in (public_role(role) for role in enriched) if item]
     public.sort(key=lambda item: (item.get("posted") or "", item["company"]), reverse=True)
     counts: dict[str, int] = {}
+    regions: dict[str, int] = {}
     for item in public:
         counts[item["acceptance"]] = counts.get(item["acceptance"], 0) + 1
-    rejected = sum(1 for role in enriched if (role.get("decision") or {}).get("acceptance") == "rejected")
+        regions[item["region"]] = regions.get(item["region"], 0) + 1
+    rejected = sum(
+        1
+        for role in enriched
+        if (role.get("decision") or {}).get("acceptance") == "rejected" and not role.get("closed")
+    )
     generated = datetime.now(ZoneInfo("America/Detroit")).isoformat(timespec="minutes")
     payload = {
         "generatedAt": generated,
@@ -1484,11 +1515,12 @@ def build(limit: int | None = None) -> dict:
         "stats": {
             "parsed": len(parsed),
             "uniqueBeforeFilter": len(merged_preview),
-            "skippedClosedOrOutsideUs": rejected_early,
-            "officialChecked": len(enriched),
+            "skippedClosed": rejected,
+            "officialChecked": sum(1 for role in enriched if region_for(role.get("location") or "") == "us"),
             "rejected": rejected,
             "listed": len(public),
             "byAcceptance": counts,
+            "byRegion": regions,
         },
         "roles": public,
     }
