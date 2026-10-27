@@ -61,7 +61,7 @@ a { color: var(--accent); }
 }
 
 .wrap {
-  width: min(1480px, calc(100% - 32px));
+  width: calc(100% - 24px);
   margin: 0 auto;
   padding: 22px 0 64px;
 }
@@ -109,25 +109,34 @@ a { color: var(--accent); }
 }
 .board-count { margin: 0 0 12px; font-variant-numeric: tabular-nums; }
 .board-sheet {
-  max-height: min(72vh, 860px);
-  overflow: auto;
+  overflow: visible;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--card);
 }
 .board-table {
   width: 100%;
-  min-width: 1180px;
+  table-layout: fixed;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 13px;
 }
+.col-category { width: 11%; }
+.col-role { width: 18%; }
+.col-company { width: 12%; }
+.col-visa { width: 12%; }
+.col-location { width: 13%; }
+.col-posted { width: 9%; }
+.col-age { width: 8%; }
+.col-official { width: 9%; }
+.col-site { width: 8%; }
 .board-table th,
 .board-table td {
   border-bottom: 1px solid var(--line);
-  padding: 8px 10px;
+  padding: 8px;
   text-align: left;
   vertical-align: top;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 .board-table th {
   position: sticky;
@@ -138,13 +147,15 @@ a { color: var(--accent); }
   font-weight: 650;
 }
 .board-table tbody tr:nth-child(even) { background: #f7fafc; }
-.board-table .role-cell { white-space: normal; min-width: 220px; font-weight: 600; }
+.board-table .role-cell { font-weight: 600; }
 .board-badge {
+  display: inline-block;
   border-radius: 999px;
-  padding: 3px 10px;
+  padding: 3px 8px;
   background: #e7eef5;
   color: var(--accent);
   font-size: 13px;
+  white-space: normal;
 }
 .board-badge.is-sponsorship,
 .board-badge.is-cpt_opt,

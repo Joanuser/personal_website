@@ -386,6 +386,17 @@ export function App() {
       {filtered.length > 0 && (
         <div className="board-sheet">
           <table className="board-table">
+            <colgroup>
+              <col className="col-category" />
+              <col className="col-role" />
+              <col className="col-company" />
+              <col className="col-visa" />
+              <col className="col-location" />
+              <col className="col-posted" />
+              <col className="col-age" />
+              <col className="col-official" />
+              <col className="col-site" />
+            </colgroup>
             <thead>
               <tr>
                 <th scope="col">{copy.colCategory}</th>
