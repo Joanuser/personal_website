@@ -49,21 +49,19 @@ type VisaFilter = "all" | "accept" | "silent" | "unread";
 
 const ACCEPT = new Set<Acceptance>(["sponsorship", "cpt_opt", "international", "company_policy"]);
 
-const SOURCE_LABEL: Record<string, string> = {
-  simplify: "Simplify",
-  "simplify-off": "Simplify off-season",
-  vansh: "Vansh",
-  "vansh-off": "Vansh off-season",
-  sndsh: "sndsh",
-  "jobright-pm": "Jobright PM",
-  "jobright-ba": "Jobright BA",
-};
-
 function daysSince(posted: string | null): number | null {
   if (!posted) return null;
   const then = Date.parse(`${posted}T12:00:00Z`);
   if (Number.isNaN(then)) return null;
   return Math.floor((Date.now() - then) / 86_400_000);
+}
+
+function ageLabel(posted: string | null, zh: boolean): string {
+  const age = daysSince(posted);
+  if (age === null) return zh ? "未寫" : "Unknown";
+  if (age <= 0) return zh ? "今天" : "Today";
+  if (zh) return `${age} 天前`;
+  return age === 1 ? "1 day ago" : `${age} days ago`;
 }
 
 function regionOf(role: Role): Region {
@@ -117,9 +115,22 @@ export function Internships() {
         unread: "只有連結",
         search: "搜公司、職稱、地點",
         allCategories: "全部職類",
-        allDates: "不限日期",
+        allDates: "不限日期，由新到舊",
+        day: "1 天內",
+        three: "3 天內",
+        seven: "7 天內",
         week: "14 天內",
         month: "30 天內",
+        colCategory: "職類",
+        colRole: "實習名稱",
+        colCompany: "公司名稱",
+        colVisa: "簽證贊助狀態",
+        colLocation: "地點",
+        colPosted: "post 時間",
+        colAge: "距離今天",
+        colOfficial: "打開官網職缺",
+        colCompanySite: "公司官網",
+        unknownVisa: "未查",
         empty: "這個條件下面沒有職缺。",
         more: "再看一些",
         open: "打開官網職缺",
@@ -153,9 +164,22 @@ export function Internships() {
         unread: "Link only",
         search: "Search company, role, location",
         allCategories: "All categories",
-        allDates: "Any date",
+        allDates: "Any date, newest first",
+        day: "Last 1 day",
+        three: "Last 3 days",
+        seven: "Last 7 days",
         week: "Last 14 days",
         month: "Last 30 days",
+        colCategory: "Category",
+        colRole: "Internship",
+        colCompany: "Company",
+        colVisa: "Visa status",
+        colLocation: "Location",
+        colPosted: "Posted",
+        colAge: "How long ago",
+        colOfficial: "Open the posting",
+        colCompanySite: "Company site",
+        unknownVisa: "Not checked",
         empty: "Nothing matches these filters.",
         more: "Show more",
         open: "Open the official posting",
@@ -209,6 +233,11 @@ export function Internships() {
       if (!needle) return true;
       const hay = `${role.company} ${role.role} ${role.location} ${role.evidence}`.toLowerCase();
       return hay.includes(needle);
+    }).sort((a, b) => {
+      if (a.posted && b.posted && a.posted !== b.posted) return a.posted < b.posted ? 1 : -1;
+      if (a.posted) return -1;
+      if (b.posted) return 1;
+      return a.company.localeCompare(b.company);
     });
   }, [regionRoles, region, visa, query, category, windowDays]);
 
@@ -307,6 +336,9 @@ export function Internships() {
           <span className="sr-only">{copy.allDates}</span>
           <select value={windowDays} onChange={(event) => setWindowDays(event.target.value)}>
             <option value="all">{copy.allDates}</option>
+            <option value="1">{copy.day}</option>
+            <option value="3">{copy.three}</option>
+            <option value="7">{copy.seven}</option>
             <option value="14">{copy.week}</option>
             <option value="30">{copy.month}</option>
           </select>
@@ -315,53 +347,62 @@ export function Internships() {
 
       <p className="board-count">{filtered.length}</p>
       {filtered.length === 0 && payload && <p className="board-help">{copy.empty}</p>}
-      <div className="board-list">
-        {filtered.slice(0, shown).map((role) => {
-          const href = role.officialUrl || role.applyUrl;
-          const label = badge(role);
-          const linkText = role.acceptance === "unread" || role.acceptance === "listed" ? copy.openLink : copy.open;
-          return (
-            <article key={`${role.region ?? "us"}-${role.id}`} className="board-card">
-              <div className="board-card-top">
-                <span>{role.category}</span>
-                {label && <span className={`board-badge is-${role.acceptance}`}>{label}</span>}
-              </div>
-              <h2>{role.role}</h2>
-              <p className="board-company">{role.company}</p>
-              <p className="board-where">
-                {[role.location, role.posted, role.workModel].filter(Boolean).join(" · ")}
-              </p>
-              {role.evidence && (
-                <blockquote>
-                  {role.acceptance === "company_policy" && role.evidenceRole ? (
-                    <>
-                      {copy.evidenceFrom}「{role.evidenceRole}」{copy.wrote}：「{role.evidence}」
-                    </>
-                  ) : (
-                    <>「{role.evidence}」</>
-                  )}
-                </blockquote>
-              )}
-              <div className="board-actions">
-                {href && (
-                  <a className="button primary" href={href} target="_blank" rel="noreferrer">
-                    {linkText}
-                  </a>
-                )}
-                {role.companyUrl && (
-                  <a className="button ghost" href={role.companyUrl} target="_blank" rel="noreferrer">
-                    {copy.company}
-                  </a>
-                )}
-              </div>
-              <p className="board-from">
-                {copy.sources}{" "}
-                {role.sources.map((source) => SOURCE_LABEL[source] ?? source).join(" · ")}
-              </p>
-            </article>
-          );
-        })}
-      </div>
+      {filtered.length > 0 && (
+        <div className="board-sheet">
+          <table className="board-table">
+            <thead>
+              <tr>
+                <th scope="col">{copy.colCategory}</th>
+                <th scope="col">{copy.colRole}</th>
+                <th scope="col">{copy.colCompany}</th>
+                <th scope="col">{copy.colVisa}</th>
+                <th scope="col">{copy.colLocation}</th>
+                <th scope="col">{copy.colPosted}</th>
+                <th scope="col">{copy.colAge}</th>
+                <th scope="col">{copy.colOfficial}</th>
+                <th scope="col">{copy.colCompanySite}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.slice(0, shown).map((role) => {
+                const href = role.officialUrl || role.applyUrl;
+                const status = badge(role) || copy.unknownVisa;
+                return (
+                  <tr key={`${role.region ?? "us"}-${role.id}`}>
+                    <td>{role.category}</td>
+                    <td className="role-cell">{role.role}</td>
+                    <td>{role.company}</td>
+                    <td>
+                      <span className={`board-badge is-${role.acceptance}`}>{status}</span>
+                    </td>
+                    <td>{role.location || "—"}</td>
+                    <td>{role.posted || "—"}</td>
+                    <td>{ageLabel(role.posted, zh)}</td>
+                    <td>
+                      {href ? (
+                        <a href={href} target="_blank" rel="noreferrer">
+                          {copy.open}
+                        </a>
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                    <td>
+                      {role.companyUrl ? (
+                        <a href={role.companyUrl} target="_blank" rel="noreferrer">
+                          {copy.company}
+                        </a>
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
       {shown < filtered.length && (
         <button type="button" className="button ghost board-more" onClick={() => setShown((value) => value + 48)}>
           {copy.more}
