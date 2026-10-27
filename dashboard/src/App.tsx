@@ -63,6 +63,32 @@ type VisaFilter = "all" | "accept" | "silent" | "unread";
 
 const ACCEPT = new Set<Acceptance>(["sponsorship", "cpt_opt", "international", "company_policy"]);
 
+const OUT_OF_REACH = new Set([
+  "Software Engineering",
+  "Hardware",
+  "Quantitative Finance",
+  "Data Science, AI & ML",
+]);
+
+const FINANCE_TITLE =
+  /\b(fp&a|fpa)\b|financial analyst|finance intern|finance internship|business\s*\/\s*finance|corporate finance|internal audit|audit intern|accounting intern|investment analyst|equity research|treasury intern/i;
+
+const OTHER_FIT =
+  /product|business analyst|business analytics|business operations|sales operations|revenue operations|strateg|operations|process|salesforce|program manag|business systems|business technology|business management|sourcing|go-to-market|bizops/i;
+
+const OTHER_OUT =
+  /engineer|security|cyber|devops|embedded|vlsi|firmware|robot|architect|developer|software|hardware|data engineer|quality assurance|\bqa\b|database|administrator|cloud intern|ui programming|research/i;
+
+function canDo(role: Role): boolean {
+  if (OUT_OF_REACH.has(role.category)) return false;
+  if (FINANCE_TITLE.test(role.role)) return false;
+  if (role.category === "Other") {
+    if (OTHER_OUT.test(role.role)) return false;
+    if (!OTHER_FIT.test(role.role)) return false;
+  }
+  return true;
+}
+
 function daysSince(posted: string | null): number | null {
   if (!posted) return null;
   const then = Date.parse(`${posted}T12:00:00Z`);
@@ -101,6 +127,7 @@ export function App() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [windowDays, setWindowDays] = useState("all");
+  const [fitOnly, setFitOnly] = useState(true);
 
   useEffect(() => {
     document.title = "Dashboard";
@@ -150,6 +177,8 @@ export function App() {
         colCompanySite: "公司官網",
         unknownVisa: "未查",
         empty: "這個條件下面沒有職缺。",
+        fit: "只看我能做的",
+        fitHelp: "已拿掉軟體工程、硬體、資料科學、量化，以及財務分析。留下產品、業務分析，和少數營運職缺。",
         open: "打開官網職缺",
         openLink: "打開連結",
         company: "公司官網",
@@ -198,6 +227,8 @@ export function App() {
         colCompanySite: "Company site",
         unknownVisa: "Not checked",
         empty: "Nothing matches these filters.",
+        fit: "Only roles I can do",
+        fitHelp: "Software, hardware, data science, quant, and financial analysis are hidden. Product, business analysis, and a few operations roles stay.",
         open: "Open the official posting",
         openLink: "Open the link",
         company: "Company site",
@@ -219,9 +250,14 @@ export function App() {
         otherHelp: "These roles are outside the US. Each one has a name and a link; check the visa line on that page.",
       };
 
+  const pool = useMemo(() => {
+    const roles = payload?.roles ?? [];
+    return fitOnly ? roles.filter(canDo) : roles;
+  }, [payload, fitOnly]);
+
   const regionRoles = useMemo(
-    () => (payload?.roles ?? []).filter((role) => regionOf(role) === region),
-    [payload, region],
+    () => pool.filter((role) => regionOf(role) === region),
+    [pool, region],
   );
 
   const categories = useMemo(() => {
@@ -257,12 +293,12 @@ export function App() {
     });
   }, [regionRoles, region, visa, query, category, windowDays]);
 
-  const usRoles = (payload?.roles ?? []).filter((role) => regionOf(role) === "us");
+  const usRoles = pool.filter((role) => regionOf(role) === "us");
   const usCount = usRoles.length;
   const acceptCount = usRoles.filter((role) => ACCEPT.has(role.acceptance)).length;
   const silentCount = usRoles.filter((role) => role.acceptance === "silent").length;
   const unreadCount = usRoles.filter((role) => role.acceptance === "unread").length;
-  const otherCount = (payload?.roles ?? []).filter((role) => regionOf(role) === "other").length;
+  const otherCount = pool.filter((role) => regionOf(role) === "other").length;
   const slice =
     region === "other" ? "other" : visa === "all" ? "us" : visa;
 
@@ -361,6 +397,17 @@ export function App() {
             ))}
           </select>
         </label>
+        <label className="fit">
+          <input
+            type="checkbox"
+            checked={fitOnly}
+            onChange={(event) => {
+              setFitOnly(event.target.checked);
+              setCategory("all");
+            }}
+          />
+          {copy.fit}
+        </label>
         <label>
           <span className="sr-only">{copy.allDates}</span>
           <select value={windowDays} onChange={(event) => setWindowDays(event.target.value)}>
@@ -374,6 +421,7 @@ export function App() {
         </label>
       </div>
 
+      {fitOnly && <p className="board-help">{copy.fitHelp}</p>}
       <p className="board-count">{filtered.length}</p>
       {filtered.length === 0 && payload && <p className="board-help">{copy.empty}</p>}
       {filtered.length > 0 && (
