@@ -90,8 +90,12 @@ name: Refresh internship dashboard
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 10 * * *"
-    - cron: "0 11 * * *"
+    # Minute 0 is when GitHub drops scheduled jobs. 6:17 Detroit always
+    # rebuilds. 8:17 rebuilds only if today's list is not already there.
+    - cron: "17 6 * * *"
+      timezone: "America/Detroit"
+    - cron: "17 8 * * *"
+      timezone: "America/Detroit"
 
 permissions:
   contents: write
@@ -101,25 +105,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Keep the 6 AM Detroit run
+      - name: Rebuild unless this morning already succeeded
         id: gate
-        run: |
-          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          offset=$(TZ=America/Detroit date +%z)
-          echo "America/Detroit offset is ${offset}; schedule is ${SCHEDULE}"
-          if [ "$SCHEDULE" = "0 10 * * *" ] && [ "$offset" = "-0400" ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          elif [ "$SCHEDULE" = "0 11 * * *" ] && [ "$offset" = "-0500" ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "run=false" >> "$GITHUB_OUTPUT"
-          fi
         env:
           EVENT_NAME: ${{ github.event_name }}
           SCHEDULE: ${{ github.event.schedule }}
+          LIST_FILE: public/internships.json
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            echo "manual run"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # 6:17 always rebuilds. An empty or unexpected schedule also rebuilds,
+          # so a delayed trigger is not skipped.
+          if [ "$SCHEDULE" != "17 8 * * *" ]; then
+            echo "schedule '${SCHEDULE}' rebuilds the list"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          generated=""
+          if [ -f "$LIST_FILE" ]; then
+            generated=$(sed -n 's/.*"generatedAt": "\([^"]*\)".*/\1/p' "$LIST_FILE" | head -n 1)
+          fi
+          today=$(TZ=America/Detroit date +%F)
+          echo "8:17 catch-up; generatedAt='${generated}'; Detroit today=${today}"
+          case "$generated" in
+            "$today"*) echo "run=false" >> "$GITHUB_OUTPUT" ;;
+            *) echo "run=true" >> "$GITHUB_OUTPUT" ;;
+          esac
       - uses: actions/setup-python@v5
         if: steps.gate.outputs.run == 'true'
         with:
@@ -134,10 +148,14 @@ jobs:
           git add public/internships.json
           if git diff --staged --quiet; then
             echo "No listing changes"
-          else
-            git commit -m "Refresh internship listings"
-            git push
+            exit 0
           fi
+          git commit -m "Refresh internship listings"
+          git push origin HEAD:main || {
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main
+          }
 EOF
 
 cat > README.md << 'EOF'
@@ -152,7 +170,7 @@ npm run dev
 
 打開 Vite 印出的網址，預設是 http://localhost:5175/
 
-清單在每天早上 6:00（America/Detroit）重建。這要等這個檔案在 `main` 上才會開始。
+清單在每天早上 6:17（America/Detroit）重建。若那一班沒有寫進今天的清單，同一天 8:17 會再補一次。這要等這個檔案在 `main` 上才會開始。
 EOF
 
 if ! git config user.name >/dev/null; then

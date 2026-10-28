@@ -3,12 +3,13 @@ name: Refresh internship dashboard
 on:
   workflow_dispatch:
   schedule:
-    # GitHub cron is UTC and does not follow daylight saving.
-    # 10:00 UTC is 6:00 AM EDT. 11:00 UTC is 6:00 AM EST.
-    # GitHub may start the cron hours late, so the gate uses the Detroit
-    # offset instead of requiring the clock to still say 6.
-    - cron: "0 10 * * *"
-    - cron: "0 11 * * *"
+    # GitHub drops scheduled jobs that start at minute 0. These use minute 17
+    # and America/Detroit, so daylight saving does not move the local time.
+    # 6:17 is the morning refresh. 8:17 runs only if that refresh never landed.
+    - cron: "17 6 * * *"
+      timezone: "America/Detroit"
+    - cron: "17 8 * * *"
+      timezone: "America/Detroit"
 
 permissions:
   contents: write
@@ -19,25 +20,35 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Keep the 6 AM Detroit run
+      - name: Rebuild unless this morning already succeeded
         id: gate
-        run: |
-          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          offset=$(TZ=America/Detroit date +%z)
-          echo "America/Detroit offset is ${offset}; schedule is ${SCHEDULE}"
-          if [ "$SCHEDULE" = "0 10 * * *" ] && [ "$offset" = "-0400" ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          elif [ "$SCHEDULE" = "0 11 * * *" ] && [ "$offset" = "-0500" ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "run=false" >> "$GITHUB_OUTPUT"
-          fi
         env:
           EVENT_NAME: ${{ github.event_name }}
           SCHEDULE: ${{ github.event.schedule }}
+          LIST_FILE: dashboard/public/internships.json
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            echo "manual run"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # 6:17 always rebuilds. An empty or unexpected schedule also rebuilds,
+          # so a delayed trigger is not skipped.
+          if [ "$SCHEDULE" != "17 8 * * *" ]; then
+            echo "schedule '${SCHEDULE}' rebuilds the list"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          generated=""
+          if [ -f "$LIST_FILE" ]; then
+            generated=$(sed -n 's/.*"generatedAt": "\([^"]*\)".*/\1/p' "$LIST_FILE" | head -n 1)
+          fi
+          today=$(TZ=America/Detroit date +%F)
+          echo "8:17 catch-up; generatedAt='${generated}'; Detroit today=${today}"
+          case "$generated" in
+            "$today"*) echo "run=false" >> "$GITHUB_OUTPUT" ;;
+            *) echo "run=true" >> "$GITHUB_OUTPUT" ;;
+          esac
       - name: Setup Python
         if: steps.gate.outputs.run == 'true'
         uses: actions/setup-python@v5
@@ -54,7 +65,11 @@ jobs:
           git add dashboard/public/internships.json
           if git diff --staged --quiet; then
             echo "No listing changes"
-          else
-            git commit -m "Refresh internship listings"
-            git push
+            exit 0
           fi
+          git commit -m "Refresh internship listings"
+          git push origin HEAD:main || {
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main
+          }
