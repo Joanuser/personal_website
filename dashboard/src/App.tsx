@@ -79,6 +79,27 @@ const OTHER_FIT =
 const OTHER_OUT =
   /engineer|security|cyber|devops|embedded|vlsi|firmware|robot|architect|developer|software|hardware|data engineer|quality assurance|\bqa\b|database|administrator|cloud intern|ui programming|research/i;
 
+function postingHref(role: Role): string {
+  const href = role.officialUrl || role.applyUrl || "";
+  try {
+    const host = new URL(href).hostname.replace(/^www\./, "").toLowerCase();
+    if (host === "jobright.ai" || host.endsWith(".jobright.ai")) return "";
+  } catch {
+    return "";
+  }
+  return href;
+}
+
+function roleTitle(value: string): string {
+  let title = value || "";
+  let previous = "";
+  while (previous !== title) {
+    previous = title;
+    title = title.replace(/\[((?:[^\[\]]|\[[^\]]*\])*)\]\([^)]*\)/g, "$1");
+  }
+  return title.replace(/\*\*/g, "").trim();
+}
+
 function canDo(role: Role): boolean {
   if (OUT_OF_REACH.has(role.category)) return false;
   if (FINANCE_TITLE.test(role.role)) return false;
@@ -453,12 +474,12 @@ export function App() {
             </thead>
             <tbody>
               {filtered.map((role) => {
-                const href = role.officialUrl || role.applyUrl;
+                const href = postingHref(role);
                 const status = badge(role) || copy.unknownVisa;
                 return (
                   <tr key={`${role.region ?? "us"}-${role.id}`}>
                     <td>{role.category}</td>
-                    <td className="role-cell">{role.role}</td>
+                    <td className="role-cell">{roleTitle(role.role)}</td>
                     <td>{role.company}</td>
                     <td>
                       <span className={`board-badge is-${role.acceptance}`}>{status}</span>

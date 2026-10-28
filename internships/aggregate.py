@@ -15,6 +15,7 @@ import re
 import sys
 import threading
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -289,7 +290,11 @@ def cell_text(value: str) -> str:
 
 
 def clean_label(value: str) -> str:
-    value = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", value)
+    value = value or ""
+    previous = None
+    while previous != value:
+        previous = value
+        value = re.sub(r"\[((?:[^\[\]]|\[[^\]]*\])*)\]\([^)]*\)", r"\1", value)
     value = value.replace("**", "")
     value = re.sub(r"[🛂🇺🇸🔒🔥🎓⏳]", "", value)
     value = re.sub(r"\s+", " ", value).strip(" |-")
@@ -376,6 +381,75 @@ def canonical_id(url: str) -> str:
 
 def is_shortener(url: str) -> bool:
     return any(token in host_of(url) for token in SHORTENERS)
+
+
+def fold_text(value: str) -> str:
+    value = unicodedata.normalize("NFKD", value or "")
+    return "".join(ch for ch in value if not unicodedata.combining(ch)).lower()
+
+
+def is_jobright(url: str) -> bool:
+    if not url:
+        return False
+    decoded = urllib.parse.unquote(url).lower()
+    return "jobright.ai" in host_of(url) or "jobright.ai" in decoded
+
+
+def jobright_id(url: str) -> str:
+    if not url:
+        return ""
+    match = re.search(r"/jobs/info/([0-9a-f]{24})", urllib.parse.unquote(url), re.I)
+    return match.group(1) if match else ""
+
+
+def company_tokens(company: str) -> list[str]:
+    stop = {
+        "inc",
+        "llc",
+        "ltd",
+        "corp",
+        "company",
+        "corporation",
+        "group",
+        "holdings",
+        "international",
+        "the",
+        "and",
+    }
+    tokens = re.findall(r"[a-z0-9]+", fold_text(company))
+    return [token for token in tokens if len(token) >= 3 and token not in stop]
+
+
+def choose_employer_link(links: list[str], company: str) -> str:
+    """Pick the employer's own posting out of search results."""
+    tokens = company_tokens(company)
+    preferred = []
+    fallback = []
+    for link in links:
+        host = host_of(link)
+        decoded = urllib.parse.unquote(link).lower()
+        if any(skip in host for skip in ("duckduckgo", "jobright.ai", "google.", "youtube.", "bing.com")):
+            continue
+        if any(skip in host for skip in ("linkedin.com", "indeed.com", "glassdoor.", "ziprecruiter.", "intern-list.com")):
+            continue
+        ats = any(
+            token in host
+            for token in ("greenhouse.io", "lever.co", "ashbyhq.com", "smartrecruiters.com", "myworkday", "oraclecloud.com")
+        )
+        jobish = any(token in decoded for token in ("/job", "career", "intern"))
+        if not ats and not jobish:
+            continue
+        if tokens and not any(token in decoded for token in tokens):
+            continue
+        if ats:
+            preferred.append(link)
+        else:
+            fallback.append(link)
+    return preferred[0] if preferred else (fallback[0] if fallback else "")
+
+
+def employer_posting(url: str) -> str:
+    return "" if is_jobright(url) else (url or "")
 
 
 def category_from_heading(heading: str) -> str | None:
@@ -917,8 +991,59 @@ def clip(text: str, limit: int = 500) -> str:
     return text[: limit - 1].rstrip() + "…"
 
 
+def jobright_text(job: dict) -> str:
+    chunks = [job.get("jobSummary") or "", job.get("jdResponsibilitySummary") or ""]
+    for item in job.get("coreResponsibilities") or []:
+        if isinstance(item, str):
+            chunks.append(item)
+    qualifications = job.get("qualifications") or {}
+    if isinstance(qualifications, dict):
+        for key in ("mustHave", "preferredHave"):
+            for item in qualifications.get(key) or []:
+                if isinstance(item, str):
+                    chunks.append(item)
+    for item in job.get("benefitsSummaries") or []:
+        if isinstance(item, str):
+            chunks.append(item)
+    return html_to_text("\n".join(chunks))
+
+
+def fetch_jobright(url: str) -> tuple[str, str, bool, bool]:
+    """Employer URL, description, whether it was read, and whether Jobright removed it.
+
+    The public job page does not include the employer application URL, and the
+    challenge redirect is not a posting. Apply links are filled in later.
+    """
+    job_id = jobright_id(url)
+    if not job_id:
+        return "", "", False, False
+    api = f"https://swan-api.jobright.ai/swan/share/job/{job_id}"
+    _, status, _, body = request(
+        api,
+        timeout=25,
+        headers={"Accept": "application/json", "Origin": "https://jobright.ai"},
+    )
+    if status != 200:
+        return "", "", False, False
+    try:
+        payload = json.loads(body.decode("utf-8", "replace"))
+    except json.JSONDecodeError:
+        return "", "", False, False
+    detail = ((payload.get("result") or {}).get("jobDetail") or {}) if payload.get("success") else {}
+    job = detail.get("jobResult") or {}
+    if not job:
+        return "", "", False, True
+    employer = employer_posting(job.get("applyLink") or job.get("originalUrl") or "")
+    text = jobright_text(job)
+    return employer, text, len(text) > 180, bool(job.get("isDeleted"))
+
+
 def fetch_text_uncached(url: str) -> tuple[str, str, bool]:
     """Return final_url, plain text, and whether a real description was read."""
+    if is_jobright(url):
+        employer, text, read, _deleted = fetch_jobright(url)
+        return employer, text, read
+
     gh = greenhouse_ids(url)
     if gh:
         board, job_id = gh
@@ -1140,6 +1265,15 @@ def prime_ats(urls: list[str], cache: Cache) -> None:
 
 
 def fetch_official(url: str, cache: Cache) -> tuple[str, str, bool]:
+    if is_jobright(url):
+        # Old page cache entries stored the Jobright challenge redirect.
+        key = "jr:" + (jobright_id(url) or url)
+        cached = cache.get(key)
+        if cached:
+            return cached.get("final") or "", cached.get("text") or "", bool(cached.get("read"))
+        final, text, read = fetch_text_uncached(url)
+        cache.set(key, {"final": final, "text": text[:60000], "read": read})
+        return final, text, read
     gh = greenhouse_ids(url)
     if gh:
         hit = cached_job(cache, "ghjob:" + gh[1], url)
@@ -1269,35 +1403,34 @@ def merge_roles(roles: list[dict]) -> list[dict]:
 
 def search_official(company: str, role: str, cache: Cache) -> str:
     query = f"{company} {role} internship"
-    key = "ddg:" + query.lower()
+    key = "employer:v3:" + query.lower()
     cached = cache.get(key)
     if cached:
         return cached.get("final") or ""
     url = "https://html.duckduckgo.com/html/?" + urllib.parse.urlencode({"q": query})
     _, status, _, body = request(url, timeout=20)
-    found = ""
-    if status == 200:
-        decoded = body.decode("utf-8", "replace")
-        links = [urllib.parse.unquote(item) for item in re.findall(r"uddg=([^&\"']+)", decoded)]
-        preferred = []
-        fallback = []
-        for link in links:
-            host = host_of(link)
-            if any(skip in host for skip in ("duckduckgo", "jobright.ai", "google.", "youtube.")):
-                continue
-            if any(token in host for token in ("greenhouse.io", "lever.co", "ashbyhq.com", "smartrecruiters.com", "myworkday", "oraclecloud.com")):
-                preferred.append(link)
-            elif any(skip in host for skip in ("linkedin.com", "indeed.com", "glassdoor.", "ziprecruiter.")):
-                continue
-            elif any(token in link.lower() for token in ("career", "/job", "intern")):
-                fallback.append(link)
-        found = preferred[0] if preferred else (fallback[0] if fallback else "")
-    cache.set(key, {"final": found, "text": "", "read": False})
+    if status != 200:
+        return ""
+    decoded = body.decode("utf-8", "replace")
+    links = [urllib.parse.unquote(item) for item in re.findall(r"uddg=([^&\"']+)", decoded)]
+    found = choose_employer_link(links, company)
+    # An empty page is often a rate limit. Keep only a real employer URL.
+    if found:
+        cache.set(key, {"final": found, "text": "", "read": False})
     return found
 
 
 def region_for(location: str) -> str:
     return "us" if is_us_location(location) else "other"
+
+
+def page_matches_role(text: str, role: str) -> bool:
+    stop = {"intern", "internship", "summer", "winter", "spring", "fall"}
+    tokens = [token for token in re.findall(r"[a-z0-9]+", role.lower()) if len(token) >= 5 and token not in stop]
+    if not tokens:
+        return True
+    lowered = text.lower()
+    return any(token in lowered for token in tokens[:4])
 
 
 def decide(role: dict, text: str, read: bool) -> dict:
@@ -1410,7 +1543,7 @@ def enrich(roles: list[dict], cache: Cache, limit: int | None = None) -> list[di
             except Exception as error:  # noqa: BLE001
                 log(f"read failed {error}")
                 final, text, read = role.get("applyUrl") or "", "", False
-            role["officialUrl"] = final or role.get("applyUrl")
+            role["officialUrl"] = employer_posting(final)
             role["decision"] = decide(role, text, read)
             role["_text_kind"] = role["decision"]["kind"]
             if done % 50 == 0:
@@ -1421,23 +1554,24 @@ def enrich(roles: list[dict], cache: Cache, limit: int | None = None) -> list[di
             role["officialUrl"] = role.get("applyUrl") or ""
             role["decision"] = decide(role, "", False)
 
-    # Lists that only link to Jobright still need the employer's own posting.
+    # Jobright links are not the employer's posting. Find that posting, and
+    # never leave the challenge page in its place.
     pending = [
         role
-        for role in unique
-        if role.get("decision", {}).get("acceptance") == "unread"
-        and "jobright.ai" in host_of(role.get("applyUrl") or "")
-    ][:80]
+        for role in unique + other
+        if is_jobright(role.get("applyUrl") or "") or is_jobright(role.get("officialUrl") or "")
+    ]
     log(f"look up {len(pending)} Jobright roles on the company site")
 
     def lookup(role: dict) -> tuple[dict, str, str, bool]:
         official = search_official(role["company"], role["role"], cache)
-        if not official:
+        if not official or is_jobright(official):
             return role, "", "", False
         final, text, read = fetch_official(official, cache)
-        return role, final or official, text, read
+        chosen = employer_posting(final) or official
+        return role, chosen, text, read
 
-    with ThreadPoolExecutor(max_workers=4) as pool:
+    with ThreadPoolExecutor(max_workers=3) as pool:
         futures = [pool.submit(lookup, role) for role in pending]
         finished = 0
         for future in as_completed(futures):
@@ -1447,10 +1581,13 @@ def enrich(roles: list[dict], cache: Cache, limit: int | None = None) -> list[di
             except Exception as error:  # noqa: BLE001
                 log(f"  company-site lookup failed {error}")
                 continue
-            if read and official:
+            if official and not is_jobright(official):
                 role["officialUrl"] = official
-                role["applyUrl"] = better_url(role.get("applyUrl") or "", official)
-                role["decision"] = decide(role, text, True)
+                role["applyUrl"] = official
+                if read and page_matches_role(text, role.get("role") or ""):
+                    role["decision"] = decide(role, text, True)
+            elif is_jobright(role.get("officialUrl") or ""):
+                role["officialUrl"] = ""
             if finished % 20 == 0:
                 log(f"  searched {finished}/{len(pending)}")
 
@@ -1468,8 +1605,8 @@ def public_role(role: dict) -> dict | None:
         "role": role["role"],
         "location": role.get("location") or "",
         "category": role.get("category") or "Other",
-        "applyUrl": role.get("officialUrl") or role.get("applyUrl") or "",
-        "officialUrl": role.get("officialUrl") or role.get("applyUrl") or "",
+        "applyUrl": employer_posting(role.get("officialUrl") or "") or employer_posting(role.get("applyUrl") or ""),
+        "officialUrl": employer_posting(role.get("officialUrl") or "") or employer_posting(role.get("applyUrl") or ""),
         "companyUrl": role.get("companyUrl") or "",
         "posted": role.get("posted"),
         "workModel": role.get("workModel"),

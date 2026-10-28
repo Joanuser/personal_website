@@ -345,5 +345,60 @@ class ParseTests(unittest.TestCase):
         )
 
 
+    def test_jobright_challenge_is_not_an_official_posting(self):
+        challenge = (
+            "https://jobright.ai/_jr/security/challenge?return="
+            "%2Fjobs%2Finfo%2F6aa9b824eff87f571fc9af10%3Futm_source%3Dgit"
+        )
+        self.assertTrue(aggregate.is_jobright(challenge))
+        self.assertEqual(aggregate.jobright_id(challenge), "6aa9b824eff87f571fc9af10")
+        self.assertEqual(aggregate.employer_posting(challenge), "")
+        role = aggregate.public_role(
+            {
+                "company": "Waymo",
+                "role": "2027 Summer Intern, MBA, Salesforce Product Owner",
+                "location": "Los Angeles, CA",
+                "category": "Product Management",
+                "applyUrl": challenge,
+                "officialUrl": challenge,
+                "companyUrl": "https://waymo.com",
+                "posted": "2026-10-26",
+                "sources": ["jobright-pm"],
+                "decision": {"acceptance": "silent", "evidence": "", "read": True},
+            }
+        )
+        self.assertEqual(role["officialUrl"], "")
+        self.assertEqual(role["applyUrl"], "")
+        self.assertEqual(role["companyUrl"], "https://waymo.com")
+
+    def test_nested_markdown_title_keeps_the_role_name(self):
+        raw = (
+            "[SAP iXp Intern - Product Management, Agile Delivery & PI Planning "
+            "[Newtown Square, PA]](https://jobright.ai/jobs/info/6abbeaf43217d1d13329bd2a)"
+        )
+        self.assertEqual(
+            aggregate.clean_label(raw),
+            "SAP iXp Intern - Product Management, Agile Delivery & PI Planning [Newtown Square, PA]",
+        )
+
+    def test_employer_search_skips_jobright_and_linkedin(self):
+        chosen = aggregate.choose_employer_link(
+            [
+                "https://www.linkedin.com/jobs/view/2027-summer-intern-at-waymo-1",
+                "https://jobright.ai/jobs/info/6aa9b824eff87f571fc9af10",
+                "https://careers.withwaymo.com/jobs/2027-summer-intern-mba-salesforce-product-owner-los-angeles-california-united-states",
+            ],
+            "Waymo",
+        )
+        self.assertIn("careers.withwaymo.com", chosen)
+
+    def test_employer_search_ignores_a_different_company(self):
+        chosen = aggregate.choose_employer_link(
+            ["https://jobs.example.com/job/business-analyst-intern"],
+            "Spectrum",
+        )
+        self.assertEqual(chosen, "")
+
+
 if __name__ == "__main__":
     unittest.main()
