@@ -297,6 +297,7 @@ def clean_label(value: str) -> str:
         value = re.sub(r"\[((?:[^\[\]]|\[[^\]]*\])*)\]\([^)]*\)", r"\1", value)
     value = value.replace("**", "")
     value = re.sub(r"[🛂🇺🇸🔒🔥🎓⏳]", "", value)
+    value = re.sub(r"\s*Job Details\s*/.*$", "", value, flags=re.I)
     value = re.sub(r"\s+", " ", value).strip(" |-")
     return value
 
@@ -450,6 +451,256 @@ def choose_employer_link(links: list[str], company: str) -> str:
 
 def employer_posting(url: str) -> str:
     return "" if is_jobright(url) else (url or "")
+
+
+def career_query(role: str) -> str:
+    text = clean_label(role or "")
+    text = re.sub(r"\s*job details\s*/.*$", "", text, flags=re.I)
+    text = re.sub(r"\[[^\]]*\]", " ", text)
+    text = re.sub(r"\([^)]*\)", " ", text)
+    text = re.sub(r"\b(summer|fall|winter|spring)\s+20\d{2}\b", " ", text, flags=re.I)
+    text = re.sub(r"\b20\d{2}\b", " ", text)
+    text = re.sub(r"\s+", " ", text).strip(" -–,:/")
+    if not re.search(r"intern", text, re.I):
+        text = f"{text} intern".strip()
+    return text
+
+
+def registrable_label(host: str) -> str:
+    host = (host or "").lower().removeprefix("www.")
+    parts = [part for part in host.split(".") if part]
+    if len(parts) >= 3 and parts[-2] in {"co", "com", "org", "net", "ac"} and len(parts[-1]) == 2:
+        return parts[-3]
+    if len(parts) >= 2:
+        return parts[-2]
+    return parts[0] if parts else ""
+
+
+def company_brand(company: str, company_url: str) -> str:
+    brand = registrable_label(host_of(company_url))
+    if brand and brand not in {"com", "co", "org", "net"}:
+        return brand
+    tokens = company_tokens(company)
+    return max(tokens, key=len) if tokens else ""
+
+
+def career_candidates(company: str, company_url: str) -> list[str]:
+    brand = company_brand(company, company_url)
+    host = host_of(company_url).removeprefix("www.")
+    known = {
+        "amazon": ["https://www.amazon.jobs/"],
+        "meta": ["https://www.metacareers.com/jobsearch"],
+        "tiktok": ["https://lifeattiktok.com/"],
+        "google": ["https://www.google.com/about/careers/applications/"],
+        "microsoft": ["https://jobs.careers.microsoft.com/global/en/search"],
+        "apple": ["https://jobs.apple.com/en-us/search"],
+        "nvidia": ["https://jobs.nvidia.com/careers"],
+        "netflix": ["https://jobs.netflix.com/search"],
+    }
+    urls = list(known.get(brand, []))
+    if brand:
+        urls.extend(
+            [
+                f"https://www.{brand}.jobs/",
+                f"https://jobs.{brand}.com/",
+                f"https://careers.{brand}.com/",
+            ]
+        )
+    if host:
+        urls.extend(
+            [
+                f"https://jobs.{host}/",
+                f"https://careers.{host}/",
+                f"https://www.{host}/careers",
+                f"https://www.{host}/jobs",
+            ]
+        )
+    seen = set()
+    ordered = []
+    for url in urls:
+        if url not in seen:
+            seen.add(url)
+            ordered.append(url)
+    return ordered
+
+
+def looks_like_career(url: str, company: str) -> bool:
+    host = host_of(url)
+    path = urllib.parse.urlparse(url).path.lower()
+    if path.startswith("/404") or path == "/404":
+        return False
+    if any(skip in host for skip in ("linkedin.", "indeed.", "glassdoor.", "ziprecruiter.", "jobright.ai", "duckduckgo.", "youtube.", "wikipedia.org", "google.")):
+        return False
+    if any(token in host for token in ("metacareers.com", "lifeattiktok.com", "careers.tiktok.com", "amazon.jobs")):
+        return True
+    blob = urllib.parse.unquote(url).lower()
+    if not any(token in blob for token in ("career", "/job", "jobs.", ".jobs")):
+        return False
+    if any(token in host for token in ("greenhouse.io", "lever.co", "ashbyhq.com", "myworkday", "oraclecloud.com", "icims.com", "smartrecruiters.com")):
+        return True
+    tokens = company_tokens(company)
+    brand = registrable_label(host)
+    if tokens and any(token in blob for token in tokens):
+        return True
+    return bool(brand and any(token.startswith(brand) or brand.startswith(token) for token in tokens))
+
+
+def blocked_page(text: str) -> bool:
+    lowered = (text or "").lower()
+    return any(token in lowered for token in ("just a moment", "security check", "domain for sale", "cdn-cgi/challenge"))
+
+
+def career_search_url(final_url: str, page: str, query: str) -> str:
+    """Turn a career site into a search for this role, like amazon.jobs."""
+    if not final_url or not query:
+        return ""
+    host = host_of(final_url)
+    parsed = urllib.parse.urlsplit(final_url)
+    origin = f"{parsed.scheme}://{parsed.netloc}"
+    quoted = urllib.parse.quote_plus(query)
+    path_quoted = urllib.parse.quote(query)
+    lowered = page or ""
+    lowered_cmp = lowered.lower()
+    if "amazon.jobs" in host:
+        return (
+            "https://www.amazon.jobs/en/search?base_query="
+            + quoted
+            + "&loc_query=&latitude=&longitude=&loc_group_id=&invalid_location=false&country=&city=&region=&county="
+        )
+    if "metacareers.com" in host:
+        return f"https://www.metacareers.com/jobsearch?q={quoted}"
+    if "lifeattiktok.com" in host or "careers.tiktok.com" in host:
+        return f"https://lifeattiktok.com/search?keyword={quoted}"
+    if "jobs.careers.microsoft.com" in host or host.endswith("careers.microsoft.com"):
+        return f"https://jobs.careers.microsoft.com/global/en/search?q={quoted}&l=en_us&pg=1&pgSz=20&o=Recent"
+    if "jobs.apple.com" in host:
+        return f"https://jobs.apple.com/en-us/search?search={quoted}"
+    if "google.com" in host and "/about/careers" in parsed.path:
+        return f"https://www.google.com/about/careers/applications/jobs/results?q={quoted}"
+    if "myworkdayjobs.com" in host or "myworkdaysite.com" in host:
+        path = parsed.path.split("?")[0].rstrip("/")
+        return f"{origin}{path}?q={quoted}"
+    site = re.search(r"(/sites/[^/]+)", parsed.path)
+    if site:
+        return f"{origin}{parsed.path[:site.start()]}{site.group(1)}/jobs?keyword={quoted}"
+    if "icims.com" in host:
+        return f"{origin}/jobs/search?ss=1&searchKeyword={quoted}"
+    if "greenhouse.io" in host:
+        board = [part for part in parsed.path.split("/") if part]
+        if board and board[0] not in {"embed", "jobs"}:
+            return f"https://job-boards.greenhouse.io/{board[0]}?keyword={quoted}"
+    if "ashbyhq.com" in host:
+        board = [part for part in parsed.path.split("/") if part]
+        if board:
+            return f"https://jobs.ashbyhq.com/{board[0]}?q={quoted}"
+    if "lever.co" in host:
+        board = [part for part in parsed.path.split("/") if part]
+        if board:
+            return f"https://jobs.lever.co/{board[0]}?search={quoted}"
+    if "smartrecruiters.com" in host:
+        board = [part for part in parsed.path.split("/") if part]
+        if board:
+            return f"https://jobs.smartrecruiters.com/{board[0]}?search={quoted}"
+    if 'action="/search-jobs"' in lowered_cmp or "action='/search-jobs'" in lowered_cmp:
+        return f"{origin}/search-jobs/{path_quoted}"
+    if "find-a-role" in lowered_cmp or "find-a-role" in parsed.path:
+        return f"{origin}/careers/find-a-role/?search={quoted}"
+    if host.startswith("jobs.") or host.endswith(".jobs"):
+        return f"{origin}/careers?query={quoted}"
+    if any(token in (host + parsed.path) for token in ("career", "/job", "jobs")):
+        path = parsed.path or "/"
+        if parsed.query:
+            return f"{origin}{path}?{parsed.query}&q={quoted}"
+        return f"{origin}{path}?q={quoted}"
+    return final_url
+
+
+def find_career_site(company: str, company_url: str, cache: Cache) -> tuple[str, str]:
+    key = "career-home:v2:" + fold_text(company)
+    cached = cache.get(key)
+    if cached:
+        return cached.get("final") or "", cached.get("text") or ""
+    for url in career_candidates(company, company_url):
+        final, status, _, body = request(url, timeout=8, max_bytes=80_000)
+        if status != 200:
+            continue
+        text = body.decode("utf-8", "replace")
+        landed = final or url
+        if blocked_page(text) or not looks_like_career(landed, company):
+            continue
+        snippet = text[:80000]
+        cache.set(key, {"final": landed, "text": snippet, "read": False})
+        return landed, snippet
+    for phrase in (f"{company} careers", f"{company} jobs"):
+        search = "https://html.duckduckgo.com/html/?" + urllib.parse.urlencode({"q": phrase})
+        _, status, _, body = request(search, timeout=15)
+        if status != 200:
+            continue
+        links = [urllib.parse.unquote(item) for item in re.findall(r"uddg=([^&\"']+)", body.decode("utf-8", "replace"))]
+        chosen = choose_employer_link(links, company)
+        if not chosen or not looks_like_career(chosen, company):
+            continue
+        final, status, _, page = request(chosen, timeout=12, max_bytes=80_000)
+        if status != 200:
+            continue
+        text = page.decode("utf-8", "replace")
+        landed = final or chosen
+        if blocked_page(text) or not looks_like_career(landed, company):
+            continue
+        snippet = text[:80000]
+        cache.set(key, {"final": landed, "text": snippet, "read": False})
+        return landed, snippet
+    brand = company_brand(company, company_url)
+    fallback = {
+        "meta": "https://www.metacareers.com/jobsearch",
+        "tiktok": "https://lifeattiktok.com/",
+        "amazon": "https://www.amazon.jobs/",
+        "capitalone": "https://www.capitalonecareers.com/",
+        "fedex": "https://careers.fedex.com/",
+    }.get(brand, "")
+    if fallback:
+        return fallback, ""
+    return "", ""
+
+
+def career_link_for_role(company: str, role: str, company_url: str, cache: Cache) -> str:
+    home, page = find_career_site(company, company_url, cache)
+    if not home:
+        return ""
+    return career_search_url(home, page, career_query(role))
+
+
+def attach_career_searches(roles: list[dict], cache: Cache) -> None:
+    pending = [
+        role
+        for role in roles
+        if not employer_posting(role.get("officialUrl") or "") and not employer_posting(role.get("applyUrl") or "")
+    ]
+    if not pending:
+        return
+    by_company: dict[str, dict] = {}
+    for role in pending:
+        by_company.setdefault((role.get("company") or "").strip().lower(), role)
+    log(f"career search for {len(by_company)} companies")
+    homes: dict[str, tuple[str, str]] = {}
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        futures = {
+            pool.submit(find_career_site, role.get("company") or "", role.get("companyUrl") or "", cache): key
+            for key, role in by_company.items()
+        }
+        for future in as_completed(futures):
+            key = futures[future]
+            try:
+                homes[key] = future.result()
+            except Exception as error:  # noqa: BLE001
+                log(f"  career search failed {error}")
+                homes[key] = ("", "")
+    for role in pending:
+        home, page = homes.get((role.get("company") or "").strip().lower(), ("", ""))
+        link = career_search_url(home, page, career_query(role.get("role") or ""))
+        if link and not is_jobright(link):
+            role["officialUrl"] = link
+            role["applyUrl"] = link
 
 
 def category_from_heading(heading: str) -> str | None:
@@ -1591,6 +1842,7 @@ def enrich(roles: list[dict], cache: Cache, limit: int | None = None) -> list[di
             if finished % 20 == 0:
                 log(f"  searched {finished}/{len(pending)}")
 
+    attach_career_searches(unique + other, cache)
     return closed + unique + other
 
 

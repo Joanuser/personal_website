@@ -392,6 +392,60 @@ class ParseTests(unittest.TestCase):
         )
         self.assertIn("careers.withwaymo.com", chosen)
 
+    def test_amazon_career_search_uses_the_jobs_site(self):
+        query = aggregate.career_query("Business Analyst Intern – Summer 2027")
+        self.assertEqual(query, "Business Analyst Intern")
+        link = aggregate.career_search_url("https://www.amazon.jobs/en/", "", query)
+        self.assertEqual(
+            link,
+            "https://www.amazon.jobs/en/search?base_query=Business+Analyst+Intern"
+            "&loc_query=&latitude=&longitude=&loc_group_id=&invalid_location=false"
+            "&country=&city=&region=&county=",
+        )
+        self.assertIn("https://www.amazon.jobs/", aggregate.career_candidates("Amazon", "https://amazon.com"))
+
+    def test_about_careers_on_the_company_site_stays_there(self):
+        link = aggregate.career_search_url(
+            "https://www.micron.com/about/careers",
+            "",
+            "Business Analyst Intern",
+        )
+        self.assertEqual(link, "https://www.micron.com/about/careers?q=Business+Analyst+Intern")
+
+    def test_oracle_site_keeps_the_language_prefix(self):
+        link = aggregate.career_search_url(
+            "https://careers.americanexpress.com/en/sites/CX_1",
+            "",
+            "Product Intern",
+        )
+        self.assertEqual(
+            link,
+            "https://careers.americanexpress.com/en/sites/CX_1/jobs?keyword=Product+Intern",
+        )
+
+    def test_tiktok_404_is_not_a_career_site(self):
+        self.assertFalse(aggregate.looks_like_career("https://www.tiktok.com/404?fromUrl=/careers", "TikTok"))
+        self.assertTrue(aggregate.looks_like_career("https://lifeattiktok.com/", "TikTok"))
+
+    def test_jobs_host_search_keeps_the_role(self):
+        link = aggregate.career_search_url(
+            "https://jobs.nvidia.com/careers",
+            "",
+            "Product Management Intern",
+        )
+        self.assertEqual(link, "https://jobs.nvidia.com/careers?query=Product+Management+Intern")
+
+    def test_search_jobs_form_uses_the_role_in_the_path(self):
+        link = aggregate.career_search_url(
+            "https://jobs.spectrum.com/",
+            '<form action="/search-jobs"></form>',
+            "Business Systems Analyst Intern",
+        )
+        self.assertEqual(
+            link,
+            "https://jobs.spectrum.com/search-jobs/Business%20Systems%20Analyst%20Intern",
+        )
+
     def test_employer_search_ignores_a_different_company(self):
         chosen = aggregate.choose_employer_link(
             ["https://jobs.example.com/job/business-analyst-intern"],
