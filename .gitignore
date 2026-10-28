@@ -1,5 +1,9 @@
 node_modules
 dist
+dist-dashboard
 .DS_Store
 *.local
 .vite
+internships/.cache/
+__pycache__/
+*.pyc

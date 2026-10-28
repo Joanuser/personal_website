@@ -1,0 +1,75 @@
+name: Refresh internship dashboard
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub drops scheduled jobs that start at minute 0. These use minute 17
+    # and America/Detroit, so daylight saving does not move the local time.
+    # 6:17 is the morning refresh. 8:17 runs only if that refresh never landed.
+    - cron: "17 6 * * *"
+      timezone: "America/Detroit"
+    - cron: "17 8 * * *"
+      timezone: "America/Detroit"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Rebuild unless this morning already succeeded
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
+          LIST_FILE: dashboard/public/internships.json
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            echo "manual run"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # 6:17 always rebuilds. An empty or unexpected schedule also rebuilds,
+          # so a delayed trigger is not skipped.
+          if [ "$SCHEDULE" != "17 8 * * *" ]; then
+            echo "schedule '${SCHEDULE}' rebuilds the list"
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          generated=""
+          if [ -f "$LIST_FILE" ]; then
+            generated=$(sed -n 's/.*"generatedAt": "\([^"]*\)".*/\1/p' "$LIST_FILE" | head -n 1)
+          fi
+          today=$(TZ=America/Detroit date +%F)
+          echo "8:17 catch-up; generatedAt='${generated}'; Detroit today=${today}"
+          case "$generated" in
+            "$today"*) echo "run=false" >> "$GITHUB_OUTPUT" ;;
+            *) echo "run=true" >> "$GITHUB_OUTPUT" ;;
+          esac
+      - name: Setup Python
+        if: steps.gate.outputs.run == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Rebuild the list from official postings
+        if: steps.gate.outputs.run == 'true'
+        run: python3 internships/aggregate.py
+      - name: Commit the list
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dashboard/public/internships.json
+          if git diff --staged --quiet; then
+            echo "No listing changes"
+            exit 0
+          fi
+          git commit -m "Refresh internship listings"
+          git push origin HEAD:main || {
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main
+          }
