@@ -24,6 +24,8 @@
     <title>Chih-Chi Huang — Technical Product Management</title>
     <script>
       (function (l) {
+        // Restore SPA deep links after public/404.html redirects to /?/<path>.
+        // Strip only a trailing slash so /personal_website (no slash) is not corrupted.
         if (l.search[1] === "/") {
           var decoded = l.search
             .slice(1)
@@ -32,7 +34,8 @@
               return s.replace(/~and~/g, "&");
             })
             .join("?");
-          window.history.replaceState(null, "", l.pathname.slice(0, -1) + decoded + l.hash);
+          var base = l.pathname.replace(/\/$/, "");
+          window.history.replaceState(null, "", base + decoded + l.hash);
         }
       })(window.location);
     </script>

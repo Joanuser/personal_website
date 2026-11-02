@@ -1,10 +1,12 @@
 import { useEffect } from "react";
-import { BrowserRouter, Link, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { SiteFooter, SiteHeader } from "./components/Chrome";
 import { LanguageProvider, useI18n } from "./i18n";
 import { CaseStudy } from "./pages/CaseStudy";
 import { Chapter } from "./pages/Chapter";
 import { Home } from "./pages/Home";
+
+const chapterAliases = ["intro", "experience", "skills", "projects", "education"] as const;
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
@@ -46,6 +48,9 @@ function Shell() {
         <Route path="/" element={<Home />} />
         <Route path="/chapter/:id" element={<Chapter />} />
         <Route path="/work/:slug" element={<CaseStudy />} />
+        {chapterAliases.map((id) => (
+          <Route key={id} path={`/${id}`} element={<Navigate to={`/chapter/${id}`} replace />} />
+        ))}
         <Route path="*" element={<NotFound />} />
       </Routes>
       <SiteFooter />
