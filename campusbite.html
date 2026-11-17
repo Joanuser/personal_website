@@ -87,6 +87,12 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 @keyframes hl2{0%{stroke-dashoffset:60}40%,90%{stroke-dashoffset:0}100%{stroke-dashoffset:60}}
 .card:hover .hov,.card:hover .pin,.card:hover .mag,.card:hover .p1,.card:hover .p2,.card:hover .p3{animation-duration:1s}
 @media (prefers-reduced-motion: reduce){.drift-a,.drift-b,.drift-c,.float,.breathe,.mag,.hl,.pin,.wob,.hov,.rotor,.p1,.p2,.p3,.check{animation:none !important}}
+.chap-open{position:sticky !important;top:58px;z-index:4;padding:18px 20px !important}
+.chap-open h2{font-size:30px !important}
+.chap-num{font-size:110px !important}
+@media (max-width: 640px){.chap-open{position:relative !important;top:auto}}
+.clue{transition:transform .2s ease, box-shadow .2s ease}
+.clue:hover{transform:rotate(0deg) translateY(-6px) scale(1.04) !important;box-shadow:0 18px 30px rgba(46,42,59,0.25) !important}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -130,10 +136,10 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 
 <nav aria-label="On this page" style="position: sticky; top: 0; z-index: 5; background: rgba(251,247,239,0.92); backdrop-filter: blur(6px); border-bottom: 1.5px solid #E6DCCB">
 <div class="toc" style="max-width: 1040px; margin: 0 auto; padding: 8px 32px; display: flex; flex-wrap: wrap; gap: 6px 10px; font-weight: 700; font-size: 15px">
-<a href="#basics" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">1 · The project</a>
-<a href="#research" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">2 · Problem &amp; research</a>
-<a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · Decisions &amp; pivot</a>
-<a href="#results" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">4 · Solution &amp; results</a>
+<a href="#basics" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">1 · The hunter</a>
+<a href="#research" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">2 · The clues</a>
+<a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · The strategy</a>
+<a href="#results" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">4 · The loot</a>
 </div>
 </nav>
 
@@ -166,13 +172,13 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px 8px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center">
-<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg></div>
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg></div>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 36px">Let's break my process down:</h2>
 <div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px">
-<a href="#basics" class="tile"><span class="tile-num" style="color: #2F6B45" aria-hidden="true">01</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the project:</span><span style="position: relative; color: #4A4458">role, team, timeline, tools</span></a>
-<a href="#research" class="tile"><span class="tile-num" style="color: #2F6B45" aria-hidden="true">02</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">problem &amp; research:</span><span style="position: relative; color: #4A4458">users, problem, methods, insights</span></a>
-<a href="#decisions" class="tile"><span class="tile-num" style="color: #2F6B45" aria-hidden="true">03</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">decisions &amp; pivot:</span><span style="position: relative; color: #4A4458">what changed, and why</span></a>
-<a href="#results" class="tile"><span class="tile-num" style="color: #2F6B45" aria-hidden="true">04</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">solution &amp; results:</span><span style="position: relative; color: #4A4458">what we built, what happened</span></a>
+<a href="#basics" class="tile"><span class="tile-num" style="color: #2F6B45" aria-hidden="true">01</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the hunter:</span><span style="position: relative; color: #4A4458">the project · role, team, timeline, tools</span></a>
+<a href="#research" class="tile"><span class="tile-num" style="color: #2F6B45" aria-hidden="true">02</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the clues:</span><span style="position: relative; color: #4A4458">problem &amp; research · users, problem, methods, insights</span></a>
+<a href="#decisions" class="tile"><span class="tile-num" style="color: #2F6B45" aria-hidden="true">03</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the strategy:</span><span style="position: relative; color: #4A4458">decisions &amp; pivot · what changed, and why</span></a>
+<a href="#results" class="tile"><span class="tile-num" style="color: #2F6B45" aria-hidden="true">04</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the loot:</span><span style="position: relative; color: #4A4458">solution &amp; results · what we built, what happened</span></a>
 </div>
 </section>
 
@@ -181,8 +187,8 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
 <span class="chap-num" style="color: #A04A2E">01</span>
 <div style="position: relative; display: flex; flex-direction: column; gap: 6px">
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A04A2E">Part 1 of 4</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The project</h2>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A04A2E">Part 1 of 4 · The project</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The hunter</h2>
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Who, when, and what I owned</p>
 </div>
 </div>
@@ -205,14 +211,14 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </section>
 
-<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg></div>
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg></div>
 <section class="chapter" style="--tint: #F1ECF8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="research" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
 <span class="chap-num" style="color: #5A4790">02</span>
 <div style="position: relative; display: flex; flex-direction: column; gap: 6px">
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5A4790">Part 2 of 4</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Problem &amp; research</h2>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5A4790">Part 2 of 4 · Problem &amp; research</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The clues</h2>
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What was really broken?</p>
 </div>
 </div>
@@ -257,22 +263,49 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </div>
 <p style="margin: 0; font-size: 14px; color: #5A5468">Pins are placed for illustration; counts are from our audit of the U-M events calendar.</p>
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Insight 2 · Students find food by accident</p>
-<div style="position: relative; padding: 30px 34px; transform: rotate(-0.5deg)">
-<svg viewBox="0 0 800 160" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M8 12 C 260 4, 540 8, 792 6 C 798 60, 796 110, 790 154 C 540 158, 260 156, 12 154 C 4 110, 4 60, 8 12 Z" fill="#F7E3A8" filter="url(#wc)"></path></svg>
-<p style="position: relative; margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; line-height: 1.25">Most students only find free food by walking past it. If they knew about it, and it wasn't far, they'd usually go.</p>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The clue board · what we found</p>
+<div style="position: relative; padding: 40px 28px 34px; border-radius: 22px 18px 26px 20px; overflow: hidden">
+<svg viewBox="0 0 1000 420" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<rect width="1000" height="420" fill="#D8B98C"></rect>
+<rect width="1000" height="420" fill="#C9A473" filter="url(#wc)" style="opacity: 0.6"></rect>
+<path class="drift-a" d="M120 90 C 300 160, 420 60, 520 130 S 760 70, 880 120 M200 110 C 260 260, 420 300, 500 330 M820 130 C 760 260, 620 300, 520 330" fill="none" stroke="#B0302A" filter="url(#pc)" style="stroke-width: 2.5; stroke-dasharray: 6 5"></path>
+</svg>
+<div style="position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 30px">
+<div class="clue" style="position: relative; flex: 1 1 200px; max-width: 240px; background: #FFF6C8; padding: 26px 18px 18px; transform: rotate(-3deg); box-shadow: 0 10px 18px rgba(46,42,59,0.18)">
+<span aria-hidden="true" style="position: absolute; left: 50%; top: -9px; translate: -50% 0; width: 18px; height: 18px; border-radius: 50%; background: #D9705E; border: 2px solid #2E2A3B"></span>
+<p style="margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Clue #1 · calendar audit</p>
+<p style="margin: 6px 0 0; font-family: 'Caveat', cursive; font-size: 25px; font-weight: 700; line-height: 1.2">Hosts write "lunch provided," not "free food."</p>
 </div>
-<p style="margin: 0; color: #4A4458">So the product had to solve two things: <strong>knowing</strong> (a live map) and <strong>getting there in time</strong> (distance and countdowns).</p>
+<div class="clue" style="position: relative; flex: 1 1 200px; max-width: 240px; background: #FDE2DA; padding: 26px 18px 18px; transform: rotate(2deg); box-shadow: 0 10px 18px rgba(46,42,59,0.18)">
+<span aria-hidden="true" style="position: absolute; left: 50%; top: -9px; translate: -50% 0; width: 18px; height: 18px; border-radius: 50%; background: #D9705E; border: 2px solid #2E2A3B"></span>
+<p style="margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Clue #2 · student chats</p>
+<p style="margin: 6px 0 0; font-family: 'Caveat', cursive; font-size: 25px; font-weight: 700; line-height: 1.2">Students find food by walking past it.</p>
+</div>
+<div class="clue" style="position: relative; flex: 1 1 200px; max-width: 240px; background: #E2F0E4; padding: 26px 18px 18px; transform: rotate(-1.5deg); box-shadow: 0 10px 18px rgba(46,42,59,0.18)">
+<span aria-hidden="true" style="position: absolute; left: 50%; top: -9px; translate: -50% 0; width: 18px; height: 18px; border-radius: 50%; background: #D9705E; border: 2px solid #2E2A3B"></span>
+<p style="margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Clue #3 · student chats</p>
+<p style="margin: 6px 0 0; font-family: 'Caveat', cursive; font-size: 25px; font-weight: 700; line-height: 1.2">If it's close, they'll go.</p>
+</div>
+<div class="clue" style="position: relative; flex: 1 1 200px; max-width: 240px; background: #E4ECF8; padding: 26px 18px 18px; transform: rotate(2.5deg); box-shadow: 0 10px 18px rgba(46,42,59,0.18)">
+<span aria-hidden="true" style="position: absolute; left: 50%; top: -9px; translate: -50% 0; width: 18px; height: 18px; border-radius: 50%; background: #D9705E; border: 2px solid #2E2A3B"></span>
+<p style="margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Clue #4 · while building</p>
+<p style="margin: 6px 0 0; font-family: 'Caveat', cursive; font-size: 25px; font-weight: 700; line-height: 1.2">Leftovers vanish fast. A stale pin wastes a trip.</p>
+</div>
+</div>
+<div style="position: relative; max-width: 560px; margin: 30px auto 0; background: #FFFDF8; border: 2px solid #2E2A3B; border-radius: 18px 14px 20px 12px; padding: 16px 20px; text-align: center">
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 20px; line-height: 1.4"><strong>Case cracked:</strong> students need to <strong>know</strong> where food is (a live map) and <strong>get there in time</strong> (distance and countdowns).</p>
+</div>
+</div>
 </section>
 
-<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg></div>
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg></div>
 <section class="chapter" style="--tint: #EAF1F8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="decisions" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
 <span class="chap-num" style="color: #2A5F8F">03</span>
 <div style="position: relative; display: flex; flex-direction: column; gap: 6px">
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2A5F8F">Part 3 of 4</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Decisions &amp; pivot</h2>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2A5F8F">Part 3 of 4 · Decisions &amp; pivot</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The strategy</h2>
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What changed our plan?</p>
 </div>
 </div>
@@ -332,14 +365,14 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </section>
 
-<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#9CC3A5" filter="url(#pc)"></path></svg></div>
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg></div>
 <section class="chapter" style="--tint: #EAF4EC; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="results" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
 <span class="chap-num" style="color: #2F6B45">04</span>
 <div style="position: relative; display: flex; flex-direction: column; gap: 6px">
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2F6B45">Part 4 of 4</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Solution &amp; results</h2>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2F6B45">Part 4 of 4 · Solution &amp; results</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The loot</h2>
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Did it work?</p>
 </div>
 </div>
@@ -368,7 +401,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">my reflection</p>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">after the feast · my reflection</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px">
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.5deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what went well</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Defining the problem with data first. "80 vs 3" got the whole team aligned in a two-day sprint.</li><li>Making impact visible with the tree, not just charts.</li><li>Balancing easy posting (no login) with trust (a required photo).</li></ul></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(0.4deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">what didn't</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>We only talked to one side. CampusBite is two-sided, and whether hosts will post is what makes or breaks it.</li><li>We asked for opinions, not behavior. "This would be useful" is easy to say.</li><li>Our impact numbers are estimates, and the tree is untested.</li></ul></div>

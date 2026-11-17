@@ -85,6 +85,10 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 @keyframes hl2{0%{stroke-dashoffset:60}40%,90%{stroke-dashoffset:0}100%{stroke-dashoffset:60}}
 .card:hover .hov,.card:hover .pin,.card:hover .mag,.card:hover .p1,.card:hover .p2,.card:hover .p3{animation-duration:1s}
 @media (prefers-reduced-motion: reduce){.drift-a,.drift-b,.drift-c,.float,.breathe,.mag,.hl,.pin,.wob,.hov,.rotor,.p1,.p2,.p3,.check{animation:none !important}}
+.chap-open{position:sticky !important;top:58px;z-index:4;padding:18px 20px !important}
+.chap-open h2{font-size:30px !important}
+.chap-num{font-size:110px !important}
+@media (max-width: 640px){.chap-open{position:relative !important;top:auto}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -128,10 +132,10 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 
 <nav aria-label="On this page" style="position: sticky; top: 0; z-index: 5; background: rgba(251,247,239,0.92); backdrop-filter: blur(6px); border-bottom: 1.5px solid #E6DCCB">
 <div class="toc" style="max-width: 1040px; margin: 0 auto; padding: 8px 32px; display: flex; flex-wrap: wrap; gap: 6px 10px; font-weight: 700; font-size: 15px">
-<a href="#basics" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">1 · The project</a>
-<a href="#research" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">2 · Problem &amp; research</a>
-<a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · Decisions &amp; pivot</a>
-<a href="#results" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">4 · Solution &amp; results</a>
+<a href="#basics" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">1 · The team</a>
+<a href="#research" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">2 · The puzzle</a>
+<a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · Cracking it</a>
+<a href="#results" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">4 · Decoded</a>
 </div>
 </nav>
 
@@ -162,13 +166,13 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px 8px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center">
-<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg></div>
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg></div>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 36px">Let's break my process down:</h2>
 <div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px">
-<a href="#basics" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">01</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the project:</span><span style="position: relative; color: #4A4458">role, team, timeline, tools</span></a>
-<a href="#research" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">02</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">problem &amp; research:</span><span style="position: relative; color: #4A4458">users, problem, methods, insights</span></a>
-<a href="#decisions" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">03</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">decisions &amp; pivot:</span><span style="position: relative; color: #4A4458">what changed, and why</span></a>
-<a href="#results" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">04</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">solution &amp; results:</span><span style="position: relative; color: #4A4458">what we built, what happened</span></a>
+<a href="#basics" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">01</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the team:</span><span style="position: relative; color: #4A4458">the project · role, team, timeline, tools</span></a>
+<a href="#research" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">02</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the puzzle:</span><span style="position: relative; color: #4A4458">problem &amp; research · users, problem, methods, insights</span></a>
+<a href="#decisions" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">03</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">cracking it:</span><span style="position: relative; color: #4A4458">decisions &amp; pivot · what changed, and why</span></a>
+<a href="#results" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">04</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">decoded:</span><span style="position: relative; color: #4A4458">solution &amp; results · what we built, what happened</span></a>
 </div>
 </section>
 
@@ -177,8 +181,8 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
 <span class="chap-num" style="color: #A04A2E">01</span>
 <div style="position: relative; display: flex; flex-direction: column; gap: 6px">
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A04A2E">Part 1 of 4</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The project</h2>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A04A2E">Part 1 of 4 · The project</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The team</h2>
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Who, when, and what I owned</p>
 </div>
 </div>
@@ -201,14 +205,14 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </section>
 
-<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg></div>
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg></div>
 <section class="chapter" style="--tint: #F1ECF8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="research" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
 <span class="chap-num" style="color: #5A4790">02</span>
 <div style="position: relative; display: flex; flex-direction: column; gap: 6px">
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5A4790">Part 2 of 4</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Problem &amp; research</h2>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5A4790">Part 2 of 4 · Problem &amp; research</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The puzzle</h2>
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What was really broken?</p>
 </div>
 </div>
@@ -254,14 +258,14 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="margin: 0; font-size: 15px; color: #5A5468">Our interview notes, flowcharts and wireframes are covered by an NDA, so they are not shown here.</p>
 </section>
 
-<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg></div>
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg></div>
 <section class="chapter" style="--tint: #EAF1F8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="decisions" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
 <span class="chap-num" style="color: #2A5F8F">03</span>
 <div style="position: relative; display: flex; flex-direction: column; gap: 6px">
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2A5F8F">Part 3 of 4</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Decisions &amp; pivot</h2>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2A5F8F">Part 3 of 4 · Decisions &amp; pivot</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Cracking it</h2>
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What changed our plan?</p>
 </div>
 </div>
@@ -302,14 +306,14 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </section>
 
-<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#B7A6DB" filter="url(#pc)"></path></svg></div>
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg></div>
 <section class="chapter" style="--tint: #EAF4EC; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="results" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
 <span class="chap-num" style="color: #2F6B45">04</span>
 <div style="position: relative; display: flex; flex-direction: column; gap: 6px">
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2F6B45">Part 4 of 4</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Solution &amp; results</h2>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2F6B45">Part 4 of 4 · Solution &amp; results</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Decoded</h2>
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Did it work?</p>
 </div>
 </div>
@@ -362,7 +366,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">my reflection</p>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">notes in the margin · my reflection</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px">
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.5deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what went well</p><p style="margin: 6px 0 0">Asking for system access instead of guessing. It let the AI fill in answers that actually fit each field.</p></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(0.4deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">what didn't</p><p style="margin: 6px 0 0">A standalone tool is a workaround. Without building into the real system, there may be problems we haven't seen yet, and daily users haven't tried it.</p></div>
