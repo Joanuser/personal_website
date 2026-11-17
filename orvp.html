@@ -107,6 +107,18 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 .opara.nope{animation:onope .35s}@keyframes onope{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .otag{flex:0 0 auto;margin-left:50px;font-family:'DM Sans',system-ui,sans-serif;font-size:12px;font-weight:700;color:#2E2A3B;border-radius:10px;padding:2px 10px}
 @media (prefers-reduced-motion: reduce){.otext{animation:none !important}.odoc{scroll-behavior:auto}.opara.nope{animation:none}}
+
+.cstrip{position:relative;max-width:1040px;margin:0 auto;padding:30px 32px 26px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.cstrip .tease{margin:0;max-width:640px;font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1.3;color:#2E2A3B}
+.cstrip .tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.cstrip .st{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border-radius:14px 18px 12px 16px;font-weight:700;font-size:14px;text-decoration:none;color:#5A5468;background:#FFFDF8;border:1.5px dashed rgba(46,42,59,.22)}
+.cstrip .st.done{color:#2F6B45;border-style:solid;border-color:#B9D6C1;background:#F1F7F2}
+.cstrip .st.next{color:#FBF7EF;background:#2E2A3B;border:1.5px solid #2E2A3B;font-size:16px;padding:10px 18px;box-shadow:0 6px 0 rgba(46,42,59,.18);transform:translateY(-4px) rotate(-1deg)}
+.cstrip .st.next .arr{display:inline-block;animation:cdown 1.4s ease-in-out infinite}
+@keyframes cdown{0%,100%{transform:none}50%{transform:translateY(4px)}}
+@supports (animation-timeline: view()){.cstrip .st.next{animation:clift linear both;animation-timeline:view();animation-range:entry 10% cover 45%}}
+@keyframes clift{from{transform:translateY(10px) rotate(0);box-shadow:none}to{transform:translateY(-4px) rotate(-1deg);box-shadow:0 6px 0 rgba(46,42,59,.18)}}
+@media (prefers-reduced-motion: reduce){.cstrip .st.next,.cstrip .st.next .arr{animation:none}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -222,7 +234,10 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </section>
 
-<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg></div>
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">Four of us, and a research office buried in long funding calls. What exactly was slowing them down?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The team</a><a href="#research" class="st next">Next: 2 · The puzzle <span class="arr" aria-hidden="true">&#x2193;</span></a><span class="st">3 · Cracking it</span><span class="st">4 · Decoded</span></div>
+</nav>
 <section class="chapter" style="--tint: #F1ECF8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="research" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
@@ -275,7 +290,10 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="margin: 0; font-size: 15px; color: #5A5468">Our interview notes, flowcharts and wireframes are covered by an NDA, so they are not shown here.</p>
 </section>
 
-<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg></div>
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">We knew the pain. But no API, no internal data, no view of their system. How do you build for that?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The team</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · The puzzle</a><a href="#decisions" class="st next">Next: 3 · Cracking it <span class="arr" aria-hidden="true">&#x2193;</span></a><span class="st">4 · Decoded</span></div>
+</nav>
 <section class="chapter" style="--tint: #EAF1F8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="decisions" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
@@ -323,7 +341,10 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </section>
 
-<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg></div>
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">A tool staff could trust, on paper. Would it hold up on real funding calls?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The team</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · The puzzle</a><a href="#decisions" class="st done"><span aria-hidden="true">&#x2713;</span> 3 · Cracking it</a><a href="#results" class="st next">Next: 4 · Decoded <span class="arr" aria-hidden="true">&#x2193;</span></a></div>
+</nav>
 <section class="chapter" style="--tint: #EAF4EC; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="results" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
