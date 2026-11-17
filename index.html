@@ -65,7 +65,7 @@ html{scroll-padding-top:70px}
 .lane{position:fixed;left:12px;right:12px;top:12px;height:50px;z-index:39;background:rgba(251,247,239,0.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1.5px dashed rgba(46,42,59,0.15);opacity:0;transform:translateY(-8px);transition:opacity .3s,transform .3s;pointer-events:none}html.lane-on .lane{opacity:1;transform:none}.progress{position:absolute;left:0;bottom:7px;height:2.34px;width:calc(var(--p,0) * (100% - 94.8px));background:#E42E2D;border-radius:2px 0 0 2px;box-shadow:0 .4px 0 rgba(74,13,16,.6),0 -.4px 0 rgba(74,13,16,.4);pointer-events:none}.progress::after{content:'';position:absolute;left:calc(100% - 1px);bottom:-4.92px;width:94.8px;height:44px;background:url(assets/dog-walk-thick.png) left bottom/contain no-repeat}@media (max-width: 640px){.progress{height:1.91px;width:calc(var(--p,0) * (100% - 77.5px))}.progress::after{width:77.5px;height:36px;bottom:-4.03px}}
 .pup{display:block;width:86px;height:auto;animation:pup 3.2s ease-in-out infinite;transform-origin:50% 90%}
 @keyframes pup{0%,100%{rotate:-4deg}50%{rotate:4deg}}
-.leash{transition:d .9s cubic-bezier(.5,0,.2,1)}
+.leash{transition:d .9s cubic-bezier(.5,0,.2,1),stroke-width .9s}
 .stage-dog{transition:opacity .35s ease}
 @media (prefers-reduced-motion: reduce){.pup{animation:none}.leash{transition:none}}
 </style>
@@ -284,10 +284,13 @@ html{scroll-padding-top:70px}
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; color: #5A5468">tap a step to see it in action</p>
 </div>
 <div style="display: flex; align-items: flex-end; gap: 0; padding-bottom: 30px">
-<svg viewBox="0 0 1100 90" style="flex: 1 1 auto; min-width: 0; width: 100%; height: auto; margin-bottom: 9px" aria-hidden="true">
-<path class="leash" d="{{leashD}}" pathLength="1" fill="none" stroke="#D5473F" filter="url(#pc)" style="stroke-width: 5; stroke-linecap: round"></path>
+<svg viewBox="0 0 1100 120" preserveAspectRatio="none" style="flex: 1 1 auto; min-width: 0; width: 100%; height: 120px; overflow: visible" aria-hidden="true">
+<path class="leash" d="{{handleD}}" fill="none" stroke="#5A1E1E" stroke-width="{{leashOut}}" vector-effect="non-scaling-stroke" style="stroke-linecap: round; stroke-linejoin: round"></path>
+<path class="leash" d="{{leashD}}" fill="none" stroke="#5A1E1E" stroke-width="{{leashOut}}" vector-effect="non-scaling-stroke" style="stroke-linecap: butt; stroke-linejoin: round"></path>
+<path class="leash" d="{{handleD}}" fill="none" stroke="#E25A54" stroke-width="{{leashIn}}" vector-effect="non-scaling-stroke" style="stroke-linecap: round; stroke-linejoin: round"></path>
+<path class="leash" d="{{leashD}}" fill="none" stroke="#E25A54" stroke-width="{{leashIn}}" vector-effect="non-scaling-stroke" style="stroke-linecap: butt; stroke-linejoin: round"></path>
 </svg>
-<div style="position: relative; flex: 0 0 auto; margin-left: -10px">
+<div style="position: relative; flex: 0 0 auto; margin-left: 0">
 <img class="stage-dog" src="{{dogImg}}" alt="{{dogAlt}}" style="display: block; height: 175px; width: auto; max-width: 360px">
 <p style="position: absolute; left: 0; right: 0; top: 100%; margin: 2px 0 0; text-align: center; white-space: nowrap; font-family: 'Caveat', cursive; font-size: 22px; font-weight: 700; color: #B0573F">{{dogNote}}</p>
 </div>
@@ -403,8 +406,8 @@ html{scroll-padding-top:70px}
 <section id="contact" style="position: relative; max-width: 1160px; margin: 0 auto; padding: 0 32px 88px">
 <div style="position: relative; padding: 72px 56px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px">
 <svg viewBox="0 0 1100 340" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
-<path d="M30 60 C 250 10, 700 40, 1060 30 C 1090 140, 1080 250, 1050 310 C 700 330, 300 320, 50 300 C 20 200, 20 120, 30 60 Z" fill="#E9B949" filter="url(#wc)" style="opacity: 0.75"></path>
-<ellipse cx="900" cy="250" rx="160" ry="70" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.45; mix-blend-mode: multiply"></ellipse>
+<path d="M30 60 C 250 10, 700 40, 1060 30 C 1090 140, 1080 250, 1050 310 C 700 330, 300 320, 50 300 C 20 200, 20 120, 30 60 Z" fill="#A9C3E0" filter="url(#wc)" style="opacity: 0.6"></path>
+<ellipse cx="900" cy="250" rx="160" ry="70" fill="#9DBF9E" filter="url(#wc)" style="opacity: 0.4; mix-blend-mode: multiply"></ellipse>
 </svg>
 <div style="position: relative; flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 44px; line-height: 1.1">Got a messy process? Let's untangle it.</h2>
@@ -468,8 +471,10 @@ pick: () => this.setState({ step: i })
 const stages = [
 { img: 'assets/dog-leash.png', alt: 'The puppy sitting, wrapped up in its tangled red leash', note: 'all tangled up' },
 { img: 'assets/dog-untangle.png', alt: 'The puppy lying down, tugging the leash loose', note: 'untangling…' },
-{ img: 'assets/dog-free.png', alt: 'The puppy standing free and happy, its leash lying in a straight line', note: 'free, clear flow!' }];
-const leashPaths = ['M10 50 C 30 10, 60 90, 50 40 S 10 20, 40 60 S 110 80, 90 40 S 60 10, 130 30 C 220 70, 300 30, 400 60 C 480 85, 560 50, 640 70 C 720 82, 800 78, 1100 80', 'M10 70 C 60 70, 120 40, 150 60 S 130 90, 110 70 S 140 40, 180 60 S 200 75, 230 70 C 320 60, 400 85, 500 75 C 600 65, 700 82, 800 78 C 900 75, 1000 80, 1100 80', 'M10 79 C 40 78, 80 81, 120 80 S 160 78, 200 80 S 240 82, 280 80 S 320 78, 360 80 C 480 82, 560 78, 680 80 C 800 82, 900 79, 1000 80 C 1040 81, 1070 79, 1100 80'];
+{ img: 'assets/dog-free-strap.png', alt: 'The puppy standing free and happy, its leash lying in a straight line', note: 'free, clear flow!' }];
+const leashPaths = ['M40 100 C 70 60, 110 20, 140 50 S 110 110, 80 70 S 160 10, 200 60 S 150 110, 260 80 C 380 40, 480 112, 600 85 C 720 60, 820 106, 940 96 C 1000 93, 1060 100.7, 1100 100.7', 'M40 101 C 80 90, 140 70, 170 85 S 150 110, 130 95 S 190 80, 230 95 S 260 102, 300 100 C 420 96, 520 104, 640 100 C 760 97, 880 103, 980 101 C 1030 101, 1070 101.5, 1100 101.5', 'M40 104 C 80 104, 120 103.5, 160 104 S 200 104.5, 240 104 S 280 103.5, 320 104 S 360 104.5, 400 104 C 520 103.6, 640 104.4, 760 104 C 880 103.7, 1000 104.2, 1060 104.1 C 1080 104.1, 1090 104.1, 1100 104.1'];
+const leashHandles = ['M40 100 C 22 90, 6 92, 6 101 C 6 110, 24 111, 40 100', 'M40 101 C 22 91, 6 93, 6 102 C 6 111, 24 112, 40 101', 'M40 104 C 22 94, 6 96, 6 105 C 6 114, 24 115, 40 104'];
+const leashW = [[3.4, 5.2], [5.0, 6.6], [3.4, 4.4]];
 const jobData = [
 { company: 'Altheros Capital', bullets: [], logo: 'assets/logo-altheros.png', hasLogo: true, title: 'Product Manager Intern', when: 'Nov 2026 –', place: 'Remote', stat: 'Soon', statLabel: 'Starting my first PM internship this month.', mess: '', messLine: 'to be discovered', detail: 'I will share what I learn here once I have real work to show.' },
 { company: 'Uber', bullets: ["Diagnosed root causes of post-launch Salesforce user issues during the APAC Quotation Feature rollout, cutting weekly system tickets by 95% within two months", "Built a prioritization framework for critical Salesforce fixes based on issue frequency and business impact, working with engineering to cut system modification time by 80%", "Started monthly user reports for local Sales, Operations and APAC Sales teams, showing fix progress and feature adoption in a five-minute summary"], logo: 'assets/logo-uber.png', hasLogo: true, title: 'Sales Operations Analyst', when: '2025 – 2026', place: 'Taipei', stat: '−95%', statLabel: 'weekly Salesforce tickets, within two months', mess: 'a new APAC quotation feature launched, and the tickets piled up', detail: 'I traced the root causes behind user issues, ranked fixes by frequency and business impact with engineering (cutting fix time by 80%), and started a five-minute monthly report on adoption and progress.' },
@@ -486,7 +491,7 @@ bg: i === jSel ? '#FFFDF8' : 'rgba(255,253,248,0.45)',
 border: i === jSel ? '#2E2A3B' : 'transparent',
 pick: () => this.setState({ job: i })
 }));
-return { leashD: leashPaths[active], dogImg: stages[active].img, dogAlt: stages[active].alt, dogNote: stages[active].note, accent: accent, steps: steps, cur: data[active], jobs: jobs, job: jobData[jSel], entered: !!st0.entered, goWork: go('work'), goAbout: go('about'), goNotes: go('notes'), goContact: go('contact') };
+return { leashD: leashPaths[active], handleD: leashHandles[active], leashIn: leashW[active][0], leashOut: leashW[active][1], dogImg: stages[active].img, dogAlt: stages[active].alt, dogNote: stages[active].note, accent: accent, steps: steps, cur: data[active], jobs: jobs, job: jobData[jSel], entered: !!st0.entered, goWork: go('work'), goAbout: go('about'), goNotes: go('notes'), goContact: go('contact') };
 }
 }
 </script>
