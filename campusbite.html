@@ -93,6 +93,33 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 .clue{transition:transform .2s ease, box-shadow .2s ease}
 .clue:hover{transform:rotate(0deg) translateY(-6px) scale(1.04) !important;box-shadow:0 18px 30px rgba(46,42,59,0.25) !important}
 .tocbar::after{content:"";position:absolute;left:0;right:0;top:100%;height:36px;pointer-events:none;background:linear-gradient(rgba(251,247,239,0.85),rgba(251,247,239,0))}
+
+.cbp{--g:#3F7D57;--gd:#1F4D36;--gl:#EAF3EC;--ink:#1F2328;--mute:#6B7280;font-family:Inter,'DM Sans',system-ui,sans-serif;color:var(--ink)}
+.cbp button{font:inherit;cursor:pointer}
+.cb-phone{position:relative;width:300px;height:620px;border-radius:46px;border:10px solid #2A2833;background:#F4F5F7;box-shadow:0 20px 40px rgba(46,42,59,.18),inset 0 0 0 2px #6E6A7A;overflow:hidden;flex:0 0 auto}
+.cb-notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:96px;height:26px;border-radius:14px;background:#111;z-index:3}
+.cb-screen{position:absolute;inset:0;overflow-y:auto;padding:44px 12px 18px;box-sizing:border-box;scrollbar-width:none}
+.cb-screen::-webkit-scrollbar{display:none}
+.cb-card{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(0,0,0,.08);overflow:hidden}
+.cb-btn{display:block;width:100%;border:none;border-radius:10px;background:var(--g);color:#fff;font-weight:700;font-size:14px;padding:11px 8px;min-height:44px}
+.cb-btn.soft{background:#8DB49A}
+.cb-btn.out{background:#fff;color:var(--ink);border:1px solid #D9DCE1}
+.cb-tab{border:1px solid #D9DCE1;background:#fff;color:#4B5563;border-radius:10px;padding:8px 12px;font-weight:700;font-size:13px;min-height:40px}
+.cb-tab[aria-pressed="true"]{background:var(--g);border-color:var(--g);color:#fff}
+.cb-toast{position:absolute;left:12px;right:12px;top:44px;z-index:4;background:#EAF3EC;border-left:4px solid var(--g);border-radius:10px;padding:10px 12px;font-size:12.5px;box-shadow:0 6px 16px rgba(0,0,0,.12);animation:cbToast 2.4s ease forwards}
+@keyframes cbToast{0%{opacity:0;transform:translateY(-8px)}10%,80%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-8px)}}
+.cb-tree{display:block;margin:0 auto}
+.cb-tree.s0{animation:cbGrow0 .7s cubic-bezier(.3,1.6,.5,1)}.cb-tree.s1{animation:cbGrow1 .7s cubic-bezier(.3,1.6,.5,1)}.cb-tree.s2{animation:cbGrow2 .7s cubic-bezier(.3,1.6,.5,1)}.cb-tree.s3{animation:cbGrow3 .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes cbGrow0{from{transform:scale(.7)}to{transform:none}}@keyframes cbGrow1{from{transform:scale(.7)}to{transform:none}}@keyframes cbGrow2{from{transform:scale(.7)}to{transform:none}}@keyframes cbGrow3{from{transform:scale(.7)}to{transform:none}}
+.cb-bar{height:8px;border-radius:5px;background:#E5E7EB;overflow:hidden}.cb-bar>i{display:block;height:100%;background:var(--g);border-radius:5px;transition:width .8s ease}
+.cb-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.cb-step{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:16px 12px 18px 10px;border:1.5px dashed rgba(46,42,59,.2);transition:background .3s,border-color .3s,opacity .3s}
+.cb-step[data-on="true"]{background:#FFFDF8;border:1.5px solid #2F6B45;box-shadow:0 4px 0 rgba(47,107,69,.18)}
+.cb-step[data-done="true"]{opacity:.6}
+.cb-step b.n{flex:0 0 28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#E6DCCB;font-size:14px}
+.cb-step[data-on="true"] b.n{background:#2F6B45;color:#fff}
+.cb-step[data-done="true"] b.n{background:#9CC3A5;color:#fff}
+@media (prefers-reduced-motion: reduce){.cb-tree,.cb-toast{animation:none}.cb-bar>i{transition:none}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -334,35 +361,6 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
 <div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what we built</p><p style="margin: 4px 0 0">A personal tree that grows with every pickup, next to the impact charts.</p></div>
 </div>
-<div style="display: flex; flex-wrap: wrap; gap: 36px; align-items: center">
-<div style="flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 24px; font-weight: 700">Try it: grow your tree</p>
-<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
-<button type="button" onClick="{{pickup}}" style="font: inherit; font-weight: 700; color: #FBF7EF; background: #2F6B45; border: none; border-radius: 22px 16px 24px 14px; padding: 12px 22px; min-height: 48px; cursor: pointer">I picked up food</button>
-<button type="button" onClick="{{resetTree}}" style="font: inherit; font-weight: 700; color: #2E2A3B; background: none; border: 2px solid #2E2A3B; border-radius: 16px 22px 14px 24px; padding: 10px 18px; min-height: 48px; cursor: pointer">Start over</button>
-</div>
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #5A5468">{{treeLabel}}</p>
-</div>
-<div style="flex: 1 1 300px; display: flex; justify-content: center">
-<svg viewBox="0 0 300 320" style="width: 100%; max-width: 320px; height: auto" role="img" aria-label="{{treeAria}}">
-<ellipse cx="150" cy="296" rx="120" ry="18" fill="#C9B48A" filter="url(#wc)" style="opacity: 0.6"></ellipse>
-<rect x="145" y="{{trunkTop}}" width="10" height="{{trunkH}}" rx="5" fill="#7A5A3A"></rect>
-<sc-if value="{{hasCanopy}}" hint-placeholder-val="{{ true }}">
-<ellipse cx="150" cy="{{canopyY}}" rx="{{canopyR}}" ry="{{canopyRy}}" fill="#9CC3A5" filter="url(#wc)"></ellipse>
-<ellipse cx="{{leftX}}" cy="{{sideY}}" rx="{{sideR}}" ry="{{sideR}}" fill="#7DB08C" filter="url(#wc)" style="opacity: 0.8"></ellipse>
-<ellipse cx="{{rightX}}" cy="{{sideY}}" rx="{{sideR}}" ry="{{sideR}}" fill="#7DB08C" filter="url(#wc)" style="opacity: 0.8"></ellipse>
-</sc-if>
-<sc-if value="{{hasFruit}}" hint-placeholder-val="{{ false }}">
-<circle cx="120" cy="{{fruitY1}}" r="9" fill="#D9705E" filter="url(#wc)"></circle>
-<circle cx="176" cy="{{fruitY2}}" r="9" fill="#D9705E" filter="url(#wc)"></circle>
-<circle cx="150" cy="{{fruitY3}}" r="9" fill="#E9B949" filter="url(#wc)"></circle>
-</sc-if>
-<sc-if value="{{isSprout}}" hint-placeholder-val="{{ false }}">
-<path d="M150 276 C 136 262, 128 262, 124 268 C 132 276, 142 278, 150 276 C 158 264, 168 260, 176 264 C 170 274, 160 278, 150 276" fill="#9CC3A5" stroke="#2F6B45" filter="url(#pc)" style="stroke-width: 1.5"></path>
-</sc-if>
-</svg>
-</div>
-</div>
 </section>
 
 <div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M6 8 L 34 13 L 14 36 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="16" cy="16" r="3" fill="#D9705E"></circle><circle cx="22" cy="22" r="2.5" fill="#D9705E"></circle></svg></div>
@@ -384,6 +382,86 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 16px 22px 18px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">3 · report</p><p style="margin: 4px 0 0">Students tap "I'm going," "Get some" or "All gone" so the map stays honest.</p></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 16px 22px 18px 24px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">4 · close</p><p style="margin: 4px 0 0">Hosts post leftovers and mark them gone with a private key.</p></div>
 </div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Try the real thing · our shipped screens</p>
+<div class="cbp" style="display: flex; flex-wrap: wrap; gap: 36px; align-items: center; justify-content: center">
+<div style="flex: 1 1 300px; max-width: 420px; display: flex; flex-direction: column; gap: 14px; font-family: 'DM Sans', system-ui, sans-serif; color: #2E2A3B">
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; line-height: 1.15">Claim some food, then watch your tree grow.</p>
+<p style="margin: 0; font-size: 16px; color: #4A4458">This is the student flow we shipped, rebuilt from our real screens. Tap inside the phone.</p>
+<ol class="cb-steps">
+<sc-for list="{{cbSteps}}" as="sp" hint-placeholder-count="4">
+<li class="cb-step" data-on="{{sp.on}}" data-done="{{sp.done}}"><b class="n">{{sp.n}}</b><span><b style="display: block; font-size: 15px">{{sp.title}}</b><span style="font-size: 14px; color: #5A5468">{{sp.hint}}</span></span></li>
+</sc-for>
+</ol>
+<sc-if value="{{cbAllDone}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #2F6B45">Seed to sapling in two pickups. That small win is what brings students back.</p></sc-if>
+<button type="button" onClick="{{cbReset}}" style="align-self: flex-start; font: inherit; font-weight: 700; color: #2E2A3B; background: none; border: 2px solid #2E2A3B; border-radius: 16px 22px 14px 24px; padding: 8px 18px; min-height: 44px; cursor: pointer">Start over</button>
+</div>
+<div class="cb-phone" aria-label="Interactive CampusBite prototype" role="group">
+<div class="cb-notch" aria-hidden="true"></div>
+<sc-if value="{{cbToast}}" hint-placeholder-val="{{ false }}"><div class="cb-toast" role="status"><b>{{cbToastTitle}}</b><br>{{cbToastText}}</div></sc-if>
+<div class="cb-screen">
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px">
+<span style="width: 28px; height: 28px; border-radius: 50%; background: #3F7D57; display: grid; place-items: center; color: #fff; font-size: 14px" aria-hidden="true">&#x2766;</span>
+<b style="font-size: 16px; flex: 1">CampusBite</b>
+<span style="background: #3F7D57; color: #fff; border-radius: 10px; padding: 6px 10px; font-size: 12px; font-weight: 700">+ Add event</span>
+</div>
+<div style="display: flex; gap: 8px; margin-bottom: 12px">
+<button type="button" class="cb-tab" aria-pressed="{{cbListOn}}" onClick="{{cbGoList}}">Food Map &amp; List</button>
+<button type="button" class="cb-tab" aria-pressed="{{cbMeOn}}" onClick="{{cbGoMe}}">Personal</button>
+</div>
+<sc-if value="{{cbOnList}}" hint-placeholder-val="{{ true }}">
+<div class="cb-card" style="margin-bottom: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 12px"><b style="font-size: 14px">Campus map</b><span style="font-size: 11.5px; color: #4B5563">&#x25CF; {{cbActive}} active pickups</span></div>
+<img src="assets/cb-map.jpg" alt="Campus map with pickup pins and countdowns" style="display: block; width: 100%; height: auto">
+</div>
+<sc-for list="{{cbEvents}}" as="ev" hint-placeholder-count="2">
+<div class="cb-card" style="margin-bottom: 12px">
+<img src="{{ev.img}}" alt="{{ev.alt}}" style="display: block; width: 100%; height: auto">
+<div style="padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 6px">
+<b style="font-size: 16px; line-height: 1.2">{{ev.title}}</b>
+<span style="font-size: 12px; color: #6B7280">{{ev.org}}</span>
+<span style="font-size: 12.5px; color: #4B5563">&#x1F4CD; {{ev.loc}}</span>
+<span style="display: flex; justify-content: space-between; font-size: 12.5px"><span style="color: #DC4C4C">&#x23F1; Pickup closes in <b>{{ev.closes}}</b></span><span style="color: #3F7D57">{{ev.going}} going</span></span>
+<span style="background: #EAF3EC; border-radius: 8px; padding: 8px; font-size: 12px; text-align: center">{{ev.foods}}</span>
+<sc-if value="{{ev.showGo}}" hint-placeholder-val="{{ true }}"><button type="button" class="cb-btn" onClick="{{ev.go}}">I'm going</button></sc-if>
+<sc-if value="{{ev.isGoing}}" hint-placeholder-val="{{ false }}">
+<button type="button" class="cb-btn soft" disabled="disabled" aria-disabled="true">&#x2713; I'm going</button>
+<sc-if value="{{ev.showReport}}" hint-placeholder-val="{{ true }}"><span style="display: flex; gap: 8px"><button type="button" class="cb-btn" onClick="{{ev.got}}">Got some!</button><button type="button" class="cb-btn out" onClick="{{ev.gone}}">All gone!</button></span></sc-if>
+<sc-if value="{{ev.reported}}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; color: #3F7D57">Tree watered &#x2713; · Your report: {{ev.report}}</span></sc-if>
+</sc-if>
+<span style="font-size: 11px; color: #6B7280">First come, first served. Registration does not reserve food.</span>
+</div>
+</div>
+</sc-for>
+</sc-if>
+<sc-if value="{{cbOnMe}}" hint-placeholder-val="{{ false }}">
+<div class="cb-card" style="padding: 14px 12px; margin-bottom: 12px; text-align: center">
+<b style="font-size: 14px">Your little tree</b>
+<svg class="cb-tree s{{cbStage}}" viewBox="0 0 120 120" width="150" height="150" role="img" aria-label="{{cbTreeAria}}">
+<ellipse cx="60" cy="112" rx="36" ry="5" fill="#E5E7EB"></ellipse>
+<sc-if value="{{cbIsTree}}" hint-placeholder-val="{{ false }}"><rect x="57" y="34" width="6" height="40" rx="3" fill="#8A6A48"></rect><circle cx="60" cy="34" r="26" fill="#7DB08C"></circle><circle cx="44" cy="40" r="15" fill="#6AA27C"></circle><circle cx="76" cy="40" r="15" fill="#6AA27C"></circle><circle cx="52" cy="26" r="4" fill="#E9B949"></circle><circle cx="70" cy="30" r="4" fill="#D9705E"></circle></sc-if>
+<sc-if value="{{cbIsSapling}}" hint-placeholder-val="{{ false }}"><path d="M60 74 C 60 60, 58 50, 60 36" stroke="#5E8F4E" stroke-width="3.5" fill="none" stroke-linecap="round"></path><path d="M60 56 C 48 54, 40 46, 40 40 C 50 40, 58 46, 60 56 Z" fill="#7DB08C"></path><path d="M60 50 C 72 48, 80 40, 80 34 C 70 34, 62 40, 60 50 Z" fill="#6AA27C"></path><path d="M60 40 C 52 34, 50 26, 52 20 C 60 24, 62 32, 60 40 Z" fill="#8CC09A"></path><path d="M60 38 C 68 32, 72 26, 70 20 C 62 24, 60 30, 60 38 Z" fill="#7DB08C"></path></sc-if>
+<sc-if value="{{cbIsSeedling}}" hint-placeholder-val="{{ false }}"><path d="M60 74 C 60 66, 60 60, 60 54" stroke="#5E8F4E" stroke-width="3" fill="none" stroke-linecap="round"></path><path d="M60 58 C 50 58, 44 52, 44 46 C 54 46, 60 52, 60 58 Z" fill="#8CC09A"></path><path d="M60 56 C 70 56, 76 50, 76 44 C 66 44, 60 50, 60 56 Z" fill="#7DB08C"></path></sc-if>
+<sc-if value="{{cbIsSeed}}" hint-placeholder-val="{{ true }}"><ellipse cx="60" cy="66" rx="13" ry="11" fill="#C8A878"></ellipse><ellipse cx="56" cy="62" rx="4" ry="3" fill="#DCC29A"></ellipse></sc-if>
+<path d="M34 70 L 86 70 L 80 106 L 40 106 Z" fill="#EFE4CF" stroke="#D8C8A8" stroke-width="1"></path>
+<path d="M32 66 L 88 66 L 88 74 L 32 74 Z" fill="#F4EBDA" stroke="#D8C8A8" stroke-width="1"></path>
+<circle cx="52" cy="86" r="2.4" fill="#3A3330"></circle><circle cx="68" cy="86" r="2.4" fill="#3A3330"></circle>
+<path d="M56 92 Q 60 96 64 92" stroke="#3A3330" stroke-width="1.8" fill="none" stroke-linecap="round"></path>
+<circle cx="47" cy="91" r="3.2" fill="#F2B8A8" opacity=".8"></circle><circle cx="73" cy="91" r="3.2" fill="#F2B8A8" opacity=".8"></circle>
+<ellipse cx="46" cy="107" rx="6" ry="3.5" fill="#B89A76"></ellipse><ellipse cx="74" cy="107" rx="6" ry="3.5" fill="#B89A76"></ellipse>
+</svg>
+<span style="display: inline-block; background: #EAF3EC; color: #1F4D36; border-radius: 8px; padding: 3px 10px; font-size: 12px; font-weight: 700; margin-bottom: 8px">{{cbStageName}}</span>
+<div class="cb-bar" aria-hidden="true"><i style="width: {{cbPct}}%"></i></div>
+<span style="display: block; font-size: 11.5px; color: #6B7280; margin-top: 6px">{{cbUntil}}</span>
+<sc-if value="{{cbGrew}}" hint-placeholder-val="{{ false }}"><span style="display: block; margin-top: 8px; font-size: 13px; font-weight: 700; color: #3F7D57">{{cbGrewText}}</span></sc-if>
+</div>
+<div style="background: #1F4D36; color: #fff; border-radius: 16px; padding: 14px 14px; margin-bottom: 12px"><b style="font-size: 22px">{{cbCo2}} g CO&#x2082;</b><br><span style="font-size: 12px; opacity: .85">emission reduced · all time</span></div>
+<div class="cb-card" style="padding: 12px 14px; margin-bottom: 12px"><b style="font-size: 18px">&#x1F4A7; {{cbWater}} waterings</b><br><span style="font-size: 12px; color: #6B7280">Your first report for each event waters your tree once.</span></div>
+<sc-if value="{{cbMore}}" hint-placeholder-val="{{ true }}"><button type="button" class="cb-btn" onClick="{{cbGoList}}">Find more free food</button></sc-if>
+</sc-if>
+</div>
+</div>
+</div>
+<p style="margin: 0; font-size: 13px; color: #5A5468; text-align: center">Prefer to watch? <a href="https://www.youtube.com/watch?v=njvv5hJsbmc" target="_blank" rel="noopener" style="font-weight: 700">See our 2-minute Devpost demo</a> (opens YouTube).</p>
 <div style="display: flex; flex-wrap: wrap; gap: 12px">
 <a href="https://devpost.com/software/campusbite-q0p47g" target="_blank" rel="noopener" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 22px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">See all 15 Figma screens on Devpost →</a>
 <a href="https://lnkd.in/gBAGZXAX" target="_blank" rel="noopener" style="text-decoration: none; color: #2E2A3B; font-weight: 700; border: 2px solid #2E2A3B; border-radius: 20px 26px 22px 28px; padding: 10px 20px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">Watch the demo video</a>
@@ -471,13 +549,33 @@ bBg: p === 'b' ? dark : '#FFFDF8', bInk: p === 'b' ? light : dark,
 pickA: setPick('a'), pickB: setPick('b')
 });
 });
-const n = Math.min(st.n || 0, 8);
-const stage = n === 0 ? 0 : n <= 2 ? 1 : n <= 4 ? 2 : n <= 6 ? 3 : 4;
-const trunkTop = [296, 276, 200, 160, 130][stage];
-const canopyR = [0, 34, 60, 82, 100][stage];
-const canopyY = trunkTop - canopyR * 0.4;
-const sideR = Math.round(canopyR * 0.55);
-const labels = ['Your tree is a seed. Pick up some food!', 'A sprout! 1–2 pickups.', 'Growing nicely.', 'A real tree now.', 'In full fruit. That is a lot of food saved.'];
+const evData = [
+{ img: 'assets/cb-food1.jpg', alt: 'Chicken shawarma wraps, flatbread and dips on a table', title: 'WISE STEM Community Dinner', org: 'WISE · Women in Science & Engineering', loc: 'Duderstadt Center, Room 1180', closes: '18m', going: 7, foods: 'Pasta: 6 portions · Salad: 1 tray', co2: 35.7 },
+{ img: 'assets/cb-food2.jpg', alt: 'A grain bowl with chicken, avocado and chickpeas', title: 'Pizza & Conversation: Psychology + BCN', org: 'Psychology Student Association', loc: 'East Hall, Room 4464', closes: '1h 10m', going: 4, foods: 'Pizza: 5 slices · Bowls: 3', co2: 42.0 }];
+const cb = st.cb || { tab: 'list', ev: [{}, {}] };
+const setCb = (patch) => this.setState({ cb: Object.assign({}, cb, patch) });
+const co2 = evData.reduce((t, e, i) => t + (cb.ev[i].report === 'Collected food' ? e.co2 : 0), 92.3);
+const water = 2 + cb.ev.filter(e => e.report).length;
+const stagesCb = [{ name: 'Seed', at: 0, next: 100 }, { name: 'Seedling', at: 100, next: 160 }, { name: 'Sapling', at: 160, next: 250 }, { name: 'Little tree', at: 250, next: 400 }];
+let sIdx = 0; stagesCb.forEach((x, i) => { if (co2 >= x.at) sIdx = i; });
+const sg = stagesCb[sIdx];
+const pct = Math.round(Math.min(100, (co2 - sg.at) / (sg.next - sg.at) * 100));
+const cbEvents = evData.map((e, i) => {
+const es = cb.ev[i];
+const mark = (report) => () => { const ev = cb.ev.map((x, j) => j === i ? Object.assign({}, x, { report: report }) : x);
+this.setState({ cb: Object.assign({}, cb, { ev: ev, toast: 'water' + i + Date.now() }) });
+setTimeout(() => { const c = (this.state || {}).cb; if (c) this.setState({ cb: Object.assign({}, c, { tab: 'me', seenMe: true, grew: report === 'Collected food' ? i + 1 : 0 }) }); }, 1100); };
+return Object.assign({}, e, {
+going: e.going + (es.going ? 1 : 0), showGo: !es.going, isGoing: !!es.going, showReport: !!es.going && !es.report, reported: !!es.report, report: es.report || '',
+go: () => setCb({ ev: cb.ev.map((x, j) => j === i ? Object.assign({}, x, { going: true }) : x), toast: '' }),
+got: mark('Collected food'), gone: mark('Food was gone') });
+});
+const doneCount = cb.ev.filter(e => e.report).length;
+const seen = !!cb.seenMe;
+const stepState = [!cb.ev[0].going && !cb.ev[1].going, (cb.ev[0].going && !cb.ev[0].report) || (cb.ev[1].going && !cb.ev[1].report), cb.tab === 'me' && doneCount >= 1, doneCount === 1 && cb.tab === 'list' && seen && !(cb.ev[0].going && cb.ev[1].going)];
+const stepDone = [cb.ev[0].going || cb.ev[1].going, doneCount >= 1, seen && cb.tab === 'list', doneCount === 2];
+const stepText = [['Find free food', 'Tap \u201cI\u2019m going\u201d on the WISE dinner.'], ['Report what you found', 'Tap \u201cGot some!\u201d once you have picked it up.'], ['Watch your tree grow', 'Your report waters your tree.'], ['Do it again', 'Go back and claim the pizza, too.']];
+const cbSteps = stepText.map((t, i) => ({ n: i + 1, title: t[0], hint: t[1], on: (doneCount === 2 && i !== 2 ? false : stepState[i]) ? 'true' : 'false', done: stepDone[i] ? 'true' : 'false' }));
 return {
 pins: pins,
 count: all ? '79' : '3',
@@ -489,14 +587,16 @@ freePressed: all ? 'false' : 'true', allPressed: all ? 'true' : 'false',
 freeBg: all ? 'transparent' : dark, freeInk: all ? dark : light,
 allBg: all ? dark : 'transparent', allInk: all ? light : dark,
 calls: calls,
-pickup: () => this.setState({ n: Math.min((st.n || 0) + 1, 8) }),
-resetTree: () => this.setState({ n: 0 }),
-treeLabel: labels[stage] + (n ? ' (' + n + (n === 1 ? ' pickup)' : ' pickups)') : ''),
-treeAria: 'A watercolor tree at growth stage ' + stage + ' of 4',
-trunkTop: trunkTop, trunkH: 296 - trunkTop, hasCanopy: stage >= 2, isSprout: stage === 1, hasFruit: stage === 4,
-canopyR: canopyR, canopyRy: Math.round(canopyR * 0.85), canopyY: Math.round(canopyY),
-sideR: sideR, sideY: Math.round(canopyY + canopyR * 0.35), leftX: Math.round(150 - canopyR * 0.75), rightX: Math.round(150 + canopyR * 0.75),
-fruitY1: Math.round(canopyY), fruitY2: Math.round(canopyY + 20), fruitY3: Math.round(canopyY - 40)
+cbEvents: cbEvents, cbSteps: cbSteps, cbActive: 5 - doneCount,
+cbOnList: cb.tab === 'list', cbOnMe: cb.tab === 'me', cbListOn: cb.tab === 'list' ? 'true' : 'false', cbMeOn: cb.tab === 'me' ? 'true' : 'false',
+cbGoList: () => setCb({ tab: 'list', grew: 0, toast: '' }), cbGoMe: () => setCb({ tab: 'me', seenMe: true, grew: 0, toast: '' }),
+cbReset: () => this.setState({ cb: { tab: 'list', ev: [{}, {}] } }),
+cbToast: !!cb.toast && cb.tab === 'list', cbToastTitle: 'Thanks for reporting!', cbToastText: 'Your tree was watered.',
+cbStage: sIdx, cbStageName: sg.name, cbPct: pct, cbIsSeed: sIdx === 0, cbIsSeedling: sIdx === 1, cbIsSapling: sIdx === 2, cbIsTree: sIdx === 3,
+cbUntil: (sg.next - co2).toFixed(1) + ' g CO\u2082 until the next stage.',
+cbTreeAria: 'Your tree is at the ' + sg.name + ' stage', cbCo2: co2.toFixed(1), cbWater: water,
+cbGrew: !!cb.grew, cbGrewText: cb.grew ? '+' + evData[cb.grew - 1].co2.toFixed(1) + ' g CO\u2082 saved. Your tree grew!' : '',
+cbMore: doneCount < 2, cbAllDone: doneCount === 2
 };
 }
 }
