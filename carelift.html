@@ -48,6 +48,45 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc a[href="#research"],html[data-part="decisions"] .toc a[href="#decisions"],html[data-part="results"] .toc a[href="#results"]{background:#2E2A3B;color:#FBF7EF}
 @media (max-width: 640px){.chap-num{font-size:64px}.chapter{border-radius:28px;margin:28px 12px !important}}
 @media (prefers-reduced-motion: reduce){.chapter,.chap-num,.bloom{animation:none !important}}
+.tile{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:150px;padding:20px;text-align:center;background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:24px 18px 26px 20px;text-decoration:none;color:#2E2A3B;box-shadow:0 10px 24px rgba(46,42,59,0.08);transition:transform .2s ease,box-shadow .2s ease}
+.tile:hover{transform:translateY(-6px) rotate(-0.6deg);box-shadow:0 18px 34px rgba(46,42,59,0.14)}
+.tile-num{position:absolute;left:50%;top:50%;translate:-50% -50%;font-family:'Fraunces',serif;font-weight:700;font-size:120px;line-height:1;opacity:.12;pointer-events:none}
+.chap-open{justify-content:center !important;text-align:center;background:#FFFDF8;border:1.5px solid #E6DCCB !important;border-radius:28px 22px 30px 24px;padding:30px 24px !important;max-width:600px;width:100%;margin:0 auto 10px;box-shadow:0 10px 24px rgba(46,42,59,0.08);overflow:hidden}
+.chap-open > div{align-items:center}
+.chap-num{position:absolute !important;left:50%;top:50%;translate:-50% -50%;font-size:150px !important;opacity:.13;pointer-events:none}
+.chap-open .bloom{display:none}
+@supports (animation-timeline: view()){.chap-num{animation:none !important}}
+.stars{display:flex;justify-content:center;gap:18px;margin:8px 0}
+@media (max-width: 640px){.tile-num{font-size:90px}.chap-num{font-size:110px !important}}
+@media (prefers-reduced-motion: reduce){.tile:hover{transform:none}}
+.drift-a{animation:drift 14s ease-in-out infinite alternate}
+.drift-b{animation:drift 19s ease-in-out infinite alternate-reverse}
+.drift-c{animation:drift 24s ease-in-out infinite alternate}
+@keyframes drift{from{translate:-28px 0}to{translate:28px 0}}
+.float{animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -10px}}
+.breathe{transform-box:fill-box;transform-origin:center;animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{scale:1}50%{scale:1.06}}
+.mag{animation:mag 5s ease-in-out infinite}
+@keyframes mag{0%,100%{translate:0 0}30%{translate:-70px -40px}60%{translate:-40px 10px}}
+.hl{stroke-dasharray:90;animation:hl 5s ease-in-out infinite}
+@keyframes hl{0%{stroke-dashoffset:90}35%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-90}}
+.pin{animation:pin 2.4s ease-in-out infinite}
+@keyframes pin{0%,100%{translate:0 0}40%{translate:0 -14px}55%{translate:0 0}65%{translate:0 -4px}}
+.wob{animation:wob 3.6s ease-in-out infinite}
+@keyframes wob{0%,100%{translate:0 0}50%{translate:-4px 5px}}
+.hov{animation:hov 3s ease-in-out infinite}
+@keyframes hov{0%,100%{translate:0 0}50%{translate:6px -12px}}
+.rotor{transform-box:fill-box;transform-origin:center;animation:rotor .25s linear infinite}
+@keyframes rotor{0%,100%{scale:1 1}50%{scale:.55 1}}
+.p1{animation:walk 1.6s ease-in-out infinite}
+.p2{animation:walk 1.6s ease-in-out -.5s infinite}
+.p3{animation:walk 1.6s ease-in-out -1s infinite}
+@keyframes walk{0%,100%{translate:0 0}50%{translate:0 -6px}}
+.check{stroke-dasharray:60;animation:hl2 3.2s ease-in-out infinite}
+@keyframes hl2{0%{stroke-dashoffset:60}40%,90%{stroke-dashoffset:0}100%{stroke-dashoffset:60}}
+.card:hover .hov,.card:hover .pin,.card:hover .mag,.card:hover .p1,.card:hover .p2,.card:hover .p3{animation-duration:1s}
+@media (prefers-reduced-motion: reduce){.drift-a,.drift-b,.drift-c,.float,.breathe,.mag,.hl,.pin,.wob,.hov,.rotor,.p1,.p2,.p3,.check{animation:none !important}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -98,14 +137,43 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </nav>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px 24px; display: flex; flex-direction: column; gap: 20px">
-<svg viewBox="0 0 1040 360" preserveAspectRatio="none" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%" aria-hidden="true">
-<ellipse cx="860" cy="120" rx="220" ry="120" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.45"></ellipse>
-<ellipse cx="960" cy="240" rx="140" ry="80" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.35; mix-blend-mode: multiply"></ellipse>
+<section style="position: relative; padding: 40px 32px 56px; overflow-x: clip">
+<svg viewBox="0 0 1440 600" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<rect x="-40" y="0" width="1520" height="600" fill="#E6EFF8"></rect>
+<path class="drift-b" d="M-40 380 C 300 350, 700 400, 1060 365 S 1400 380, 1480 370 L 1480 470 C 1100 490, 700 455, 300 485 S 0 470, -40 475 Z" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.6"></path>
 </svg>
-<p style="position: relative; margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">Case study · CareLift · Business+Tech</p>
-<h1 style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 820px">Medicine in minutes, not hours</h1>
-<p style="position: relative; margin: 0; font-size: 21px; color: #4A4458; max-width: 740px">A platform that connects rural patients, local pharmacies and drone companies, so urgent medicine reaches the door in about 20 minutes.</p>
+<div style="position: relative; max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center">
+<svg viewBox="0 0 400 210" style="position: relative; width: 100%; max-width: 520px; height: auto; display: block; margin: 0 auto" role="img" aria-label="Watercolor illustration of a drone carrying a medicine package">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.5"></ellipse>
+<rect class="hov" x="176" y="128" width="48" height="40" rx="5" fill="#FFFDF8"></rect>
+<path class="hov" d="M200 138 V 158 M190 148 H 210" stroke="#D9705E" filter="url(#wc)" style="stroke-width: 7"></path>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
+<rect class="hov" x="170" y="70" width="60" height="22" rx="8"></rect>
+<path class="hov" d="M170 78 L 124 62 M230 78 L 276 62"></path>
+<g class="hov"><ellipse class="rotor" cx="118" cy="58" rx="30" ry="6"></ellipse></g>
+<g class="hov"><ellipse class="rotor" cx="282" cy="58" rx="30" ry="6"></ellipse></g>
+<path class="hov" d="M190 92 L 186 128 M210 92 L 214 128"></path>
+<rect class="hov" x="176" y="128" width="48" height="40" rx="5"></rect>
+<path d="M60 180 C 100 170, 130 186, 170 178 M240 182 C 280 172, 310 186, 350 176" style="stroke-width: 1.8"></path>
+</g>
+</svg>
+
+<p style="position: relative; margin: 0 auto; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">Case study · CareLift · Business+Tech</p>
+<h1 style="position: relative; margin: 0 auto; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 860px">Medicine in minutes, not hours</h1>
+<p style="position: relative; margin: 0 auto; font-size: 21px; color: #4A4458; max-width: 740px">A platform that connects rural patients, local pharmacies and drone companies, so urgent medicine reaches the door in about 20 minutes.</p>
+
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px 8px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center">
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg></div>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 36px">Let's break my process down:</h2>
+<div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px">
+<a href="#basics" class="tile"><span class="tile-num" style="color: #2A5F8F" aria-hidden="true">01</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the project:</span><span style="position: relative; color: #4A4458">role, team, timeline, tools</span></a>
+<a href="#research" class="tile"><span class="tile-num" style="color: #2A5F8F" aria-hidden="true">02</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">problem &amp; research:</span><span style="position: relative; color: #4A4458">users, problem, methods, insights</span></a>
+<a href="#decisions" class="tile"><span class="tile-num" style="color: #2A5F8F" aria-hidden="true">03</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">decisions &amp; pivot:</span><span style="position: relative; color: #4A4458">what changed, and why</span></a>
+<a href="#results" class="tile"><span class="tile-num" style="color: #2A5F8F" aria-hidden="true">04</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">solution &amp; results:</span><span style="position: relative; color: #4A4458">what we built, what happened</span></a>
+</div>
 </section>
 
 <section class="chapter" style="--tint: #FBEFE6; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
@@ -137,6 +205,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </section>
 
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg></div>
 <section class="chapter" style="--tint: #F1ECF8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="research" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
@@ -241,6 +310,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="margin: 0; color: #4A4458">And one we didn't expect: our physician interview pointed to hospital logistics, like lab samples and organs, as a future market.</p>
 </section>
 
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg></div>
 <section class="chapter" style="--tint: #EAF1F8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="decisions" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
@@ -318,6 +388,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </section>
 
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 3 L 24.5 14.5 L 37 15 L 27 22.5 L 31 35 L 20 28 L 9 35 L 13 22.5 L 3 15 L 15.5 14.5 Z" fill="#8FB3D9" filter="url(#pc)"></path></svg></div>
 <section class="chapter" data-video-wrap="1" style="--tint: #EAF4EC; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="results" class="chap-open">
 <svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>

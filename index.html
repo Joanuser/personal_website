@@ -25,6 +25,39 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){.draw,.draw-late{animation:none;stroke-dashoffset:0}.reveal{animation:none}.card:hover,.step:hover{transform:none}}
 @media (max-width: 640px){h1{font-size:38px !important}h2{font-size:30px !important}}
+.frame{position:fixed;inset:0;border:12px solid #F2D58A;pointer-events:none;z-index:40}
+.bob{animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{translate:-50% 0}50%{translate:-50% 8px}}
+@media (max-width: 640px){.frame{border-width:6px}}
+@media (prefers-reduced-motion: reduce){.bob{animation:none}}
+.drift-a{animation:drift 14s ease-in-out infinite alternate}
+.drift-b{animation:drift 19s ease-in-out infinite alternate-reverse}
+.drift-c{animation:drift 24s ease-in-out infinite alternate}
+@keyframes drift{from{translate:-28px 0}to{translate:28px 0}}
+.float{animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -10px}}
+.breathe{transform-box:fill-box;transform-origin:center;animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{scale:1}50%{scale:1.06}}
+.mag{animation:mag 5s ease-in-out infinite}
+@keyframes mag{0%,100%{translate:0 0}30%{translate:-70px -40px}60%{translate:-40px 10px}}
+.hl{stroke-dasharray:90;animation:hl 5s ease-in-out infinite}
+@keyframes hl{0%{stroke-dashoffset:90}35%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-90}}
+.pin{animation:pin 2.4s ease-in-out infinite}
+@keyframes pin{0%,100%{translate:0 0}40%{translate:0 -14px}55%{translate:0 0}65%{translate:0 -4px}}
+.wob{animation:wob 3.6s ease-in-out infinite}
+@keyframes wob{0%,100%{translate:0 0}50%{translate:-4px 5px}}
+.hov{animation:hov 3s ease-in-out infinite}
+@keyframes hov{0%,100%{translate:0 0}50%{translate:6px -12px}}
+.rotor{transform-box:fill-box;transform-origin:center;animation:rotor .25s linear infinite}
+@keyframes rotor{0%,100%{scale:1 1}50%{scale:.55 1}}
+.p1{animation:walk 1.6s ease-in-out infinite}
+.p2{animation:walk 1.6s ease-in-out -.5s infinite}
+.p3{animation:walk 1.6s ease-in-out -1s infinite}
+@keyframes walk{0%,100%{translate:0 0}50%{translate:0 -6px}}
+.check{stroke-dasharray:60;animation:hl2 3.2s ease-in-out infinite}
+@keyframes hl2{0%{stroke-dashoffset:60}40%,90%{stroke-dashoffset:0}100%{stroke-dashoffset:60}}
+.card:hover .hov,.card:hover .pin,.card:hover .mag,.card:hover .p1,.card:hover .p2,.card:hover .p3{animation-duration:1s}
+@media (prefers-reduced-motion: reduce){.drift-a,.drift-b,.drift-c,.float,.breathe,.mag,.hl,.pin,.wob,.hov,.rotor,.p1,.p2,.p3,.check{animation:none !important}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -60,6 +93,8 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 
 <svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"><rect width="100%" height="100%" filter="url(#paper)"></rect></svg>
 
+<div class="frame" aria-hidden="true"></div>
+<div style="position: relative; min-height: 100vh; display: flex; flex-direction: column">
 <header style="position: relative; max-width: 1160px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
 <a href="#top" style="text-decoration: none; display: flex; align-items: center; gap: 12px">
 <svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18" fill="#E9B949" filter="url(#wc)" style="opacity: 0.85"></circle><path d="M12 24 C 16 14, 22 30, 26 18 S 32 20, 34 16" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.4; stroke-linecap: round"></path></svg>
@@ -72,8 +107,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <a href="assets/Chihchi_Huang_Resume.pdf" target="_blank" rel="noopener" style="text-decoration: none; border: 2px solid #2E2A3B; border-radius: 22px 18px 24px 16px; padding: 8px 18px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center">Résumé</a>
 </nav>
 </header>
-
-<section id="top" style="position: relative; max-width: 1160px; margin: 0 auto; padding: 40px 32px 88px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
+<section id="top" style="position: relative; max-width: 1160px; margin: 0 auto; padding: 24px 32px 40px; flex: 1 1 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
 <div style="flex: 999 1 540px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #B0573F">Hi, I'm Joan!</p>
 <h1 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 64px; line-height: 1.05; letter-spacing: -0.015em">I turn messy processes into clear products.</h1>
@@ -86,16 +120,147 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <div style="flex: 1 1 360px; min-width: 0; display: flex; justify-content: center">
 <div style="position: relative; width: 400px; max-width: 100%; height: 440px">
 <svg viewBox="0 0 400 440" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
-<ellipse cx="215" cy="215" rx="165" ry="180" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.55"></ellipse>
-<ellipse cx="180" cy="250" rx="140" ry="150" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.45; mix-blend-mode: multiply"></ellipse>
-<ellipse cx="260" cy="150" rx="90" ry="80" fill="#E9B949" filter="url(#wc)" style="opacity: 0.45; mix-blend-mode: multiply"></ellipse>
+<ellipse class="breathe" cx="215" cy="215" rx="165" ry="180" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.55"></ellipse>
+<ellipse class="breathe" cx="180" cy="250" rx="140" ry="150" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.45; mix-blend-mode: multiply"></ellipse>
+<ellipse class="breathe" cx="260" cy="150" rx="90" ry="80" fill="#E9B949" filter="url(#wc)" style="opacity: 0.45; mix-blend-mode: multiply"></ellipse>
 <path class="draw" d="M28 400 C 70 330, 120 430, 92 360 S 30 300, 86 296 S 170 350, 130 316 S 76 250, 140 252 S 214 290, 182 246 L 360 70" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round"></path>
 <path class="draw-late" d="M334 66 L 362 68 L 354 96" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round"></path>
 </svg>
-<img src="assets/joan.jpg" alt="Portrait of Joan Huang, smiling, in a striped shirt" style="position: absolute; left: 95px; top: 86px; width: 220px; height: 262px; object-fit: cover; object-position: center 30%; border-radius: 48% 52% 46% 54% / 55% 48% 52% 45%; border: 5px solid #FBF7EF; box-shadow: 0 10px 26px rgba(46,42,59,0.18)">
+<img class="float" src="assets/joan.jpg" alt="Portrait of Joan Huang, smiling, in a striped shirt" style="position: absolute; left: 95px; top: 86px; width: 220px; height: 262px; object-fit: cover; object-position: center 30%; border-radius: 48% 52% 46% 54% / 55% 48% 52% 45%; border: 5px solid #FBF7EF; box-shadow: 0 10px 26px rgba(46,42,59,0.18)">
 <p style="position: absolute; right: 0; bottom: 10px; margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468; transform: rotate(-4deg)">mess in, clear flow out</p>
 </div>
 </div>
+</section>
+<div style="position: relative; height: 190px; margin-top: auto">
+<svg viewBox="0 0 1440 190" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<path class="drift-a" d="M0 120 C 160 60, 320 70, 470 110 S 760 40, 940 90 S 1250 50, 1440 100 L 1440 190 L 0 190 Z" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.45"></path>
+<path class="drift-b" d="M0 150 C 200 100, 380 120, 560 140 S 900 90, 1100 130 S 1340 110, 1440 140 L 1440 190 L 0 190 Z" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.55"></path>
+<path class="drift-c" d="M0 175 C 240 150, 480 160, 720 172 S 1200 150, 1440 168 L 1440 190 L 0 190 Z" fill="#E9B949" filter="url(#wc)" style="opacity: 0.45"></path>
+</svg>
+<a href="#work" class="bob" aria-label="Scroll to my work" style="position: absolute; left: 50%; top: 18px; translate: -50% 0; width: 72px; height: 72px; border-radius: 50%; background: #FFFDF8; border: 3px solid #2E2A3B; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(46,42,59,0.15)">
+<svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 4 C 15 12, 19 18, 17 28 M8 19 L 17 29 L 26 19" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+</a>
+</div>
+</div>
+
+<section id="work" style="position: relative; max-width: 1160px; margin: 0 auto; padding: 80px 32px 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; scroll-margin-top: 20px">
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 44px">Selected work</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; color: #5A5468">four messes, four flows</p>
+</section>
+<section style="position: relative; padding: 96px 24px 100px; overflow-x: clip">
+<svg viewBox="0 0 1440 600" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<rect x="-40" y="0" width="1520" height="600" fill="#EFEAF7"></rect>
+<path class="drift-b" d="M-40 230 C 300 200, 700 250, 1060 215 S 1400 230, 1480 220 L 1480 330 C 1100 350, 700 315, 300 345 S 0 330, -40 335 Z" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.75"></path>
+<ellipse cx="1250" cy="110" rx="200" ry="90" fill="#FFFDF8" filter="url(#wc)" style="opacity: 0.7" class="drift-a"></ellipse>
+<ellipse cx="170" cy="500" rx="240" ry="80" fill="#FFFDF8" filter="url(#wc)" style="opacity: 0.6" class="drift-c"></ellipse>
+</svg>
+<a href="orvp.html" class="card" style="position: relative; z-index: 1; max-width: 640px; margin: 0 auto; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 34px 26px 38px 30px; padding: 40px 36px 0; text-decoration: none; color: #2E2A3B; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; box-shadow: 0 18px 40px rgba(46,42,59,0.12)">
+<p style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.04em; color: #5A4790">U-M Office of the VP for Research</p>
+<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 34px; line-height: 1.15">AI Workflow for Funding Calls</h3>
+<p style="margin: 0; max-width: 500px; color: #4A4458; font-style: italic">Turned 30-page funding calls into setup-ready data with a human-in-the-loop AI tool, at 97.4% field accuracy.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px"><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">Product Management</span><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">AI workflow</span><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">PRD &amp; Roadmap</span></div>
+<span style="margin-top: 6px; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 24px; display: inline-flex; align-items: center; gap: 10px">Open case study <span aria-hidden="true">→</span></span>
+<svg viewBox="0 0 400 210" style="position: relative; width: 100%; max-width: 460px; height: auto; margin: 6px auto -64px; display: block" role="img" aria-label="Watercolor illustration of stacked documents under a magnifying glass">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.5"></ellipse>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round">
+<rect x="118" y="46" width="120" height="140" rx="6" fill="#FFFDF8" transform="rotate(-6 178 116)"></rect>
+<rect x="138" y="38" width="120" height="140" rx="6" fill="#FFFDF8"></rect>
+<path d="M156 70 H 240 M156 92 H 228 M156 114 H 236 M156 136 H 214" fill="none"></path>
+<circle class="mag" cx="268" cy="130" r="34" fill="none"></circle>
+<path class="mag" d="M292 154 L 322 184" fill="none" style="stroke-width: 5"></path>
+</g>
+<path class="hl" d="M154 92 H 230" stroke="#E9B949" filter="url(#wc)" style="stroke-width: 12; opacity: 0.7"></path>
+<path class="hl" d="M154 136 H 216" stroke="#E9B949" filter="url(#wc)" style="stroke-width: 12; opacity: 0.7"></path>
+</svg>
+</a>
+</section>
+<section style="position: relative; padding: 96px 24px 100px; overflow-x: clip">
+<svg viewBox="0 0 1440 600" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<rect x="-40" y="0" width="1520" height="600" fill="#E9F3EB"></rect>
+<path class="drift-b" d="M-40 230 C 300 200, 700 250, 1060 215 S 1400 230, 1480 220 L 1480 330 C 1100 350, 700 315, 300 345 S 0 330, -40 335 Z" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.75"></path>
+<ellipse cx="190" cy="110" rx="200" ry="90" fill="#FFFDF8" filter="url(#wc)" style="opacity: 0.7" class="drift-a"></ellipse>
+<ellipse cx="1270" cy="500" rx="240" ry="80" fill="#FFFDF8" filter="url(#wc)" style="opacity: 0.6" class="drift-c"></ellipse>
+</svg>
+<a href="campusbite.html" class="card" style="position: relative; z-index: 1; max-width: 640px; margin: 0 auto; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 34px 26px 38px 30px; padding: 40px 36px 0; text-decoration: none; color: #2E2A3B; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; box-shadow: 0 18px 40px rgba(46,42,59,0.12)">
+<p style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.04em; color: #2F6B45">MHacks 2026</p>
+<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 34px; line-height: 1.15">Free-Food Map for Campus</h3>
+<p style="margin: 0; max-width: 500px; color: #4A4458; font-style: italic">Found that only 3 of 80 catered events said "free food," then designed a live map to rescue leftovers in one weekend.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px"><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">0 → 1</span><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">User research</span><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">Figma</span></div>
+<span style="margin-top: 6px; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 24px; display: inline-flex; align-items: center; gap: 10px">Open case study <span aria-hidden="true">→</span></span>
+<svg viewBox="0 0 400 210" style="position: relative; width: 100%; max-width: 460px; height: auto; margin: 6px auto -64px; display: block" role="img" aria-label="Watercolor illustration of a pizza slice next to a map pin">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.55"></ellipse>
+<path class="wob" d="M120 60 L 220 80 L 150 180 Z" fill="#E9B949" filter="url(#wc)" style="opacity: 0.85"></path>
+<circle class="wob" cx="160" cy="95" r="10" fill="#D9705E" filter="url(#wc)"></circle>
+<circle class="wob" cx="185" cy="105" r="8" fill="#D9705E" filter="url(#wc)"></circle>
+<circle class="wob" cx="160" cy="130" r="9" fill="#D9705E" filter="url(#wc)"></circle>
+<path class="pin" d="M276 70 C 248 70, 236 96, 248 118 L 276 162 L 304 118 C 316 96, 304 70, 276 70 Z" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.8"></path>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
+<path class="wob" d="M120 60 L 220 80 L 150 180 Z"></path>
+<path class="wob" d="M114 56 C 150 58, 196 66, 226 78"></path>
+<path class="pin" d="M276 70 C 248 70, 236 96, 248 118 L 276 162 L 304 118 C 316 96, 304 70, 276 70 Z"></path>
+<circle class="pin" cx="276" cy="100" r="11"></circle>
+</g>
+</svg>
+</a>
+</section>
+<section style="position: relative; padding: 96px 24px 100px; overflow-x: clip">
+<svg viewBox="0 0 1440 600" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<rect x="-40" y="0" width="1520" height="600" fill="#E6EFF8"></rect>
+<path class="drift-b" d="M-40 230 C 300 200, 700 250, 1060 215 S 1400 230, 1480 220 L 1480 330 C 1100 350, 700 315, 300 345 S 0 330, -40 335 Z" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.75"></path>
+<ellipse cx="1250" cy="110" rx="200" ry="90" fill="#FFFDF8" filter="url(#wc)" style="opacity: 0.7" class="drift-a"></ellipse>
+<ellipse cx="170" cy="500" rx="240" ry="80" fill="#FFFDF8" filter="url(#wc)" style="opacity: 0.6" class="drift-c"></ellipse>
+</svg>
+<a href="carelift.html" class="card" style="position: relative; z-index: 1; max-width: 640px; margin: 0 auto; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 34px 26px 38px 30px; padding: 40px 36px 0; text-decoration: none; color: #2E2A3B; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; box-shadow: 0 18px 40px rgba(46,42,59,0.12)">
+<p style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.04em; color: #2A5F8F">Business+Tech · Care Pilots</p>
+<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 34px; line-height: 1.15">Drone Medicine Delivery</h3>
+<p style="margin: 0; max-width: 500px; color: #4A4458; font-style: italic">Connected rural patients, pharmacies and drone companies, and shipped a working MVP of three apps in six weeks.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px"><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">Marketplace</span><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">UX feedback</span><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">Business model</span></div>
+<span style="margin-top: 6px; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 24px; display: inline-flex; align-items: center; gap: 10px">Open case study <span aria-hidden="true">→</span></span>
+<svg viewBox="0 0 400 210" style="position: relative; width: 100%; max-width: 460px; height: auto; margin: 6px auto -64px; display: block" role="img" aria-label="Watercolor illustration of a drone carrying a medicine package">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.5"></ellipse>
+<rect class="hov" x="176" y="128" width="48" height="40" rx="5" fill="#FFFDF8"></rect>
+<path class="hov" d="M200 138 V 158 M190 148 H 210" stroke="#D9705E" filter="url(#wc)" style="stroke-width: 7"></path>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
+<rect class="hov" x="170" y="70" width="60" height="22" rx="8"></rect>
+<path class="hov" d="M170 78 L 124 62 M230 78 L 276 62"></path>
+<g class="hov"><ellipse class="rotor" cx="118" cy="58" rx="30" ry="6"></ellipse></g>
+<g class="hov"><ellipse class="rotor" cx="282" cy="58" rx="30" ry="6"></ellipse></g>
+<path class="hov" d="M190 92 L 186 128 M210 92 L 214 128"></path>
+<rect class="hov" x="176" y="128" width="48" height="40" rx="5"></rect>
+<path d="M60 180 C 100 170, 130 186, 170 178 M240 182 C 280 172, 310 186, 350 176" style="stroke-width: 1.8"></path>
+</g>
+</svg>
+</a>
+</section>
+<section style="position: relative; padding: 96px 24px 100px; overflow-x: clip">
+<svg viewBox="0 0 1440 600" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<rect x="-40" y="0" width="1520" height="600" fill="#FBECE6"></rect>
+<path class="drift-b" d="M-40 230 C 300 200, 700 250, 1060 215 S 1400 230, 1480 220 L 1480 330 C 1100 350, 700 315, 300 345 S 0 330, -40 335 Z" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.75"></path>
+<ellipse cx="190" cy="110" rx="200" ry="90" fill="#FFFDF8" filter="url(#wc)" style="opacity: 0.7" class="drift-a"></ellipse>
+<ellipse cx="1270" cy="500" rx="240" ry="80" fill="#FFFDF8" filter="url(#wc)" style="opacity: 0.6" class="drift-c"></ellipse>
+</svg>
+<a href="catalyst.html" class="card" style="position: relative; z-index: 1; max-width: 640px; margin: 0 auto; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 34px 26px 38px 30px; padding: 40px 36px 0; text-decoration: none; color: #2E2A3B; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; box-shadow: 0 18px 40px rgba(46,42,59,0.12)">
+<p style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.04em; color: #A04A1E">Beyond Code Collective · In progress</p>
+<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 34px; line-height: 1.15">Learner Attendance Research</h3>
+<p style="margin: 0; max-width: 500px; color: #4A4458; font-style: italic">About 83% of sign-ups never made it to the live workshop. Walking the learner journey to find where they slip away.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px"><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">UX research</span><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">Journey mapping</span><span style="background: #F2CF7A; border-radius: 14px 10px 16px 8px; padding: 4px 12px; font-weight: 700; font-size: 14px">In progress</span></div>
+<span style="margin-top: 6px; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 24px; display: inline-flex; align-items: center; gap: 10px">Open case study <span aria-hidden="true">→</span></span>
+<svg viewBox="0 0 400 210" style="position: relative; width: 100%; max-width: 460px; height: auto; margin: 6px auto -64px; display: block" role="img" aria-label="Watercolor illustration of three learners walking toward a laptop">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.45"></ellipse>
+<circle class="p1" cx="110" cy="96" r="16" fill="#E9B949" filter="url(#wc)"></circle>
+<circle class="p2" cx="160" cy="90" r="16" fill="#9CC3A5" filter="url(#wc)"></circle>
+<circle class="p3" cx="210" cy="96" r="16" fill="#B7A6DB" filter="url(#wc)"></circle>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
+<circle class="p1" cx="110" cy="96" r="16"></circle>
+<circle class="p2" cx="160" cy="90" r="16"></circle>
+<circle class="p3" cx="210" cy="96" r="16"></circle>
+<path d="M88 160 C 90 128, 130 128, 132 160 M138 154 C 140 122, 180 122, 182 154 M188 160 C 190 128, 230 128, 232 160"></path>
+<rect x="262" y="88" width="80" height="54" rx="6"></rect>
+<path d="M250 152 H 354"></path>
+<path class="check" d="M284 116 L 296 128 L 320 102"></path>
+</g>
+</svg>
+</a>
 </section>
 
 <section style="position: relative">
@@ -131,111 +296,6 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <p style="margin: 0; font-size: 15px; color: #5A5468; text-align: center">{{cur.statLabel}}</p>
 </div>
 </div>
-</div>
-</section>
-
-<section id="work" style="position: relative; max-width: 1160px; margin: 0 auto; padding: 80px 32px; display: flex; flex-direction: column; gap: 36px">
-<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 40px">Selected work</h2>
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; color: #5A5468">four messes, four flows</p>
-</div>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 32px">
-
-<a href="orvp.html" class="card" style="text-decoration: none; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 30px 24px 32px 26px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
-<svg viewBox="0 0 400 210" style="width: 100%; height: auto" role="img" aria-label="Watercolor illustration of stacked documents under a magnifying glass">
-<ellipse cx="200" cy="108" rx="170" ry="90" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.5"></ellipse>
-<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round">
-<rect x="118" y="46" width="120" height="140" rx="6" fill="#FFFDF8" transform="rotate(-6 178 116)"></rect>
-<rect x="138" y="38" width="120" height="140" rx="6" fill="#FFFDF8"></rect>
-<path d="M156 70 H 240 M156 92 H 228 M156 114 H 236 M156 136 H 214" fill="none"></path>
-<circle cx="268" cy="130" r="34" fill="none"></circle>
-<path d="M292 154 L 322 184" fill="none" style="stroke-width: 5"></path>
-</g>
-<path d="M154 92 H 230" stroke="#E9B949" filter="url(#wc)" style="stroke-width: 12; opacity: 0.7"></path>
-<path d="M154 136 H 216" stroke="#E9B949" filter="url(#wc)" style="stroke-width: 12; opacity: 0.7"></path>
-</svg>
-<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A4790">U-M Office of the VP for Research · AI workflow</p>
-<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 27px; line-height: 1.2; color: #2E2A3B">Turning 30-page funding calls into setup-ready data</h3>
-<div style="display: flex; flex-wrap: wrap; gap: 28px">
-<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">97.4%</p><p style="margin: 0; font-size: 14px; color: #5A5468">field accuracy (38 of 39)</p></div>
-<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">~$0.02</p><p style="margin: 0; font-size: 14px; color: #5A5468">per solicitation</p></div>
-</div>
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2E2A3B">read the story →</p>
-</a>
-
-<a href="campusbite.html" class="card" style="text-decoration: none; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 32px 26px 30px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
-<svg viewBox="0 0 400 210" style="width: 100%; height: auto" role="img" aria-label="Watercolor illustration of a pizza slice next to a map pin">
-<ellipse cx="200" cy="108" rx="170" ry="90" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.55"></ellipse>
-<path d="M120 60 L 220 80 L 150 180 Z" fill="#E9B949" filter="url(#wc)" style="opacity: 0.85"></path>
-<circle cx="160" cy="95" r="10" fill="#D9705E" filter="url(#wc)"></circle>
-<circle cx="185" cy="105" r="8" fill="#D9705E" filter="url(#wc)"></circle>
-<circle cx="160" cy="130" r="9" fill="#D9705E" filter="url(#wc)"></circle>
-<path d="M276 70 C 248 70, 236 96, 248 118 L 276 162 L 304 118 C 316 96, 304 70, 276 70 Z" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.8"></path>
-<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
-<path d="M120 60 L 220 80 L 150 180 Z"></path>
-<path d="M114 56 C 150 58, 196 66, 226 78"></path>
-<path d="M276 70 C 248 70, 236 96, 248 118 L 276 162 L 304 118 C 316 96, 304 70, 276 70 Z"></path>
-<circle cx="276" cy="100" r="11"></circle>
-</g>
-</svg>
-<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2F6B45">CampusBite · MHacks 2026</p>
-<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 27px; line-height: 1.2; color: #2E2A3B">80 catered events, only 3 tagged "free food"</h3>
-<div style="display: flex; flex-wrap: wrap; gap: 28px">
-<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">~380</p><p style="margin: 0; font-size: 14px; color: #5A5468">meals rescued (estimate)</p></div>
-<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">0 → 1</p><p style="margin: 0; font-size: 14px; color: #5A5468">in one hackathon weekend</p></div>
-</div>
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2E2A3B">read the story →</p>
-</a>
-
-<a href="carelift.html" class="card" style="text-decoration: none; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 26px 30px 24px 32px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
-<svg viewBox="0 0 400 210" style="width: 100%; height: auto" role="img" aria-label="Watercolor illustration of a drone carrying a medicine package">
-<ellipse cx="200" cy="108" rx="170" ry="90" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.5"></ellipse>
-<rect x="176" y="128" width="48" height="40" rx="5" fill="#FFFDF8"></rect>
-<path d="M200 138 V 158 M190 148 H 210" stroke="#D9705E" filter="url(#wc)" style="stroke-width: 7"></path>
-<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
-<rect x="170" y="70" width="60" height="22" rx="8"></rect>
-<path d="M170 78 L 124 62 M230 78 L 276 62"></path>
-<ellipse cx="118" cy="58" rx="30" ry="6"></ellipse>
-<ellipse cx="282" cy="58" rx="30" ry="6"></ellipse>
-<path d="M190 92 L 186 128 M210 92 L 214 128"></path>
-<rect x="176" y="128" width="48" height="40" rx="5"></rect>
-<path d="M60 180 C 100 170, 130 186, 170 178 M240 182 C 280 172, 310 186, 350 176" style="stroke-width: 1.8"></path>
-</g>
-</svg>
-<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">CareLift · Business+Tech</p>
-<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 27px; line-height: 1.2; color: #2E2A3B">Medicine in minutes, not hours: drone delivery for rural patients</h3>
-<div style="display: flex; flex-wrap: wrap; gap: 28px">
-<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">6 weeks</p><p style="margin: 0; font-size: 14px; color: #5A5468">to a working MVP of 3 apps</p></div>
-<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">~20 min</p><p style="margin: 0; font-size: 14px; color: #5A5468">from request to door</p></div>
-</div>
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2E2A3B">read the story →</p>
-</a>
-
-<a href="catalyst.html" class="card" style="text-decoration: none; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 32px 26px 30px 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
-<svg viewBox="0 0 400 210" style="width: 100%; height: auto" role="img" aria-label="Watercolor illustration of three learners walking toward a laptop">
-<ellipse cx="200" cy="108" rx="170" ry="90" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.45"></ellipse>
-<circle cx="110" cy="96" r="16" fill="#E9B949" filter="url(#wc)"></circle>
-<circle cx="160" cy="90" r="16" fill="#9CC3A5" filter="url(#wc)"></circle>
-<circle cx="210" cy="96" r="16" fill="#B7A6DB" filter="url(#wc)"></circle>
-<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
-<circle cx="110" cy="96" r="16"></circle>
-<circle cx="160" cy="90" r="16"></circle>
-<circle cx="210" cy="96" r="16"></circle>
-<path d="M88 160 C 90 128, 130 128, 132 160 M138 154 C 140 122, 180 122, 182 154 M188 160 C 190 128, 230 128, 232 160"></path>
-<rect x="262" y="88" width="80" height="54" rx="6"></rect>
-<path d="M250 152 H 354"></path>
-<path d="M284 116 L 296 128 L 320 102"></path>
-</g>
-</svg>
-<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #A04A1E">Beyond Code Collective · In progress</p>
-<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 27px; line-height: 1.2; color: #2E2A3B">Turning sign-ups into live attendance at Catalyst Lab</h3>
-<div style="display: flex; flex-wrap: wrap; gap: 28px">
-<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">~83%</p><p style="margin: 0; font-size: 14px; color: #5A5468">of registrants never showed up</p></div><div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">5 steps</p><p style="margin: 0; font-size: 14px; color: #5A5468">walked as a learner</p></div>
-</div>
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2E2A3B">follow along →</p>
-</a>
-
 </div>
 </section>
 
