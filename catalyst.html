@@ -33,7 +33,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <div id="app"></div>
 <template id="dc-template">
 
-<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.65; overflow: hidden">
+<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.65; overflow-x: clip">
 
 <svg aria-hidden="true" style="position: absolute; width: 0; height: 0">
 <defs>
@@ -65,7 +65,16 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <a href="index.html" style="font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← back to all work</a>
 </header>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 40px 32px 64px; display: flex; flex-direction: column; gap: 24px">
+<nav aria-label="On this page" style="position: sticky; top: 0; z-index: 5; background: rgba(251,247,239,0.92); backdrop-filter: blur(6px); border-bottom: 1.5px solid #E6DCCB">
+<div style="max-width: 1040px; margin: 0 auto; padding: 8px 32px; display: flex; flex-wrap: wrap; gap: 6px 22px; font-weight: 700; font-size: 15px">
+<a href="#basics" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">1 · The project</a>
+<a href="#research" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">2 · Problem &amp; research</a>
+<a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · Decisions &amp; pivot</a>
+<a href="#results" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">4 · Solution &amp; results</a>
+</div>
+</nav>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px 24px; display: flex; flex-direction: column; gap: 20px">
 <svg viewBox="0 0 1040 360" preserveAspectRatio="none" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%" aria-hidden="true">
 <ellipse cx="860" cy="120" rx="220" ry="120" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.4"></ellipse>
 <ellipse cx="950" cy="240" rx="140" ry="80" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.35; mix-blend-mode: multiply"></ellipse>
@@ -73,19 +82,51 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <p style="position: relative; margin: 0; display: inline-flex; align-self: flex-start; gap: 8px; align-items: center; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 999px; padding: 4px 14px; font-size: 14px; font-weight: 700"><span style="width: 8px; height: 8px; border-radius: 50%; background: #E9B949"></span>In progress · final findings in December 2026</p>
 <p style="position: relative; margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #A04A1E">Case study · Beyond Code Collective · Catalyst Labs</p>
 <h1 style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 840px">Most people who signed up never showed up</h1>
-<p style="position: relative; margin: 0; font-size: 21px; color: #4A4458; max-width: 740px">Catalyst Labs runs free, live 90-minute AI workshops for adults with little tech background. The outreach worked. Then about 83% of registrants never made it to the live session. My job: find out where they slipped away.</p>
-<div style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 12px">
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My role</p><p style="margin: 0; font-weight: 500">UX research: joined as a learner, client interviews, research dossier</p></div>
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 0; font-weight: 500">UMSI grad students: UX, CS, psychology, data science</p></div>
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">When</p><p style="margin: 0; font-weight: 500">Oct – Dec 2026</p></div>
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Client</p><p style="margin: 0; font-weight: 500">Nonprofit bridging the AI literacy divide</p></div>
+<p style="position: relative; margin: 0; font-size: 21px; color: #4A4458; max-width: 740px">Finding where learners slip away between signing up and joining a free, live AI workshop, so more of them make it to the session.</p>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="basics" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #B0573F">part 1</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">The project</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 28px">
+<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My role · UX research</p>
+<p style="margin: 0">In a team of ten, I focused on understanding the learner journey firsthand. I:</p>
+<ul style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px">
+<li>Joined a live Catalyst Labs session as a learner</li>
+<li>Took part in client interviews about goals, tools and time sinks</li>
+<li>Helped write our research dossier: who the learners are, where the funnel breaks, and what to research next</li>
+</ul>
+</div>
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team of 10</p><p style="margin: 4px 0 0; font-size: 16px">Chih-Chi (Joan) Huang, Bobby Ye, Rena Huang, Jangael Rosales, Ruihao (Real) Chen, Bonnie Baffoe-Bonnie, Seren Lee, Pongpol (Pong) Vongasvathepchai, Felipe Barrios, Zoya Chaudhry</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Fall 2026 · October to December</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Client</p><p style="margin: 4px 0 0">Beyond Code Collective, a nonprofit bridging the AI literacy divide</p></div>
+</div>
 </div>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 20px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #B0573F">01 · walk the journey</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Where do learners slip away?</h2>
-<p style="margin: 0; max-width: 760px">The team assumed they needed more marketing. I joined a session as a learner and walked the whole journey myself. Tap each step to see what I found.</p>
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="research" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">part 2</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Problem &amp; research</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Target users</p><p style="margin: 6px 0 0">Adults aged 18 to 55+ with little or no tech background, many of them career changers and job seekers, who often join from a phone.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Problem statement</p><p style="margin: 6px 0 0">Outreach brings in sign-ups, but about 83% of registrants never make it to the live session, so the program can't reach the people it was built for.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0">More registrants reach the live session, and the session fits learners at different skill levels.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Business outcome</p><p style="margin: 6px 0 0">Grow the program's reach, and less manual follow-up for a small team.</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we're researching</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">2</p><p style="margin: 0">client meetings: kickoff and feedback</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">live session, joined as learners</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">5</p><p style="margin: 0">survey pages reviewed, question by question</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">3</p><p style="margin: 0">kinds of programs benchmarked: self-paced courses, paid bootcamps, community workshops</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Insight · walk the journey and see where learners slip away</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px">
 <sc-for list="{{steps}}" as="s" hint-placeholder-count="5">
 <button type="button" class="chap" onClick="{{s.pick}}" aria-pressed="{{s.pressed}}" style="position: relative; text-align: left; font: inherit; color: {{s.ink}}; background: {{s.bg}}; border: 2px solid #2E2A3B; border-radius: 18px 14px 20px 12px; padding: 12px 14px; min-height: 76px; cursor: pointer">
@@ -109,10 +150,20 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 20px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #6A4F9A">02 · the survey, up close</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Small design choices, big friction</h2>
-<p style="margin: 0; max-width: 760px">The pre-session survey was the first real task a new learner faced. Switch between the original and my redesign.</p>
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="decisions" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2A5F8F">part 3</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Decisions &amp; pivot</h2>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The reframe</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch">
+<div style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">the original ask</p><p style="margin: 4px 0 0">Expand marketing to reach more people.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">what we found</p><p style="margin: 4px 0 0">Sign-ups were healthy. About 83% were lost after registration, not before.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">new focus</p><p style="margin: 4px 0 0">Fix what happens between signing up and showing up, before spending more on outreach.</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Recommendation · redesign the survey</p>
 <div style="display: flex; gap: 10px">
 <button type="button" onClick="{{svBefore}}" aria-pressed="{{svBeforePressed}}" style="font: inherit; font-weight: 700; color: {{svBeforeInk}}; background: {{svBeforeBg}}; border: 2px solid #2E2A3B; border-radius: 22px 16px 24px 14px; padding: 10px 20px; min-height: 44px; cursor: pointer">Original</button>
 <button type="button" onClick="{{svAfter}}" aria-pressed="{{svAfterPressed}}" style="font: inherit; font-weight: 700; color: {{svAfterInk}}; background: {{svAfterBg}}; border: 2px solid #2E2A3B; border-radius: 16px 24px 14px 22px; padding: 10px 20px; min-height: 44px; cursor: pointer">My redesign</button>
@@ -141,29 +192,26 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <p style="margin: 0; font-size: 14px; color: #5A5468">Simplified recreation for illustration. Question wording is paraphrased.</p>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 22px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">03 · what I did</p>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">be the learner</p><p style="margin: 4px 0 0">Joined a live session the way a real participant would. Some of our own team never got the session link.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 24px 16px 22px; padding: 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #6A4F9A">listen to the team</p><p style="margin: 4px 0 0">Interviewed the client about their goals, tools and biggest time sinks: manual follow-up with registrants.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 16px 22px 18px; padding: 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">write it down</p><p style="margin: 4px 0 0">Turned it into a research dossier: who the learners are, where the funnel breaks, and what to research next.</p></div>
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="results" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2F6B45">part 4</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Solution &amp; results</h2>
+</div>
+<div style="position: relative; padding: 34px 36px; transform: rotate(-0.4deg)">
+<svg viewBox="0 0 800 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M8 12 C 260 4, 540 8, 792 6 C 798 70, 796 140, 790 194 C 540 198, 260 196, 12 194 C 4 140, 4 70, 8 12 Z" fill="#F7E3A8" filter="url(#wc)"></path></svg>
+<p style="position: relative; margin: 0; font-family: 'Caveat', cursive; font-size: 32px; font-weight: 700; line-height: 1.2">Still in progress. We're waiting on survey data from the client.</p>
+<p style="position: relative; margin: 10px 0 0">Next: interview registrants who didn't show up, build learner personas from the survey data, and deliver final recommendations and Figma designs in December. Results and my reflection will be added here.</p>
 </div>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 40px 32px 72px; display: flex; flex-direction: column; gap: 14px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2A5F8F">what's next</p>
-<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; line-height: 1.4; max-width: 840px">Next we interview the people who registered but didn't come, build learner personas from survey data, and deliver final recommendations and Figma designs in December.</p>
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">check back for the results</p>
-</section>
-
-<nav aria-label="Case studies" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 0 32px 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
+<nav aria-label="Case studies" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
 <a href="carelift.html" style="font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← CareLift</a>
-<a href="index.html" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 14px 26px; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center">Back to all work →</a>
+<a href="index.html" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 22px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">Back to all work →</a>
 </nav>
 
 </div>
 </template>
-<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":4400}}'>
+<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":5600}}'>
 class Component extends DCLogic {
 renderVals() {
 const st = this.state || {};
