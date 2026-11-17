@@ -24,6 +24,12 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 @keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){.draw{animation:none;stroke-dashoffset:0}.pop{animation:none}.flip:hover,.field:hover{transform:none}}
 @media (max-width: 640px){h1{font-size:38px !important}h2{font-size:30px !important}}
+.progress{position:fixed;left:0;top:0;height:5px;width:calc(var(--p,0) * 100%);background:#E9B949;z-index:20;border-radius:0 3px 3px 0}
+.spine{position:absolute;top:0;height:100%;left:calc(50% - 604px);width:48px;pointer-events:none;z-index:0}
+.spine path{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,0))}
+@media (max-width: 1200px){.spine{display:none}}
+@supports (animation-timeline: view()){.rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 35%}@keyframes rv{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}}
+@media (prefers-reduced-motion: reduce){.rv{animation:none !important}.spine path{stroke-dashoffset:0}.progress{display:none}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -57,6 +63,8 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </defs>
 </svg>
 <svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"><rect width="100%" height="100%" filter="url(#paper)"></rect></svg>
+<div class="progress" aria-hidden="true"></div>
+<svg class="spine" viewBox="0 0 48 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M24 0 C 6 10, 42 18, 18 26 S 4 44, 30 42 S 40 20, 16 34 C 8 60, 40 80, 24 110 S 10 200, 24 280 S 38 420, 24 520 S 10 680, 24 780 S 36 920, 24 1000" pathLength="1" fill="none" stroke="#2E2A3B" stroke-linecap="round" style="stroke-width: 3; opacity: 0.7"></path></svg>
 
 <header style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
 <a href="index.html" style="text-decoration: none; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">Chih-Chi (Joan) Huang</a>
@@ -83,7 +91,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="basics" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="basics" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #B0573F">part 1</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">The project</h2>
 </div>
@@ -99,15 +107,15 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </ul>
 </div>
 <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 4px 0 0">Chih-Chi (Joan) Huang, Ric, Joyce, Emrys</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Fall 2026 · about 2 months</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Figma (prototype, flowcharts) · Notion (project management) · U-M GPT</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 4px 0 0">Chih-Chi (Joan) Huang, Ric, Joyce, Emrys</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Fall 2026 · about 2 months</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Figma (prototype, flowcharts) · Notion (project management) · U-M GPT</p></div>
 </div>
 </div>
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="research" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="research" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">part 2</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Problem &amp; research</h2>
 </div>
@@ -134,14 +142,14 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome we aimed for</p><p style="margin: 6px 0 0">Get every key field from a funding call in one step, each tied to its source, with at least 90% accuracy and zero missed critical rules.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Business outcome we aimed for</p><p style="margin: 6px 0 0">Show the office, within the pilot, that university-approved AI can make setup faster and more consistent, and leave behind assets staff can maintain without engineers.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome we aimed for</p><p style="margin: 6px 0 0">Get every key field from a funding call in one step, each tied to its source, with at least 90% accuracy and zero missed critical rules.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Business outcome we aimed for</p><p style="margin: 6px 0 0">Show the office, within the pilot, that university-approved AI can make setup faster and more consistent, and leave behind assets staff can maintain without engineers.</p></div>
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we researched</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">3</p><p style="margin: 0">client staff answered our question list in one structured session</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">hands-on walkthrough of the client's competition system</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">7</p><p style="margin: 0">real, public funding calls as our test set</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">3</p><p style="margin: 0">client staff answered our question list in one structured session</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">hands-on walkthrough of the client's competition system</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">7</p><p style="margin: 0">real, public funding calls as our test set</p></div>
 </div>
 <p style="margin: 0; font-size: 16px; color: #4A4458">No competitive analysis: this is an internal tool for one office, so the comparison that mattered was against today's manual process.</p>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Key insights</p>
@@ -154,17 +162,17 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="decisions" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="decisions" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2A5F8F">part 3</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Decisions &amp; pivot</h2>
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The pivot</p>
 <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch">
-<div style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">plan A</p><p style="margin: 4px 0 0">Build the tool <strong>into</strong> the existing competition system, so staff never leave it.</p></div>
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">plan A</p><p style="margin: 4px 0 0">Build the tool <strong>into</strong> the existing competition system, so staff never leave it.</p></div>
 <div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
-<div style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">what changed</p><p style="margin: 4px 0 0">The office's IT policy does not let students build into its systems.</p></div>
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">what changed</p><p style="margin: 4px 0 0">The office's IT policy does not let students build into its systems.</p></div>
 <div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
-<div style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">plan B</p><p style="margin: 4px 0 0">A standalone tool whose output follows the system's exact field order, with one-click copy for each field.</p></div>
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">plan B</p><p style="margin: 4px 0 0">A standalone tool whose output follows the system's exact field order, with one-click copy for each field.</p></div>
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Working around the constraints · tap a card</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin-top: 6px">
@@ -188,15 +196,15 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Key decisions and the evidence behind them</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">AI drafts, a person approves</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: in interviews, one wrong limit goes out to the whole campus. Staff must stay in control of every value.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">Every value shows its source</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: staff said they would only trust an answer they could check against the original text.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">Flag conflicts instead of guessing</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: funding calls often state a rule one way on the overview and another way in the FAQ.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">Start with one step, not the whole workflow</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: the office named translating funding calls as its top priority.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">AI drafts, a person approves</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: in interviews, one wrong limit goes out to the whole campus. Staff must stay in control of every value.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">Every value shows its source</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: staff said they would only trust an answer they could check against the original text.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">Flag conflicts instead of guessing</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: funding calls often state a rule one way on the overview and another way in the FAQ.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">Start with one step, not the whole workflow</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: the office named translating funding calls as its top priority.</p></div>
 </div>
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="results" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="results" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2F6B45">part 4</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Solution &amp; results</h2>
 </div>
@@ -243,23 +251,30 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0"><strong>Accuracy target met:</strong> 97.4% against a 90% goal. <strong>Not yet tested by daily users:</strong> the staff who will use it have not tried it yet.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Client feedback</p><p style="margin: 6px 0 0">The office manager told us the interface and the flow were exactly what they had expected.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0"><strong>Accuracy target met:</strong> 97.4% against a 90% goal. <strong>Not yet tested by daily users:</strong> the staff who will use it have not tried it yet.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Client feedback</p><p style="margin: 6px 0 0">The office manager told us the interface and the flow were exactly what they had expected.</p></div>
 </div>
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">my reflection</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.5deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what went well</p><p style="margin: 6px 0 0">Asking for system access instead of guessing. It let the AI fill in answers that actually fit each field.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(0.4deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">what didn't</p><p style="margin: 6px 0 0">A standalone tool is a workaround. Without building into the real system, there may be problems we haven't seen yet, and daily users haven't tried it.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.3deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">next time</p><p style="margin: 6px 0 0">Work with IT from day one to find a path into the existing system, and put the tool in front of daily users early.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.5deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what went well</p><p style="margin: 6px 0 0">Asking for system access instead of guessing. It let the AI fill in answers that actually fit each field.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(0.4deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">what didn't</p><p style="margin: 6px 0 0">A standalone tool is a workaround. Without building into the real system, there may be problems we haven't seen yet, and daily users haven't tried it.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.3deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">next time</p><p style="margin: 6px 0 0">Work with IT from day one to find a path into the existing system, and put the tool in front of daily users early.</p></div>
 </div>
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px 56px; display: flex; flex-direction: column; gap: 14px">
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">what's next</p>
 <p style="margin: 0; font-family: 'Fraunces', serif; font-size: 24px; line-height: 1.4; max-width: 820px">Phase 2: helping staff build review panels. I mapped the panel-selection flow with the client, and the team is now turning it into low-fi wireframes.</p>
+<div style="display: flex; justify-content: center; padding: 32px 0 8px">
+<div style="position: relative; max-width: 620px; padding: 40px 44px; transform: rotate(-1.5deg)">
+<svg viewBox="0 0 620 220" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M10 14 C 200 4, 420 10, 610 8 C 616 80, 614 150, 608 212 C 420 218, 200 216, 14 214 C 6 150, 6 80, 10 14 Z" fill="#F7E3A8" filter="url(#wc)"></path><path d="M270 2 H 350 V 26 H 270 Z" fill="#E59A8C" style="opacity: 0.6"></path></svg>
+<p style="position: relative; margin: 0; font-family: 'Caveat', cursive; font-size: 40px; font-weight: 700; line-height: 1.15; text-align: center">"The best student team we've ever worked with."</p>
+<p style="position: relative; margin: 12px 0 0; text-align: center; font-size: 15px; color: #5A5468">Research Development team, U-M Office of the VP for Research</p>
+</div>
+</div>
 </section>
 
 <nav aria-label="Case studies" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 0 32px 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
@@ -271,6 +286,17 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </template>
 <script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":7400}}'>
 class Component extends DCLogic {
+componentDidMount() {
+const set = () => {
+const h = document.documentElement;
+const max = (h.scrollHeight - window.innerHeight) || 1;
+h.style.setProperty('--p', Math.min(1, Math.max(0, window.scrollY / max)).toFixed(4));
+h.style.setProperty('--d', Math.min(1, (window.scrollY + window.innerHeight * 0.75) / (h.scrollHeight || 1)).toFixed(4));
+};
+set();
+window.addEventListener('scroll', set, { passive: true });
+window.addEventListener('resize', set);
+}
 renderVals() {
 const st = this.state || {};
 const open = st.open || {};

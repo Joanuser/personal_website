@@ -26,6 +26,12 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 @keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){.draw{animation:none;stroke-dashoffset:0}.pop{animation:none}.flip:hover,.opt:hover,.chap:hover{transform:none}}
 @media (max-width: 640px){h1{font-size:38px !important}h2{font-size:30px !important}}
+.progress{position:fixed;left:0;top:0;height:5px;width:calc(var(--p,0) * 100%);background:#E9B949;z-index:20;border-radius:0 3px 3px 0}
+.spine{position:absolute;top:0;height:100%;left:calc(50% - 604px);width:48px;pointer-events:none;z-index:0}
+.spine path{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,0))}
+@media (max-width: 1200px){.spine{display:none}}
+@supports (animation-timeline: view()){.rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 35%}@keyframes rv{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}}
+@media (prefers-reduced-motion: reduce){.rv{animation:none !important}.spine path{stroke-dashoffset:0}.progress{display:none}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -59,6 +65,8 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </defs>
 </svg>
 <svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"><rect width="100%" height="100%" filter="url(#paper)"></rect></svg>
+<div class="progress" aria-hidden="true"></div>
+<svg class="spine" viewBox="0 0 48 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M24 0 C 6 10, 42 18, 18 26 S 4 44, 30 42 S 40 20, 16 34 C 8 60, 40 80, 24 110 S 10 200, 24 280 S 38 420, 24 520 S 10 680, 24 780 S 36 920, 24 1000" pathLength="1" fill="none" stroke="#2E2A3B" stroke-linecap="round" style="stroke-width: 3; opacity: 0.7"></path></svg>
 
 <header style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
 <a href="index.html" style="text-decoration: none; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">Chih-Chi (Joan) Huang</a>
@@ -85,7 +93,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="basics" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="basics" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #B0573F">part 1</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">The project</h2>
 </div>
@@ -101,31 +109,31 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </ul>
 </div>
 <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 4px 0 0">Chih-Chi (Joan) Huang, Wan-Lin Lin, Chih-Fan Lin</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">MHacks 2026 · 2 days</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Figma · VS Code · Cursor</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 4px 0 0">Chih-Chi (Joan) Huang, Wan-Lin Lin, Chih-Fan Lin</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">MHacks 2026 · 2 days</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Figma · VS Code · Cursor</p></div>
 </div>
 </div>
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="research" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="research" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">part 2</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Problem &amp; research</h2>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Target users</p><p style="margin: 6px 0 0"><strong>Students</strong>, especially on tight budgets, looking for a quick bite between classes. <strong>Event hosts</strong> with leftovers and no quick way to share them.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Problem statement</p><p style="margin: 6px 0 0">Students who would happily take leftover event food rarely hear about it in time, so hosts throw it away.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Target users</p><p style="margin: 6px 0 0"><strong>Students</strong>, especially on tight budgets, looking for a quick bite between classes. <strong>Event hosts</strong> with leftovers and no quick way to share them.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Problem statement</p><p style="margin: 6px 0 0">Students who would happily take leftover event food rarely hear about it in time, so hosts throw it away.</p></div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome we aimed for</p><p style="margin: 6px 0 0">Students can see where food is right now, and get there before it's gone.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Impact outcome we aimed for</p><p style="margin: 6px 0 0">Less food wasted on campus, and an easy way for hosts to share leftovers.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome we aimed for</p><p style="margin: 6px 0 0">Students can see where food is right now, and get there before it's gone.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Impact outcome we aimed for</p><p style="margin: 6px 0 0">Less food wasted on campus, and an easy way for hosts to share leftovers.</p></div>
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we researched</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">keyword audit of the U-M events calendar</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">~5</p><p style="margin: 0">quick conversations with students</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">outside study on leftovers per guest, to estimate impact</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">keyword audit of the U-M events calendar</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">~5</p><p style="margin: 0">quick conversations with students</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">outside study on leftovers per guest, to estimate impact</p></div>
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Insight 1 · Hosts don't write "free food." Try both searches:</p>
 <div style="display: flex; flex-wrap: wrap; gap: 10px">
@@ -163,7 +171,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="decisions" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="decisions" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2A5F8F">part 3</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Decisions &amp; pivot</h2>
 </div>
@@ -186,11 +194,11 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The pivot · from charts to a tree</p>
 <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch">
-<div style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">first plan</p><p style="margin: 4px 0 0">Show impact with data only: charts of meals rescued and CO₂ avoided.</p></div>
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">first plan</p><p style="margin: 4px 0 0">Show impact with data only: charts of meals rescued and CO₂ avoided.</p></div>
 <div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
-<div style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">my push</p><p style="margin: 4px 0 0">Numbers feel abstract. People need a picture of their own impact, something that feels like progress.</p></div>
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">my push</p><p style="margin: 4px 0 0">Numbers feel abstract. People need a picture of their own impact, something that feels like progress.</p></div>
 <div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
-<div style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what we built</p><p style="margin: 4px 0 0">A personal tree that grows with every pickup, next to the impact charts.</p></div>
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what we built</p><p style="margin: 4px 0 0">A personal tree that grows with every pickup, next to the impact charts.</p></div>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 36px; align-items: center">
 <div style="flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
@@ -224,17 +232,17 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="results" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="results" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2F6B45">part 4</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Solution &amp; results</h2>
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The loop we shipped in 2 days</p>
 <svg viewBox="0 0 1000 60" style="width: 100%; height: auto" aria-hidden="true"><path class="draw" d="M10 30 C 40 6, 70 54, 60 24 S 20 14, 60 40 C 200 10, 400 50, 600 28 C 760 14, 880 34, 990 30" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3; stroke-linecap: round"></path></svg>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">1 · discover</p><p style="margin: 4px 0 0">A scraper reads public U-M event listings for the words hosts actually use.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 24px 16px 22px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">2 · map</p><p style="margin: 4px 0 0">Live pins with countdowns show where food is right now.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 16px 22px 18px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">3 · report</p><p style="margin: 4px 0 0">Students tap "I'm going," "Get some" or "All gone" so the map stays honest.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 16px 22px 18px 24px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">4 · close</p><p style="margin: 4px 0 0">Hosts post leftovers and mark them gone with a private key.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">1 · discover</p><p style="margin: 4px 0 0">A scraper reads public U-M event listings for the words hosts actually use.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 24px 16px 22px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">2 · map</p><p style="margin: 4px 0 0">Live pins with countdowns show where food is right now.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 16px 22px 18px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">3 · report</p><p style="margin: 4px 0 0">Students tap "I'm going," "Get some" or "All gone" so the map stays honest.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 16px 22px 18px 24px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">4 · close</p><p style="margin: 4px 0 0">Hosts post leftovers and mark them gone with a private key.</p></div>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 12px">
 <a href="https://devpost.com/software/campusbite-q0p47g" target="_blank" rel="noopener" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 22px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">See all 15 Figma screens on Devpost →</a>
@@ -247,17 +255,17 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <div style="position: relative; padding: 28px 24px"><svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1">~125 kg</p><p style="position: relative; margin: 8px 0 0">of CO₂e avoided, from about 209 kg of food</p></div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0"><strong>Built:</strong> the full loop, from discovery to posting, reporting and closing an event. <strong>Not yet proven:</strong> impact is an estimate, and the tree's effect on reporting is untested.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">What students said</p><p style="margin: 6px 0 0">The students we talked to said a tool like this would be really useful.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0"><strong>Built:</strong> the full loop, from discovery to posting, reporting and closing an event. <strong>Not yet proven:</strong> impact is an estimate, and the tree's effect on reporting is untested.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">What students said</p><p style="margin: 6px 0 0">The students we talked to said a tool like this would be really useful.</p></div>
 </div>
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">my reflection</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.5deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what went well</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Defining the problem with data first. "80 vs 3" got the whole team aligned in a two-day sprint.</li><li>Making impact visible with the tree, not just charts.</li><li>Balancing easy posting (no login) with trust (a required photo).</li></ul></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(0.4deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">what didn't</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>We only talked to one side. CampusBite is two-sided, and whether hosts will post is what makes or breaks it.</li><li>We asked for opinions, not behavior. "This would be useful" is easy to say.</li><li>Our impact numbers are estimates, and the tree is untested.</li></ul></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.3deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">next time</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Interview 2–3 frequent hosts on day one.</li><li>Ask "the last time you saw free food, what did you do?"</li><li>Pilot with one group, like WISE, and measure real pickups and reports.</li></ul></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.5deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what went well</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Defining the problem with data first. "80 vs 3" got the whole team aligned in a two-day sprint.</li><li>Making impact visible with the tree, not just charts.</li><li>Balancing easy posting (no login) with trust (a required photo).</li></ul></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(0.4deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">what didn't</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>We only talked to one side. CampusBite is two-sided, and whether hosts will post is what makes or breaks it.</li><li>We asked for opinions, not behavior. "This would be useful" is easy to say.</li><li>Our impact numbers are estimates, and the tree is untested.</li></ul></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.3deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">next time</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Interview 2–3 frequent hosts on day one.</li><li>Ask "the last time you saw free food, what did you do?"</li><li>Pilot with one group, like WISE, and measure real pickups and reports.</li></ul></div>
 </div>
 </section>
 
@@ -275,6 +283,17 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </template>
 <script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":7800}}'>
 class Component extends DCLogic {
+componentDidMount() {
+const set = () => {
+const h = document.documentElement;
+const max = (h.scrollHeight - window.innerHeight) || 1;
+h.style.setProperty('--p', Math.min(1, Math.max(0, window.scrollY / max)).toFixed(4));
+h.style.setProperty('--d', Math.min(1, (window.scrollY + window.innerHeight * 0.75) / (h.scrollHeight || 1)).toFixed(4));
+};
+set();
+window.addEventListener('scroll', set, { passive: true });
+window.addEventListener('resize', set);
+}
 renderVals() {
 const st = this.state || {};
 const dark = '#2E2A3B', light = '#FBF7EF';

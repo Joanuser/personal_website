@@ -26,6 +26,12 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 @keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){.draw{animation:none;stroke-dashoffset:0}.pop{animation:none}.flip:hover,.opt:hover,.chap:hover{transform:none}}
 @media (max-width: 640px){h1{font-size:38px !important}h2{font-size:30px !important}}
+.progress{position:fixed;left:0;top:0;height:5px;width:calc(var(--p,0) * 100%);background:#E9B949;z-index:20;border-radius:0 3px 3px 0}
+.spine{position:absolute;top:0;height:100%;left:calc(50% - 604px);width:48px;pointer-events:none;z-index:0}
+.spine path{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,0))}
+@media (max-width: 1200px){.spine{display:none}}
+@supports (animation-timeline: view()){.rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 35%}@keyframes rv{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}}
+@media (prefers-reduced-motion: reduce){.rv{animation:none !important}.spine path{stroke-dashoffset:0}.progress{display:none}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -59,6 +65,8 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </defs>
 </svg>
 <svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"><rect width="100%" height="100%" filter="url(#paper)"></rect></svg>
+<div class="progress" aria-hidden="true"></div>
+<svg class="spine" viewBox="0 0 48 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M24 0 C 6 10, 42 18, 18 26 S 4 44, 30 42 S 40 20, 16 34 C 8 60, 40 80, 24 110 S 10 200, 24 280 S 38 420, 24 520 S 10 680, 24 780 S 36 920, 24 1000" pathLength="1" fill="none" stroke="#2E2A3B" stroke-linecap="round" style="stroke-width: 3; opacity: 0.7"></path></svg>
 
 <header style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
 <a href="index.html" style="text-decoration: none; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">Chih-Chi (Joan) Huang</a>
@@ -86,7 +94,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="basics" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="basics" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #B0573F">part 1</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">The project</h2>
 </div>
@@ -101,30 +109,30 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </ul>
 </div>
 <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team of 10</p><p style="margin: 4px 0 0; font-size: 16px">Chih-Chi (Joan) Huang, Bobby Ye, Rena Huang, Jangael Rosales, Ruihao (Real) Chen, Bonnie Baffoe-Bonnie, Seren Lee, Pongpol (Pong) Vongasvathepchai, Felipe Barrios, Zoya Chaudhry</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Fall 2026 · October to December</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Client</p><p style="margin: 4px 0 0">Beyond Code Collective, a nonprofit bridging the AI literacy divide</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team of 10</p><p style="margin: 4px 0 0; font-size: 16px">Chih-Chi (Joan) Huang, Bobby Ye, Rena Huang, Jangael Rosales, Ruihao (Real) Chen, Bonnie Baffoe-Bonnie, Seren Lee, Pongpol (Pong) Vongasvathepchai, Felipe Barrios, Zoya Chaudhry</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Fall 2026 · October to December</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Client</p><p style="margin: 4px 0 0">Beyond Code Collective, a nonprofit bridging the AI literacy divide</p></div>
 </div>
 </div>
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="research" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="research" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">part 2</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Problem &amp; research</h2>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Target users</p><p style="margin: 6px 0 0">Adults aged 18 to 55+ with little or no tech background, many of them career changers and job seekers, who often join from a phone.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Problem statement</p><p style="margin: 6px 0 0">Outreach brings in sign-ups, but about 83% of registrants never make it to the live session, so the program can't reach the people it was built for.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0">More registrants reach the live session, and the session fits learners at different skill levels.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Business outcome</p><p style="margin: 6px 0 0">Grow the program's reach, and less manual follow-up for a small team.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Target users</p><p style="margin: 6px 0 0">Adults aged 18 to 55+ with little or no tech background, many of them career changers and job seekers, who often join from a phone.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Problem statement</p><p style="margin: 6px 0 0">Outreach brings in sign-ups, but about 83% of registrants never make it to the live session, so the program can't reach the people it was built for.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0">More registrants reach the live session, and the session fits learners at different skill levels.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Business outcome</p><p style="margin: 6px 0 0">Grow the program's reach, and less manual follow-up for a small team.</p></div>
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we're researching</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">2</p><p style="margin: 0">client meetings: kickoff and feedback</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">live session, joined as learners</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">5</p><p style="margin: 0">survey pages reviewed, question by question</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">3</p><p style="margin: 0">kinds of programs benchmarked: self-paced courses, paid bootcamps, community workshops</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">2</p><p style="margin: 0">client meetings: kickoff and feedback</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">live session, joined as learners</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">5</p><p style="margin: 0">survey pages reviewed, question by question</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">3</p><p style="margin: 0">kinds of programs benchmarked: self-paced courses, paid bootcamps, community workshops</p></div>
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Insight · walk the journey and see where learners slip away</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px">
@@ -151,17 +159,17 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="decisions" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="decisions" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2A5F8F">part 3</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Decisions &amp; pivot</h2>
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The reframe</p>
 <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch">
-<div style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">the original ask</p><p style="margin: 4px 0 0">Expand marketing to reach more people.</p></div>
+<div class="rv" style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">the original ask</p><p style="margin: 4px 0 0">Expand marketing to reach more people.</p></div>
 <div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
-<div style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">what we found</p><p style="margin: 4px 0 0">Sign-ups were healthy. About 83% were lost after registration, not before.</p></div>
+<div class="rv" style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">what we found</p><p style="margin: 4px 0 0">Sign-ups were healthy. About 83% were lost after registration, not before.</p></div>
 <div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
-<div style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">new focus</p><p style="margin: 4px 0 0">Fix what happens between signing up and showing up, before spending more on outreach.</p></div>
+<div class="rv" style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">new focus</p><p style="margin: 4px 0 0">Fix what happens between signing up and showing up, before spending more on outreach.</p></div>
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Early recommendation from my dossier · redesign the survey</p>
 <div style="display: flex; gap: 10px">
@@ -193,7 +201,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="results" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<div id="results" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
 <span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2F6B45">part 4</span>
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Solution &amp; results</h2>
 </div>
@@ -213,6 +221,17 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </template>
 <script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":5600}}'>
 class Component extends DCLogic {
+componentDidMount() {
+const set = () => {
+const h = document.documentElement;
+const max = (h.scrollHeight - window.innerHeight) || 1;
+h.style.setProperty('--p', Math.min(1, Math.max(0, window.scrollY / max)).toFixed(4));
+h.style.setProperty('--d', Math.min(1, (window.scrollY + window.innerHeight * 0.75) / (h.scrollHeight || 1)).toFixed(4));
+};
+set();
+window.addEventListener('scroll', set, { passive: true });
+window.addEventListener('resize', set);
+}
 renderVals() {
 const st = this.state || {};
 const dark = '#2E2A3B', light = '#FBF7EF';
