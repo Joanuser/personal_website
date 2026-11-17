@@ -33,7 +33,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <div id="app"></div>
 <template id="dc-template">
 
-<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.65; overflow: hidden">
+<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.65; overflow-x: clip">
 
 <svg aria-hidden="true" style="position: absolute; width: 0; height: 0">
 <defs>
@@ -65,24 +65,54 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <a href="index.html" style="font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← back to all work</a>
 </header>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 40px 32px 64px; display: flex; flex-direction: column; gap: 24px">
+<nav aria-label="On this page" style="position: sticky; top: 0; z-index: 5; background: rgba(251,247,239,0.92); backdrop-filter: blur(6px); border-bottom: 1.5px solid #E6DCCB">
+<div style="max-width: 1040px; margin: 0 auto; padding: 8px 32px; display: flex; flex-wrap: wrap; gap: 6px 22px; font-weight: 700; font-size: 15px">
+<a href="#basics" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">1 · The project</a>
+<a href="#research" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">2 · Problem &amp; research</a>
+<a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · Decisions &amp; pivot</a>
+<a href="#results" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">4 · Solution &amp; results</a>
+</div>
+</nav>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px 24px; display: flex; flex-direction: column; gap: 20px">
 <svg viewBox="0 0 1040 360" preserveAspectRatio="none" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%" aria-hidden="true">
 <ellipse cx="860" cy="120" rx="220" ry="120" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.45"></ellipse>
 <ellipse cx="960" cy="240" rx="140" ry="80" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.35; mix-blend-mode: multiply"></ellipse>
 </svg>
 <p style="position: relative; margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">Case study · CareLift · Business+Tech</p>
 <h1 style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 820px">Medicine in minutes, not hours</h1>
-<p style="position: relative; margin: 0; font-size: 21px; color: #4A4458; max-width: 740px">Rural pharmacies, drone companies and patients each worked alone, so every urgent order turned into phone calls. In six weeks, our team designed CareLift to connect all three, and shipped a working MVP of three apps.</p>
-<div style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 12px">
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My role</p><p style="margin: 0; font-weight: 500">Product Manager: research, flow and UI review, business model, pitch</p></div>
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 0; font-weight: 500">5, including engineers</p></div>
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">When</p><p style="margin: 0; font-weight: 500">6 weeks, fall 2026</p></div>
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Shipped</p><p style="margin: 0; font-weight: 500">Working MVP: patient, pharmacy and operator apps</p></div>
+<p style="position: relative; margin: 0; font-size: 21px; color: #4A4458; max-width: 740px">A platform that connects rural patients, local pharmacies and drone companies, so urgent medicine reaches the door in about 20 minutes.</p>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="basics" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #B0573F">part 1</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">The project</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 28px">
+<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My role · Product Manager</p>
+<p style="margin: 0">I was the person between the idea and the build. I:</p>
+<ul style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px">
+<li>Ran persona interviews, and pulled five teammates' ideas into one direction</li>
+<li>Explained what each app had to do, and worked side by side with our engineers</li>
+<li>Flagged flows that didn't fit real users, and polished the UI with the team</li>
+<li>Built the business model and planned the story of our final pitch</li>
+</ul>
+</div>
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team · Care Pilots</p><p style="margin: 4px 0 0">Chih-Chi (Joan) Huang, Kyeonchan, Seren, Gyuri, Jeannelle</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Business+Tech · fall 2026 · 6 weeks</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Figma · built with React, TypeScript, Node.js and SQLite</p></div>
+</div>
 </div>
 </section>
 
 <section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #B0573F">01 · meet Margaret</p>
+<div id="research" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">part 2</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Problem &amp; research</h2>
+</div>
 <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
 <div style="flex: 1 1 260px; display: flex; justify-content: center">
 <svg viewBox="0 0 280 300" style="width: 100%; max-width: 280px; height: auto" role="img" aria-label="Watercolor illustration of an older woman with glasses and a cardigan">
@@ -100,10 +130,15 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </svg>
 </div>
 <div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">It's 7 p.m. Her heart medicine runs out tonight.</h2>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 30px; line-height: 1.15">It's 7 p.m. Her heart medicine runs out tonight.</h2>
 <p style="margin: 0">Margaret is 74 and lives alone in northern Michigan. She stopped driving. Her nearest pharmacy is 25 minutes away and closed at 6. Her daughter is three hours away.</p>
 <p style="margin: 0; font-size: 15px; color: #5A5468">A representative persona built from public data and our interviews.</p>
 </div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Problem statement</p><p style="margin: 6px 0 0">Older patients in rural areas can run out of a critical medicine after the pharmacy closes, with no fast way to get it, while pharmacies and drone companies can't see each other or the patient's need.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome we aimed for</p><p style="margin: 6px 0 0">Request to door in under 30 minutes, any pharmacy, any hour, in a few simple taps.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Business outcome we aimed for</p><p style="margin: 6px 0 0">A platform fee on every delivery, starting in rural Michigan within a $0.9B rural U.S. market.</p></div>
 </div>
 <div style="position: relative; padding: 30px 30px 34px; display: flex; flex-direction: column; gap: 14px">
 <svg viewBox="0 0 1000 420" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 30 C 300 8, 700 22, 988 14 C 996 160, 994 300, 984 406 C 700 416, 300 412, 16 408 C 6 300, 8 160, 12 30 Z" fill="#FFF3E3" filter="url(#wc)"></path></svg>
@@ -121,12 +156,14 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 <p style="position: relative; margin: 0; font-size: 14px; color: #5A5468">Sources in our pitch: GoodRx (2025), IRS mileage rate, KFF, Annals of Internal Medicine.</p>
 </div>
-</section>
-
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 20px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #6A4F9A">02 · the chaos</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Three parties, no one in the middle</h2>
-<p style="margin: 0; max-width: 760px">Pharmacies, drone companies and patients each worked alone, so every order bounced back and forth by phone. Flip the switch to see what CareLift changes.</p>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we researched</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">5</p><p style="margin: 0">pharmacist interviews</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">physician interview</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">30+</p><p style="margin: 0">survey responses</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">4</p><p style="margin: 0">kinds of alternatives compared: Zipline, Amazon, Uber and DoorDash, CVS</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Key insight · three parties, no one in the middle</p>
 <div style="display: flex; flex-wrap: wrap; gap: 10px">
 <button type="button" onClick="{{showBefore}}" aria-pressed="{{beforePressed}}" style="font: inherit; font-weight: 700; color: {{beforeInk}}; background: {{beforeBg}}; border: 2px solid #2E2A3B; border-radius: 22px 16px 24px 14px; padding: 10px 20px; min-height: 44px; cursor: pointer">Before CareLift</button>
 <button type="button" onClick="{{showAfter}}" aria-pressed="{{afterPressed}}" style="font: inherit; font-weight: 700; color: {{afterInk}}; background: {{afterBg}}; border: 2px solid #2E2A3B; border-radius: 16px 24px 14px 22px; padding: 10px 20px; min-height: 44px; cursor: pointer">With CareLift</button>
@@ -167,22 +204,23 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </svg>
 </sc-if>
 </div>
+<p style="margin: 0; color: #4A4458">And one we didn't expect: our physician interview pointed to hospital logistics, like lab samples and organs, as a future market.</p>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 22px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">03 · what I did</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">The person between the idea and the build</h2>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">listen</p><p style="margin: 4px 0 0">Ran persona interviews and pulled five teammates' ideas into one direction.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 24px 16px 22px; padding: 22px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #6A4F9A">translate</p><p style="margin: 4px 0 0">Explained what each app had to do, and worked side by side with our engineers.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 16px 22px 18px; padding: 22px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">challenge</p><p style="margin: 4px 0 0">Flagged flows that didn't fit real users, and polished the UI with the team.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 16px 22px 18px 24px; padding: 22px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">pitch</p><p style="margin: 4px 0 0">Built the business model and planned the story of our final pitch.</p></div>
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="decisions" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2A5F8F">part 3</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Decisions &amp; pivot</h2>
 </div>
-</section>
-
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 20px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2A5F8F">04 · two things I pushed back on</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Design for the moment, not the spec</h2>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The pivot · who is this for?</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch">
+<div style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">first plan</p><p style="margin: 4px 0 0">Anyone who needs medicine urgently.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">what we learned</p><p style="margin: 4px 0 0">"Anyone urgent" was too broad to design for. Every choice, from the app to the price, pulled in a different direction.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">new focus</p><p style="margin: 4px 0 0">Older patients in rural areas, where pharmacies are farthest and close earliest.</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Two things I pushed back on · flip each one</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 28px">
 
 <div style="position: relative; padding: 28px; display: flex; flex-direction: column; gap: 16px">
@@ -231,11 +269,21 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 
 </div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The hardest call · pricing</p>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
+<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0">There was no product quite like ours to copy a price from, and everyone on the team had a different number in mind. So we benchmarked what each alternative costs for one urgent rural delivery, from drone programs to car couriers, and landed on one flat price.</p>
+<p style="margin: 0">We're the platform, not the fleet: we own no drones and no pharmacies, and keep a small fee on each delivery.</p>
+</div>
+<div style="flex: 1 1 240px; position: relative; padding: 24px 22px"><svg viewBox="0 0 300 140" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="70" rx="145" ry="64" fill="#E9B949" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 44px; line-height: 1">$14.99</p><p style="position: relative; margin: 4px 0 0">flat per urgent delivery within 10 miles</p></div>
+</div>
 </section>
 
-<section data-video-wrap="1" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 18px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #B0573F">05 · see it work</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Margaret's refill, end to end</h2>
+<section data-video-wrap="1" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="results" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2F6B45">part 4</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Solution &amp; results</h2>
+</div>
 <p style="margin: 0; max-width: 760px">Our working MVP: the patient app, the pharmacy desk and the operator console, side by side. Jump to any step.</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px">
 <sc-for list="{{chapters}}" as="ch" hint-placeholder-count="5">
@@ -245,33 +293,34 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <div style="position: relative; padding: 14px; background: #2E2A3B; border-radius: 22px 18px 24px 16px">
 <video src="assets/carelift-demo.mp4" poster="assets/carelift-poster.jpg" controls="controls" muted="muted" playsinline="playsinline" preload="metadata" style="display: block; width: 100%; height: auto; border-radius: 12px; background: #FFFFFF"></video>
 </div>
-</section>
-
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
-<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #6A4F9A">06 · the business</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">We're the platform, not the fleet</h2>
-<p style="margin: 0">CareLift owns no drones and no pharmacies. Like DoorDash with Wing, we run the network and take a small fee on each delivery. One flat price for an urgent rural delivery, at any pharmacy, at any hour.</p>
-</div>
-<div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 14px">
-<div style="position: relative; padding: 24px 22px"><svg viewBox="0 0 300 140" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="70" rx="145" ry="64" fill="#E9B949" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 44px; line-height: 1">$14.99</p><p style="position: relative; margin: 4px 0 0">flat per urgent delivery, about 20 minutes</p></div>
-<div style="position: relative; padding: 24px 22px"><svg viewBox="0 0 300 140" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="70" rx="145" ry="64" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 44px; line-height: 1">$0.9B</p><p style="position: relative; margin: 4px 0 0">yearly rural U.S. market, starting in rural Michigan</p></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">What we shipped</p><p style="margin: 6px 0 0">A working MVP of all three apps in 6 weeks, with large-text mode and a one-tap 911 button. Prescriptions and drone dispatch are simulated until partners are in place.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0"><strong>Not yet tested with real users:</strong> only our team has used the MVP so far. The 20-minute delivery and the flow for older users still need a real pilot.</p></div>
 </div>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 40px 32px 72px; display: flex; flex-direction: column; gap: 14px">
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">my reflection</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.5deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what went well</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Narrowing to rural older patients. It made every later decision easier.</li><li>Judging flows by the user's real moment, like an emergency, not by the spec.</li></ul></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(0.4deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">what didn't</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>We designed for older patients without testing with one. Only our team used the MVP.</li><li>Pricing took long because we debated opinions before we had benchmarks.</li></ul></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.3deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">next time</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Put the MVP in front of rural seniors and caregivers early.</li><li>Gather price benchmarks first, then decide.</li></ul></div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px 56px; display: flex; flex-direction: column; gap: 14px">
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">what's next</p>
-<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; line-height: 1.4; max-width: 840px">We didn't win, but we didn't stop. We're turning CareLift into a startup, and applying for funding from U-M's Center for Entrepreneurship to run real research with rural patients, pharmacists and paramedics.</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 24px; line-height: 1.4; max-width: 840px">We didn't win, but we didn't stop. We're turning CareLift into a startup, and applying for funding from U-M's Center for Entrepreneurship to run real research with rural patients, pharmacists and paramedics.</p>
 </section>
 
 <nav aria-label="Case studies" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 0 32px 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
 <a href="campusbite.html" style="font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← CampusBite</a>
-<a href="catalyst.html" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 14px 26px; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center">Next: Catalyst Labs →</a>
+<a href="catalyst.html" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 22px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">Next: Catalyst Labs →</a>
 </nav>
 
 </div>
 </template>
-<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":6600}}'>
+<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":8400}}'>
 class Component extends DCLogic {
 renderVals() {
 const st = this.state || {};
