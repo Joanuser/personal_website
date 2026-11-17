@@ -32,6 +32,22 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 @media (max-width: 1200px){.spine{display:none}}
 @supports (animation-timeline: view()){.rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 35%}@keyframes rv{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}}
 @media (prefers-reduced-motion: reduce){.rv{animation:none !important}.spine path{stroke-dashoffset:0}.progress{display:none}}
+.chapter{background:var(--tint);border-radius:40px 30px 44px 34px;margin:48px auto !important;box-shadow:0 18px 44px rgba(46,42,59,0.10);border:1.5px solid rgba(46,42,59,0.06)}
+.chap-open{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px 26px;padding:0 0 18px;border-bottom:2px dashed rgba(46,42,59,0.25);scroll-margin-top:90px}
+.chap-num{position:relative;font-family:'Fraunces',serif;font-weight:700;font-size:84px;line-height:.85;letter-spacing:-0.03em}
+.bloom{position:absolute;left:-26px;top:45%;width:170px;height:140px;translate:0 -50%;pointer-events:none}
+@supports (animation-timeline: view()){
+.chapter{animation:panelIn linear both;animation-timeline:view();animation-range:entry 0% entry 25%}
+.chap-num{animation:numIn linear both;animation-timeline:view();animation-range:entry 5% cover 25%}
+.bloom{animation:bloom linear both;animation-timeline:view();animation-range:entry 5% cover 30%}
+@keyframes panelIn{from{opacity:0;translate:0 70px;scale:.96}to{opacity:1;translate:0 0;scale:1}}
+@keyframes numIn{from{opacity:0;translate:-60px 0}to{opacity:1;translate:0 0}}
+@keyframes bloom{from{opacity:0;scale:.3}to{opacity:1;scale:1}}
+}
+.toc a{border-radius:999px;padding:0 12px;transition:background .3s ease,color .3s ease}
+html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc a[href="#research"],html[data-part="decisions"] .toc a[href="#decisions"],html[data-part="results"] .toc a[href="#results"]{background:#2E2A3B;color:#FBF7EF}
+@media (max-width: 640px){.chap-num{font-size:64px}.chapter{border-radius:28px;margin:28px 12px !important}}
+@media (prefers-reduced-motion: reduce){.chapter,.chap-num,.bloom{animation:none !important}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -74,7 +90,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </header>
 
 <nav aria-label="On this page" style="position: sticky; top: 0; z-index: 5; background: rgba(251,247,239,0.92); backdrop-filter: blur(6px); border-bottom: 1.5px solid #E6DCCB">
-<div style="max-width: 1040px; margin: 0 auto; padding: 8px 32px; display: flex; flex-wrap: wrap; gap: 6px 22px; font-weight: 700; font-size: 15px">
+<div class="toc" style="max-width: 1040px; margin: 0 auto; padding: 8px 32px; display: flex; flex-wrap: wrap; gap: 6px 10px; font-weight: 700; font-size: 15px">
 <a href="#basics" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">1 · The project</a>
 <a href="#research" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">2 · Problem &amp; research</a>
 <a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · Decisions &amp; pivot</a>
@@ -93,10 +109,15 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <p style="position: relative; margin: 0; font-size: 21px; color: #4A4458; max-width: 740px">Finding where learners slip away between signing up and joining a free, live AI workshop, so more of them make it to the session.</p>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="basics" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
-<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #B0573F">part 1</span>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">The project</h2>
+<section class="chapter" style="--tint: #FBEFE6; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="basics" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #A04A2E">01</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A04A2E">Part 1 of 4</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The project</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Who, when, and what I owned</p>
+</div>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 28px">
 <div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
@@ -116,10 +137,15 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="research" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
-<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">part 2</span>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Problem &amp; research</h2>
+<section class="chapter" style="--tint: #F1ECF8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="research" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #5A4790">02</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5A4790">Part 2 of 4</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Problem &amp; research</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What was really broken?</p>
+</div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Target users</p><p style="margin: 6px 0 0">Adults aged 18 to 55+ with little or no tech background, many of them career changers and job seekers, who often join from a phone.</p></div>
@@ -158,10 +184,15 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="decisions" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
-<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2A5F8F">part 3</span>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Decisions &amp; pivot</h2>
+<section class="chapter" style="--tint: #EAF1F8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="decisions" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #2A5F8F">03</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2A5F8F">Part 3 of 4</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Decisions &amp; pivot</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What changed our plan?</p>
+</div>
 </div>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The reframe</p>
 <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch">
@@ -200,10 +231,15 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <p style="margin: 0; font-size: 14px; color: #5A5468">Simplified recreation for illustration. Question wording is paraphrased.</p>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
-<div id="results" class="rv" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
-<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2F6B45">part 4</span>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Solution &amp; results</h2>
+<section class="chapter" style="--tint: #EAF4EC; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="results" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #2F6B45">04</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2F6B45">Part 4 of 4</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Solution &amp; results</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Did it work?</p>
+</div>
 </div>
 <div style="position: relative; padding: 34px 36px; transform: rotate(-0.4deg)">
 <svg viewBox="0 0 800 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M8 12 C 260 4, 540 8, 792 6 C 798 70, 796 140, 790 194 C 540 198, 260 196, 12 194 C 4 140, 4 70, 8 12 Z" fill="#F7E3A8" filter="url(#wc)"></path></svg>
@@ -231,6 +267,13 @@ h.style.setProperty('--d', Math.min(1, (window.scrollY + window.innerHeight * 0.
 set();
 window.addEventListener('scroll', set, { passive: true });
 window.addEventListener('resize', set);
+const parts = ['basics', 'research', 'decisions', 'results'].map(id => document.getElementById(id)).filter(Boolean);
+if (window.IntersectionObserver && parts.length) {
+const io = new IntersectionObserver(entries => {
+entries.forEach(e => { if (e.isIntersecting) document.documentElement.setAttribute('data-part', e.target.id); });
+}, { rootMargin: '-40% 0px -55% 0px' });
+parts.forEach(p => io.observe(p));
+}
 }
 renderVals() {
 const st = this.state || {};
