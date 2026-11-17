@@ -289,7 +289,7 @@ html{scroll-padding-top:70px}
 <path class="leash" d="{{handleD}}" fill="none" stroke="#E25A54" stroke-width="{{leashIn}}" vector-effect="non-scaling-stroke" style="stroke-linecap: round; stroke-linejoin: round"></path>
 <path class="leash" d="{{leashD}}" fill="none" stroke="#E25A54" stroke-width="{{leashIn}}" vector-effect="non-scaling-stroke" style="stroke-linecap: butt; stroke-linejoin: round"></path>
 </svg>
-<div style="position: relative; flex: 0 0 auto; margin-left: 0">
+<div style="position: relative; flex: 0 0 auto; margin-left: -7px">
 <img class="stage-dog" src="{{dogImg}}" alt="{{dogAlt}}" style="display: block; height: 175px; width: auto; max-width: 360px">
 <p style="position: absolute; left: 0; right: 0; top: 100%; margin: 2px 0 0; text-align: center; white-space: nowrap; font-family: 'Caveat', cursive; font-size: 22px; font-weight: 700; color: #B0573F">{{dogNote}}</p>
 </div>
@@ -470,9 +470,9 @@ const stages = [
 { img: 'assets/dog-leash.png', alt: 'The puppy sitting, wrapped up in its tangled red leash', note: 'all tangled up' },
 { img: 'assets/dog-untangle.png', alt: 'The puppy lying down, tugging the leash loose', note: 'untangling…' },
 { img: 'assets/dog-free-strap.png', alt: 'The puppy standing free and happy, its leash lying in a straight line', note: 'free, clear flow!' }];
-const leashPaths = ['M40 100 C 70 60, 110 20, 140 50 S 110 110, 80 70 S 160 10, 200 60 S 150 110, 260 80 C 380 40, 480 112, 600 85 C 720 60, 820 106, 940 96 C 1000 93, 1060 100.7, 1100 100.7', 'M40 101 C 80 90, 140 70, 170 85 S 150 110, 130 95 S 190 80, 230 95 S 260 102, 300 100 C 420 96, 520 104, 640 100 C 760 97, 880 103, 980 101 C 1030 101, 1070 101.5, 1100 101.5', 'M40 104 C 80 104, 120 103.5, 160 104 S 200 104.5, 240 104 S 280 103.5, 320 104 S 360 104.5, 400 104 C 520 103.6, 640 104.4, 760 104 C 880 103.7, 1000 104.2, 1060 104.1 C 1080 104.1, 1090 104.1, 1100 104.1'];
+const leashPaths = ['M40 100 C 70 60, 110 20, 140 50 S 110 110, 80 70 S 160 10, 200 60 S 150 110, 260 80 C 380 40, 480 112, 600 85 C 720 60, 820 106, 940 96 C 1000 93, 1060 100.7, 1100 101.7', 'M40 101 C 80 90, 140 70, 170 85 S 150 110, 130 95 S 190 80, 230 95 S 260 102, 300 100 C 420 96, 520 104, 640 100 C 760 97, 880 103, 980 101 C 1030 101, 1070 101.5, 1100 100.2', 'M40 104 C 80 104, 120 103.5, 160 104 S 200 104.5, 240 104 S 280 103.5, 320 104 S 360 104.5, 400 104 C 520 103.6, 640 104.4, 760 104 C 880 103.7, 1000 104.2, 1060 104.1 C 1080 104.1, 1090 104.1, 1100 104.5'];
 const leashHandles = ['M40 100 C 22 90, 6 92, 6 101 C 6 110, 24 111, 40 100', 'M40 101 C 22 91, 6 93, 6 102 C 6 111, 24 112, 40 101', 'M40 104 C 22 94, 6 96, 6 105 C 6 114, 24 115, 40 104'];
-const leashW = [[3.4, 5.2], [5.0, 6.6], [3.4, 4.4]];
+const leashW = [[3.0, 4.4], [4.6, 6.0], [3.2, 4.2]];
 const jobData = [
 { company: 'Altheros Capital', bullets: [], logo: 'assets/logo-altheros.png', hasLogo: true, title: 'Product Manager Intern', when: 'Nov 2026 –', place: 'Remote', stat: 'Soon', statLabel: 'Starting my first PM internship this month.', mess: '', messLine: 'to be discovered', detail: 'I will share what I learn here once I have real work to show.' },
 { company: 'Uber', bullets: ["Diagnosed root causes of post-launch Salesforce user issues during the APAC Quotation Feature rollout, cutting weekly system tickets by 95% within two months", "Built a prioritization framework for critical Salesforce fixes based on issue frequency and business impact, working with engineering to cut system modification time by 80%", "Started monthly user reports for local Sales, Operations and APAC Sales teams, showing fix progress and feature adoption in a five-minute summary"], logo: 'assets/logo-uber.png', hasLogo: true, title: 'Sales Operations Analyst', when: '2025 – 2026', place: 'Taipei', stat: '−95%', statLabel: 'weekly Salesforce tickets, within two months', mess: 'a new APAC quotation feature launched, and the tickets piled up', detail: 'I traced the root causes behind user issues, ranked fixes by frequency and business impact with engineering (cutting fix time by 80%), and started a five-minute monthly report on adoption and progress.' },
