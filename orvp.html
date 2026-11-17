@@ -24,14 +24,14 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 @keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){.draw{animation:none;stroke-dashoffset:0}.pop{animation:none}.flip:hover,.field:hover{transform:none}}
 @media (max-width: 640px){h1{font-size:38px !important}h2{font-size:30px !important}}
-.progress{position:fixed;left:0px;bottom:18px;top:auto;height:3px;width:calc(var(--p,0) * (100% - 259px - 0px - 0px));background:#E8302F;box-shadow:0 0.5px 0 rgba(74,13,16,0.55),0 -0.5px 0 rgba(74,13,16,0.35);z-index:41;pointer-events:none;border-radius:0}.progress::after{content:'';position:absolute;left:calc(100% - 1px);bottom:-15.2px;width:259px;height:120px;background:url(assets/dog-walk-leash.png) left bottom/contain no-repeat;pointer-events:none}@media (max-width: 640px){.progress{height:2px;width:calc(var(--p,0) * (100% - 173px - 0px - 0px))}.progress::after{width:173px;height:80px;bottom:-10.1px}}
+.lane{position:relative;height:46px;border-top:1px dashed rgba(46,42,59,0.12)}.progress{position:absolute;left:0;bottom:7px;height:2.34px;width:calc(var(--p,0) * (100% - 94.8px));background:#E42E2D;border-radius:2px 0 0 2px;box-shadow:0 .4px 0 rgba(74,13,16,.6),0 -.4px 0 rgba(74,13,16,.4);pointer-events:none}.progress::after{content:'';position:absolute;left:calc(100% - 1px);bottom:-4.92px;width:94.8px;height:44px;background:url(assets/dog-walk-thick.png) left bottom/contain no-repeat}@media (max-width: 640px){.progress{height:1.91px;width:calc(var(--p,0) * (100% - 77.5px))}.progress::after{width:77.5px;height:36px;bottom:-4.03px}}
 .spine{position:absolute;top:0;height:100%;left:calc(50% - 604px);width:48px;pointer-events:none;z-index:0}
 .spine path{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,0))}
 @media (max-width: 1200px){.spine{display:none}}
 @supports (animation-timeline: view()){.rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 35%}@keyframes rv{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}}
 @media (prefers-reduced-motion: reduce){.rv{animation:none !important}.spine path{stroke-dashoffset:0}.progress{display:none}}
 .chapter{background:var(--tint);border-radius:40px 30px 44px 34px;margin:48px auto !important;box-shadow:0 18px 44px rgba(46,42,59,0.10);border:1.5px solid rgba(46,42,59,0.06)}
-.chap-open{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px 26px;padding:0 0 18px;border-bottom:2px dashed rgba(46,42,59,0.25);scroll-margin-top:90px}
+.chap-open{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px 26px;padding:0 0 18px;border-bottom:2px dashed rgba(46,42,59,0.25);scroll-margin-top:140px}
 .chap-num{position:relative;font-family:'Fraunces',serif;font-weight:700;font-size:84px;line-height:.85;letter-spacing:-0.03em}
 .bloom{position:absolute;left:-26px;top:45%;width:170px;height:140px;translate:0 -50%;pointer-events:none}
 @supports (animation-timeline: view()){
@@ -122,7 +122,6 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </defs>
 </svg>
 <svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"><rect width="100%" height="100%" filter="url(#paper)"></rect></svg>
-<div class="progress" aria-hidden="true"></div>
 <svg class="spine" viewBox="0 0 48 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M24 0 C 6 10, 42 18, 18 26 S 4 44, 30 42 S 40 20, 16 34 C 8 60, 40 80, 24 110 S 10 200, 24 280 S 38 420, 24 520 S 10 680, 24 780 S 36 920, 24 1000" pathLength="1" fill="none" stroke="#2E2A3B" stroke-linecap="round" style="stroke-width: 3; opacity: 0.7"></path></svg>
 
 <header style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
@@ -137,6 +136,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · Cracking it</a>
 <a href="#results" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">4 · Decoded</a>
 </div>
+<div class="lane" aria-hidden="true"><div class="progress"></div></div>
 </nav>
 
 <section style="position: relative; padding: 40px 32px 56px; overflow-x: clip">

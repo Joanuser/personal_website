@@ -61,7 +61,8 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 .cat{transform-origin:70% 100%;transition:transform .4s ease}
 .cat:hover{transform:rotate(-2deg) translateY(-4px)}
 @media (max-width: 760px){.cat{right:12px;bottom:70px;width:210px}}
-.progress{position:fixed;left:12px;bottom:30px;top:auto;height:3px;width:calc(var(--p,0) * (100% - 259px - 12px - 12px));background:#E8302F;box-shadow:0 0.5px 0 rgba(74,13,16,0.55),0 -0.5px 0 rgba(74,13,16,0.35);z-index:41;pointer-events:none;border-radius:0}.progress::after{content:'';position:absolute;left:calc(100% - 1px);bottom:-15.2px;width:259px;height:120px;background:url(assets/dog-walk-leash.png) left bottom/contain no-repeat;pointer-events:none}@media (max-width: 640px){.progress{height:2px;width:calc(var(--p,0) * (100% - 173px - 12px - 12px))}.progress::after{width:173px;height:80px;bottom:-10.1px}}
+html{scroll-padding-top:70px}
+.lane{position:fixed;left:12px;right:12px;top:12px;height:50px;z-index:39;background:rgba(251,247,239,0.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1.5px dashed rgba(46,42,59,0.15);opacity:0;transform:translateY(-8px);transition:opacity .3s,transform .3s;pointer-events:none}html.lane-on .lane{opacity:1;transform:none}.progress{position:absolute;left:0;bottom:7px;height:2.34px;width:calc(var(--p,0) * (100% - 94.8px));background:#E42E2D;border-radius:2px 0 0 2px;box-shadow:0 .4px 0 rgba(74,13,16,.6),0 -.4px 0 rgba(74,13,16,.4);pointer-events:none}.progress::after{content:'';position:absolute;left:calc(100% - 1px);bottom:-4.92px;width:94.8px;height:44px;background:url(assets/dog-walk-thick.png) left bottom/contain no-repeat}@media (max-width: 640px){.progress{height:1.91px;width:calc(var(--p,0) * (100% - 77.5px))}.progress::after{width:77.5px;height:36px;bottom:-4.03px}}
 .pup{display:block;width:86px;height:auto;animation:pup 3.2s ease-in-out infinite;transform-origin:50% 90%}
 @keyframes pup{0%,100%{rotate:-4deg}50%{rotate:4deg}}
 .leash{transition:d .9s cubic-bezier(.5,0,.2,1)}
@@ -154,8 +155,8 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 
 <sc-if value="{{entered}}" hint-placeholder-val="{{ true }}">
-<div class="progress" aria-hidden="true"></div>
-<section id="work" style="position: relative; max-width: 1160px; margin: 0 auto; padding: 80px 32px 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; scroll-margin-top: 20px">
+<div class="lane" aria-hidden="true"><div class="progress"></div></div>
+<section id="work" style="position: relative; max-width: 1160px; margin: 0 auto; padding: 80px 32px 24px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; scroll-margin-top: 0px">
 <img class="pup" src="assets/dog-peek.png" alt="" aria-hidden="true" style="width: 120px">
 <h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 44px">Selected work</h2>
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; color: #5A5468">four messes, four flows</p>
@@ -429,7 +430,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <script type="text/x-dc" id="dc-logic" data-props='{"accent":{"editor":"color","default":"#E9B949","options":["#E9B949","#E59A8C","#9CC3A5","#B7A6DB"]},"$preview":{"width":1280,"height":5000}}'>
 class Component extends DCLogic {
 componentDidMount() {
-const setP = () => { const d = document.documentElement; const max = (d.scrollHeight - window.innerHeight) || 1; d.style.setProperty('--p', Math.min(1, Math.max(0, window.scrollY / max)).toFixed(4)); };
+const setP = () => { const d = document.documentElement; const w = document.getElementById('work'); const start = w ? w.offsetTop - 70 : 0; const max = Math.max(1, d.scrollHeight - window.innerHeight - start); d.style.setProperty('--p', Math.min(1, Math.max(0, (window.scrollY - start) / max)).toFixed(4)); d.classList.toggle('lane-on', !!w && window.scrollY >= start - 10); };
 setP(); window.addEventListener('scroll', setP, { passive: true }); window.addEventListener('resize', setP);
 const h = (window.location.hash || '').slice(1);
 if (h) {
