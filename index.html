@@ -61,8 +61,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 .cat{transform-origin:70% 100%;transition:transform .4s ease}
 .cat:hover{transform:rotate(-2deg) translateY(-4px)}
 @media (max-width: 760px){.cat{right:12px;bottom:70px;width:210px}}
-.progress{position:fixed;left:0;top:0;height:4px;width:calc(var(--p,0) * 100%);background:#D5473F;z-index:20;border-radius:0 3px 3px 0;box-shadow:0 1px 0 rgba(46,42,59,0.25)}.progress::after{content:'';position:absolute;right:-56px;top:-14px;width:60px;height:42px;background:url(assets/dog-walk.png) center/contain no-repeat;filter:drop-shadow(0 2px 2px rgba(46,42,59,0.15))}
-.progress{left:12px !important;top:12px !important;width:calc(var(--p,0) * (100% - 84px)) !important;z-index:41 !important}
+.progress{position:fixed;left:12px;bottom:30px;top:auto;height:3px;width:calc(var(--p,0) * (100% - 259px - 12px - 12px));background:#E8302F;box-shadow:0 0.5px 0 rgba(74,13,16,0.55),0 -0.5px 0 rgba(74,13,16,0.35);z-index:41;pointer-events:none;border-radius:0}.progress::after{content:'';position:absolute;left:calc(100% - 1px);bottom:-15.2px;width:259px;height:120px;background:url(assets/dog-walk-leash.png) left bottom/contain no-repeat;pointer-events:none}@media (max-width: 640px){.progress{height:2px;width:calc(var(--p,0) * (100% - 173px - 12px - 12px))}.progress::after{width:173px;height:80px;bottom:-10.1px}}
 .pup{display:block;width:86px;height:auto;animation:pup 3.2s ease-in-out infinite;transform-origin:50% 90%}
 @keyframes pup{0%,100%{rotate:-4deg}50%{rotate:4deg}}
 .leash{transition:d .9s cubic-bezier(.5,0,.2,1)}
