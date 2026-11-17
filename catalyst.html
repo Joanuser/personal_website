@@ -97,12 +97,11 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 .cstrip .tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
 .cstrip .st{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border-radius:14px 18px 12px 16px;font-weight:700;font-size:14px;text-decoration:none;color:#5A5468;background:#FFFDF8;border:1.5px dashed rgba(46,42,59,.22)}
 .cstrip .st.done{color:#2F6B45;border-style:solid;border-color:#B9D6C1;background:#F1F7F2}
-.cstrip .st.next{color:#FBF7EF;background:#2E2A3B;border:1.5px solid #2E2A3B;font-size:16px;padding:10px 18px;box-shadow:0 6px 0 rgba(46,42,59,.18);transform:translateY(-4px) rotate(-1deg)}
-.cstrip .st.next .arr{display:inline-block;animation:cdown 1.4s ease-in-out infinite}
-@keyframes cdown{0%,100%{transform:none}50%{transform:translateY(4px)}}
-@supports (animation-timeline: view()){.cstrip .st.next{animation:clift linear both;animation-timeline:view();animation-range:entry 10% cover 45%}}
-@keyframes clift{from{transform:translateY(10px) rotate(0);box-shadow:none}to{transform:translateY(-4px) rotate(-1deg);box-shadow:0 6px 0 rgba(46,42,59,.18)}}
+.cstrip .st.next{color:#2E2A3B;background:#FFFDF8;border:2px solid #2E2A3B;font-size:16px;padding:8px 16px;flex-direction:column;align-items:flex-start;gap:0;line-height:1.25}.cstrip .st.next .up{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7A5BA8}
 @media (prefers-reduced-motion: reduce){.cstrip .st.next,.cstrip .st.next .arr{animation:none}}
+@supports (animation-timeline: view()){section.chapter{animation:chin linear both;animation-timeline:view();animation-range:entry 0% entry 60%}}
+@keyframes chin{from{opacity:0;translate:0 60px}to{opacity:1;translate:0 0}}
+@media (prefers-reduced-motion: reduce){section.chapter{animation:none}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -223,7 +222,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 
 <nav class="cstrip" aria-label="Story progress">
 <p class="tease">A free program with healthy sign-ups. So why did so few people show up?</p>
-<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The crew</a><a href="#research" class="st next">Next: 2 · Tracing the leak <span class="arr" aria-hidden="true">&#x2193;</span></a><span class="st">3 · Rethinking the fix</span><span class="st">4 · Still patching</span></div>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The crew</a><a href="#research" class="st next"><span class="up">Up next</span> 2 · Tracing the leak</a><span class="st">3 · Rethinking the fix</span><span class="st">4 · Still patching</span></div>
 </nav>
 <section class="chapter" style="--tint: #F1ECF8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="research" class="chap-open">
@@ -274,7 +273,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 
 <nav class="cstrip" aria-label="Story progress">
 <p class="tease">About 83% slipped away after signing up, not before. More marketing wouldn’t fix that. What would?</p>
-<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The crew</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · Tracing the leak</a><a href="#decisions" class="st next">Next: 3 · Rethinking the fix <span class="arr" aria-hidden="true">&#x2193;</span></a><span class="st">4 · Still patching</span></div>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The crew</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · Tracing the leak</a><a href="#decisions" class="st next"><span class="up">Up next</span> 3 · Rethinking the fix</a><span class="st">4 · Still patching</span></div>
 </nav>
 <section class="chapter" style="--tint: #EAF1F8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="decisions" class="chap-open">
@@ -325,7 +324,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 
 <nav class="cstrip" aria-label="Story progress">
 <p class="tease">We have a direction, not a verdict yet. Here is where things stand.</p>
-<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The crew</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · Tracing the leak</a><a href="#decisions" class="st done"><span aria-hidden="true">&#x2713;</span> 3 · Rethinking the fix</a><a href="#results" class="st next">Next: 4 · Still patching <span class="arr" aria-hidden="true">&#x2193;</span></a></div>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The crew</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · Tracing the leak</a><a href="#decisions" class="st done"><span aria-hidden="true">&#x2713;</span> 3 · Rethinking the fix</a><a href="#results" class="st next"><span class="up">Up next</span> 4 · Still patching</a></div>
 </nav>
 <section class="chapter" style="--tint: #EAF4EC; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
 <div id="results" class="chap-open">
