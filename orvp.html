@@ -89,6 +89,24 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 .chap-num{font-size:110px !important}
 @media (max-width: 640px){.chap-open{position:relative !important;top:auto}}
 .tocbar::after{content:"";position:absolute;left:0;right:0;top:100%;height:36px;pointer-events:none;background:linear-gradient(rgba(251,247,239,0.85),rgba(251,247,239,0))}
+
+.obtn{font:inherit;font-weight:700;color:#2E2A3B;background:#FFFDF8;border:2px solid #2E2A3B;border-radius:16px 22px 14px 24px;padding:10px 18px;min-height:48px;cursor:pointer}
+.obtn.dark{background:#2E2A3B;color:#FBF7EF}
+.obar{display:block;height:12px;border-radius:6px;background:rgba(46,42,59,.08);overflow:hidden}.obar>i{display:block;height:100%;border-radius:6px;transition:width .8s ease}
+.odoc{height:360px;overflow-y:auto;padding:8px 10px 40px;scroll-behavior:smooth;font-family:Georgia,'Times New Roman',serif}
+.opage{margin:14px 6px 4px;font-family:'DM Sans',system-ui,sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#A39886;border-top:1px dashed #E6DCCB;padding-top:8px}
+.opara{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;font:inherit;font-size:15px;line-height:1.55;color:#3B3646;background:none;border:none;border-radius:6px;padding:4px 8px;cursor:text;flex-wrap:wrap}
+.osim[data-mode="hunt"] .opara{cursor:pointer}.osim[data-mode="hunt"] .opara:hover{background:rgba(42,95,143,.08)}
+.opg{flex:0 0 40px;font-family:'DM Sans',system-ui,sans-serif;font-size:12px;font-weight:700;color:#A39886}
+.otext{flex:1 1 0;min-width:0;background-image:linear-gradient(transparent 0,transparent 0);background-repeat:no-repeat;background-size:0 100%}
+.opara.hl .otext{background-image:linear-gradient(rgba(233,185,73,.55),rgba(233,185,73,.55));background-size:100% 100%}
+.opara.warn .otext{background-image:linear-gradient(rgba(229,154,140,.6),rgba(229,154,140,.6));background-size:100% 100%}
+.opara.hl.k0 .otext,.opara.warn.k0 .otext{animation:osw0 .7s ease-out}.opara.hl.k1 .otext,.opara.warn.k1 .otext{animation:osw1 .7s ease-out}.opara.hl.k2 .otext,.opara.warn.k2 .otext{animation:osw2 .7s ease-out}.opara.hl.k3 .otext,.opara.warn.k3 .otext{animation:osw3 .7s ease-out}
+@keyframes osw0{from{background-size:0 100%}to{background-size:100% 100%}}@keyframes osw1{from{background-size:0 100%}to{background-size:100% 100%}}@keyframes osw2{from{background-size:0 100%}to{background-size:100% 100%}}@keyframes osw3{from{background-size:0 100%}to{background-size:100% 100%}}
+.opara.found .otext{background-image:linear-gradient(rgba(125,176,140,.5),rgba(125,176,140,.5));background-size:100% 100%}
+.opara.nope{animation:onope .35s}@keyframes onope{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.otag{flex:0 0 auto;margin-left:50px;font-family:'DM Sans',system-ui,sans-serif;font-size:12px;font-weight:700;color:#2E2A3B;border-radius:10px;padding:2px 10px}
+@media (prefers-reduced-motion: reduce){.otext{animation:none !important}.odoc{scroll-behavior:auto}.opara.nope{animation:none}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -316,27 +334,48 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Did it work?</p>
 </div>
 </div>
-<p style="margin: 0; max-width: 760px">Our working demo is under NDA, so here is an illustration of how it works. Tap a field to see where it came from.</p>
-<div style="position: relative; padding: 28px; display: flex; flex-wrap: wrap; gap: 28px">
-<svg viewBox="0 0 1000 520" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 30 C 300 8, 700 22, 988 14 C 996 200, 994 380, 984 506 C 700 516, 300 512, 16 508 C 6 360, 8 180, 12 30 Z" fill="#E9F0F8" filter="url(#wc)" style="opacity: 0.9"></path></svg>
-<div style="position: relative; flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">Extracted fields</p>
-<sc-for list="{{fields}}" as="f" hint-placeholder-count="4">
-<button type="button" class="field" onClick="{{f.pick}}" aria-pressed="{{f.pressed}}" style="text-align: left; font: inherit; color: #2E2A3B; background: {{f.bg}}; border: 2px solid {{f.border}}; border-radius: 18px 14px 20px 12px; padding: 12px 16px; cursor: pointer; min-height: 44px; display: flex; flex-direction: column; gap: 2px">
+<p style="margin: 0; max-width: 760px">Our working demo is under NDA, so here is a hands-on simulation with a made-up funding call. First, try it the old way.</p>
+<div class="osim" data-mode="{{oMode}}" style="position: relative; padding: 26px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 1000 520" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 30 C 300 8, 700 22, 988 14 C 996 200, 994 380, 984 506 C 700 516, 300 512, 16 508 C 6 360, 8 180, 12 30 Z" fill="#CFE0F0" filter="url(#wc)" style="opacity: 0.7"></path></svg>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 320px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">{{oKicker}}</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; line-height: 1.25">{{oTitle}}</p>
+</div>
+<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap">
+<sc-if value="{{oShowTimer}}" hint-placeholder-val="{{ true }}"><span aria-live="off" style="font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; min-width: 86px; text-align: right; font-variant-numeric: tabular-nums">&#x23F1; {{oClock}}s</span></sc-if>
+<sc-if value="{{oCanStart}}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{oStart}}" class="obtn dark">Start the clock</button></sc-if>
+<sc-if value="{{oRunning}}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{oGiveUp}}" class="obtn">I give up</button></sc-if>
+<sc-if value="{{oShowTool}}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{oUseTool}}" class="obtn dark">Now use our tool &#x2192;</button></sc-if>
+<sc-if value="{{oInTool}}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{oReset}}" class="obtn">Try again</button></sc-if>
+</div>
+</div>
+<sc-if value="{{oShowScore}}" hint-placeholder-val="{{ false }}">
+<div class="pop" style="position: relative; display: grid; grid-template-columns: auto 1fr auto; gap: 6px 12px; align-items: center; background: #FFFDF8; border-radius: 14px; padding: 12px 16px; font-weight: 700">
+<span>By hand</span><span class="obar"><i style="width: 100%; background: #E59A8C"></i></span><span style="font-variant-numeric: tabular-nums">{{oYou}}</span>
+<span>Our tool</span><span class="obar"><i style="width: {{oToolPct}}%; background: #2F6B45"></i></span><span style="font-variant-numeric: tabular-nums">under 1 s</span>
+</div>
+</sc-if>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 18px; align-items: stretch">
+<div style="flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; background: #FFFDF8; border: 1.5px solid #D9CDB8; border-radius: 10px; box-shadow: 0 10px 24px rgba(46,42,59,0.08); overflow: hidden">
+<div style="display: flex; justify-content: space-between; gap: 10px; padding: 10px 16px; border-bottom: 1px solid #E6DCCB; font-size: 13px; font-weight: 700; color: #5A5468"><span>horizon-early-career-2027.pdf</span><span>30 pages</span></div>
+<div id="odoc" class="odoc" tabindex="0" aria-label="Sample funding call, scrollable">
+<sc-for list="{{oParas}}" as="p" hint-placeholder-count="8">
+<sc-if value="{{p.newPage}}" hint-placeholder-val="{{ false }}"><p class="opage">Page {{p.pg}}</p></sc-if>
+<button type="button" id="{{p.id}}" class="opara {{p.cls}}" onClick="{{p.pick}}" aria-label="{{p.aria}}"><span class="opg">p. {{p.pg}}</span><span class="otext">{{p.text}}</span><sc-if value="{{p.tag}}" hint-placeholder-val="{{ false }}"><span class="otag" style="background: {{p.tagBg}}">{{p.tagText}}</span></sc-if></button>
+</sc-for>
+</div>
+</div>
+<div style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">Competition fields</p>
+<sc-for list="{{oFields}}" as="f" hint-placeholder-count="4">
+<button type="button" class="field" onClick="{{f.pick}}" aria-pressed="{{f.pressed}}" aria-disabled="{{f.ariaDis}}" style="text-align: left; font: inherit; color: #2E2A3B; background: {{f.bg}}; border: 2px solid {{f.border}}; border-radius: 18px 14px 20px 12px; padding: 12px 16px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; min-height: 64px; opacity: {{f.op}}">
 <span style="display: flex; justify-content: space-between; gap: 10px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #5A5468">{{f.label}}<span style="color: {{f.statusInk}}">{{f.status}}</span></span>
-<span style="font-family: 'Fraunces', serif; font-size: 19px; font-weight: 700">{{f.value}}</span>
+<span style="font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700">{{f.value}}</span>
 </button>
 </sc-for>
+<p class="pop" style="margin: 4px 0 0; font-family: 'Caveat', cursive; font-size: 23px; font-weight: 700; color: #2A5F8F">{{oNote}}</p>
 </div>
-<div style="position: relative; flex: 999 1 420px; min-width: 0; background: #FFFDF8; border: 1.5px solid #D9CDB8; border-radius: 10px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 10px 24px rgba(46,42,59,0.08)">
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Sample funding call (made up for this page)</p>
-<sc-for list="{{paras}}" as="p" hint-placeholder-count="6">
-<div style="display: flex; gap: 12px; align-items: baseline; border-radius: 8px; padding: 6px 10px; background: {{p.bg}}; transition: background .25s ease">
-<span style="flex: 0 0 52px; font-size: 13px; font-weight: 700; color: #6E6255">{{p.page}}</span>
-<span style="font-size: 16px; line-height: 1.55">{{p.text}}</span>
-</div>
-</sc-for>
-<p class="pop" style="margin: 4px 0 0; font-family: 'Caveat', cursive; font-size: 23px; font-weight: 700; color: #2A5F8F">{{note}}</p>
 </div>
 </div>
 <p style="margin: 0; font-size: 15px; color: #5A5468">Illustration with a made-up funding call. The real tool and the client's documents are confidential.</p>
@@ -433,36 +472,77 @@ fill: flipped ? '#FFFDF8' : c.fill,
 toggle: () => { const o = Object.assign({}, open); o[i] = !flipped; this.setState({ open: o }); }
 });
 });
-const sel = st.field === undefined ? 2 : st.field;
+const raw = [
+[1, 'The Horizon Foundation invites proposals for its Early-Career Research Award, supporting bold, curiosity-driven work by new faculty.'],
+[1, 'This announcement replaces all earlier versions. Applicants are responsible for reading it in full.'],
+[2, 'Section 1. Program background. Since 2009 the Foundation has funded more than 400 early-career investigators across the sciences.'],
+[3, 'Each award provides up to $150,000 over two years. Indirect costs are not allowed.'],
+[4, 'Funds may support personnel, equipment under $5,000, travel, and research supplies.'],
+[6, 'Section 2. Program priorities. Proposals should describe a clear research question and a realistic two-year plan.'],
+[7, 'Applicants must hold a tenure-track appointment and be within five years of their first faculty position.'],
+[8, 'Postdoctoral fellows, research scientists, and adjunct faculty are not eligible to apply.'],
+[10, 'Section 3. Letters of intent are encouraged but not required, and will not be reviewed for merit.'],
+[12, 'Each institution may submit no more than two applications.'],
+[13, 'Institutions are responsible for running an internal selection process before submitting.'],
+[15, 'Section 4. Proposal format. Narratives are limited to six pages, single-spaced, in 11-point font.'],
+[17, 'Budgets must use the Foundation template and include a one-page justification.'],
+[19, 'Section 5. Review. Proposals are scored on significance, approach, and the applicant’s potential.'],
+[21, 'Reviewers may request additional information. Incomplete proposals will be returned without review.'],
+[23, 'Section 6. Award administration. Awards begin on July 1 and may not be deferred.'],
+[25, 'Annual progress reports are due within 60 days of the end of each award year.'],
+[28, 'FAQ: Institutions with more than one campus may submit one application per campus.'],
+[29, 'FAQ: Questions should be sent to the program office at least ten days before the due date.'],
+[30, 'Full proposals are due March 3, 2027, at 5:00 p.m. Eastern Time. Late submissions will not be accepted.']];
+const TARGET = 19;
 const fieldData = [
-{ label: 'Deadline', value: 'Mar 3, 2027, 5:00 p.m. ET', status: 'Found', src: [5], note: 'Found on page 30. Staff check it in one glance.' },
-{ label: 'Eligibility', value: 'Tenure-track, within 5 years', status: 'Found', src: [2], note: 'Found on page 7, far from the deadline.' },
-{ label: 'Institutional limit', value: '2 per institution?', status: 'Check', src: [3, 4], note: 'Two rules disagree. The tool flags it instead of guessing, and a person decides.' },
-{ label: 'Award', value: 'Up to $150,000 over 2 years', status: 'Found', src: [1], note: 'Found on page 3.' }
-];
-const fields = fieldData.map((f, i) => {
-const on = i === sel;
-return Object.assign({}, f, {
-pressed: on ? 'true' : 'false',
-bg: on ? '#FFFDF8' : 'rgba(255,253,248,0.55)',
-border: on ? '#2E2A3B' : 'transparent',
-statusInk: f.status === 'Check' ? '#B0573F' : '#2F6B45',
-pick: () => this.setState({ field: i })
-});
-});
-const paraData = [
-{ page: 'p. 1', text: 'The Horizon Foundation invites proposals for its Early-Career Research Award, supporting bold work by new faculty.' },
-{ page: 'p. 3', text: 'Each award provides up to $150,000 over two years. Indirect costs are not allowed.' },
-{ page: 'p. 7', text: 'Applicants must hold a tenure-track appointment and be within five years of their first faculty position.' },
-{ page: 'p. 12', text: 'Each institution may submit no more than two applications.' },
-{ page: 'p. 28', text: 'FAQ: Institutions with more than one campus may submit one application per campus.' },
-{ page: 'p. 30', text: 'Full proposals are due March 3, 2027, at 5:00 p.m. Eastern Time.' }
-];
+{ label: 'Sponsor deadline', value: 'Mar 3, 2027, 5:00 p.m. ET', status: 'Found', src: [19], note: 'Page 30 of 30. Staff check it in one glance.' },
+{ label: 'Eligibility', value: 'Tenure-track, within 5 years', status: 'Found', src: [6], note: 'Page 7, far away from the deadline.' },
+{ label: 'Award', value: 'Up to $150,000 over 2 years', status: 'Found', src: [3], note: 'Page 3. Indirect costs not allowed, noted too.' },
+{ label: 'Institutional limit', value: '2 per institution?', status: 'Check', src: [9, 17], note: 'Page 12 and page 28 disagree. The tool flags it instead of guessing, and a person decides.' }];
+const mode = st.omode || 'ready';
+const now = st.otick || 0;
+const elapsed = mode === 'hunt' ? Math.max(0, (now - (this._ot0 || now)) / 1000) : (st.oyou || 0);
+const sel = st.osel === undefined ? 0 : st.osel;
+const inTool = mode === 'tool';
 const cur = fieldData[sel];
-const paras = paraData.map((p, i) => Object.assign({}, p, {
-bg: cur.src.indexOf(i) >= 0 ? (cur.status === 'Check' ? 'rgba(229,154,140,0.45)' : 'rgba(233,185,73,0.45)') : 'transparent'
-}));
-return { cards: cards, fields: fields, paras: paras, note: cur.note };
+const stopClock = () => { if (this._oiv) { clearInterval(this._oiv); this._oiv = null; } };
+const scrollTo = (i) => setTimeout(() => { const box = document.getElementById('odoc'); const el = document.getElementById('op' + i); if (box && el) box.scrollTo({ top: el.offsetTop - box.offsetTop - 60, behavior: 'smooth' }); }, 60);
+const pickField = (i) => () => { this.setState({ osel: i }); scrollTo(fieldData[i].src[0]); };
+const oParas = raw.map((r, i) => {
+const isSrc = inTool && cur.src.indexOf(i) >= 0;
+const warn = isSrc && cur.status === 'Check';
+const found = (mode === 'found' || mode === 'gaveup' || inTool) && i === TARGET && !isSrc;
+const nope = st.onope === i;
+return { id: 'op' + i, pg: r[0], text: r[1], newPage: i === 0 || raw[i - 1][0] !== r[0],
+cls: (isSrc ? (warn ? 'warn' : 'hl') + ' k' + sel : '') + (found ? ' found' : '') + (nope ? ' nope' : ''),
+tag: isSrc, tagText: warn ? '⚠ conflicting rule, check' : '← source for ' + cur.label, tagBg: warn ? '#F4C1B6' : '#F7E3A8',
+aria: 'Page ' + r[0] + ': ' + r[1],
+pick: () => {
+if (mode !== 'hunt') return;
+if (i === TARGET) { stopClock(); this.setState({ omode: 'found', oyou: (performance.now() - this._ot0) / 1000 }); }
+else { this.setState({ onope: i }); setTimeout(() => { if ((this.state || {}).onope === i) this.setState({ onope: -1 }); }, 400); }
+} };
+});
+const oFields = fieldData.map((f, i) => {
+const on = inTool && i === sel;
+return Object.assign({}, f, {
+value: inTool ? f.value : '—', status: inTool ? f.status : '', ariaDis: inTool ? 'false' : 'true', op: inTool ? '1' : '0.6',
+pressed: on ? 'true' : 'false', bg: on ? '#FFFDF8' : 'rgba(255,253,248,0.55)', border: on ? '#2E2A3B' : 'transparent',
+statusInk: f.status === 'Check' ? '#B0573F' : '#2F6B45', pick: inTool ? pickField(i) : () => {} });
+});
+const you = st.oyou || 0;
+const kick = { ready: 'Challenge · the old way', hunt: 'Challenge · the old way', found: 'Found it!', gaveup: 'That is the point', tool: 'With our tool' }[mode];
+const title = { ready: 'Find the sponsor’s deadline in this 30-page call. Click the sentence when you see it.', hunt: 'Scroll and click the sentence with the sponsor’s deadline.',
+found: 'You found it in ' + you.toFixed(1) + ' seconds, for one field. Staff fill in dozens.', gaveup: 'Hard, right? Staff hunt like this for every field, in every call.',
+tool: 'Tap any field. The call jumps to its source and highlights it.' }[mode];
+return { cards: cards, oParas: oParas, oFields: oFields, oMode: mode, oKicker: kick, oTitle: title,
+oShowTimer: mode !== 'tool', oClock: elapsed.toFixed(1), oCanStart: mode === 'ready', oRunning: mode === 'hunt', oShowTool: mode === 'found' || mode === 'gaveup', oInTool: inTool,
+oShowScore: inTool && you > 0, oYou: you.toFixed(1) + ' s', oToolPct: Math.max(3, Math.round(0.8 / Math.max(you, 0.8) * 100)),
+oNote: inTool ? cur.note : (mode === 'ready' ? 'Tip: the deadline could be anywhere.' : ''),
+oStart: () => { this._ot0 = performance.now(); stopClock(); this._oiv = setInterval(() => this.setState({ otick: performance.now() }), 100); const box = document.getElementById('odoc'); if (box) box.scrollTop = 0; this.setState({ omode: 'hunt', otick: performance.now(), oyou: 0 }); },
+oGiveUp: () => { stopClock(); this.setState({ omode: 'gaveup', oyou: 0 }); scrollTo(TARGET); },
+oUseTool: () => { this.setState({ omode: 'tool', osel: 0 }); scrollTo(fieldData[0].src[0]); },
+oReset: () => { stopClock(); this.setState({ omode: 'ready', oyou: 0, osel: 0 }); const box = document.getElementById('odoc'); if (box) box.scrollTop = 0; } };
 }
 }
 </script>
