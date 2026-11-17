@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study: CareLift drone medicine delivery</title>
+<meta name="description" content="Case study: CareLift, on-demand drone delivery of urgent medicine for rural patients.">
+<meta property="og:title" content="Case study: CareLift drone medicine delivery">
+<meta property="og:description" content="Case study: CareLift, on-demand drone delivery of urgent medicine for rural patients.">
+<meta property="og:image" content="assets/joan.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23E9B949'/%3E%3Cpath d='M16 36c6-14 14 8 20-8s10 2 14-6' fill='none' stroke='%232E2A3B' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500,100;9..144,700,100&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF7EF}
+a{color:#2E2A3B}a:hover{color:#7A5BA8}
+.flip{transition:transform .2s ease}
+.flip:hover{transform:translateY(-4px) rotate(-0.4deg)}
+.opt{transition:transform .15s ease}
+.opt:hover{transform:translateX(4px)}
+.chap{transition:transform .15s ease}
+.chap:hover{transform:translateY(-3px)}
+.draw{stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.4s ease forwards}
+.pop{animation:pop .35s ease}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.draw{animation:none;stroke-dashoffset:0}.pop{animation:none}.flip:hover,.opt:hover,.chap:hover{transform:none}}
+@media (max-width: 640px){h1{font-size:38px !important}h2{font-size:30px !important}}
+</style>
+<style>#app{min-height:100vh}</style>
+</head>
+<body>
+<div id="app"></div>
+<template id="dc-template">
+
+<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.65; overflow: hidden">
+
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0">
+<defs>
+<filter id="wc" x="-25%" y="-25%" width="150%" height="150%">
+<feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="4" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feGaussianBlur in="d" stdDeviation="1.6" result="b"></feGaussianBlur>
+<feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="9" result="m"></feTurbulence>
+<feColorMatrix in="m" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.9 1.25" result="ma"></feColorMatrix>
+<feComposite in="b" in2="ma" operator="in"></feComposite>
+</filter>
+<filter id="pc" x="-10%" y="-10%" width="120%" height="120%">
+<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="2" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="5" result="g"></feTurbulence>
+<feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2 1.6" result="ga"></feColorMatrix>
+<feComposite in="d" in2="ga" operator="in"></feComposite>
+</filter>
+<filter id="paper" x="0" y="0" width="100%" height="100%">
+<feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="11" result="n"></feTurbulence>
+<feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0 0.28  0 0 0 0.10 0"></feColorMatrix>
+</filter>
+</defs>
+</svg>
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"><rect width="100%" height="100%" filter="url(#paper)"></rect></svg>
+
+<header style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="index.html" style="text-decoration: none; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">Chih-Chi (Joan) Huang</a>
+<a href="index.html" style="font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← back to all work</a>
+</header>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 40px 32px 64px; display: flex; flex-direction: column; gap: 24px">
+<svg viewBox="0 0 1040 360" preserveAspectRatio="none" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%" aria-hidden="true">
+<ellipse cx="860" cy="120" rx="220" ry="120" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.45"></ellipse>
+<ellipse cx="960" cy="240" rx="140" ry="80" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.35; mix-blend-mode: multiply"></ellipse>
+</svg>
+<p style="position: relative; margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">Case study · CareLift · Business+Tech</p>
+<h1 style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 820px">Medicine in minutes, not hours</h1>
+<p style="position: relative; margin: 0; font-size: 21px; color: #4A4458; max-width: 740px">Rural pharmacies, drone companies and patients each worked alone, so every urgent order turned into phone calls. In six weeks, our team designed CareLift to connect all three, and shipped a working MVP of three apps.</p>
+<div style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 12px">
+<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My role</p><p style="margin: 0; font-weight: 500">Product Manager: research, flow and UI review, business model, pitch</p></div>
+<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 0; font-weight: 500">5, including engineers</p></div>
+<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">When</p><p style="margin: 0; font-weight: 500">6 weeks, fall 2026</p></div>
+<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Shipped</p><p style="margin: 0; font-weight: 500">Working MVP: patient, pharmacy and operator apps</p></div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #B0573F">01 · meet Margaret</p>
+<div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+<div style="flex: 1 1 260px; display: flex; justify-content: center">
+<svg viewBox="0 0 280 300" style="width: 100%; max-width: 280px; height: auto" role="img" aria-label="Watercolor illustration of an older woman with glasses and a cardigan">
+<ellipse cx="140" cy="160" rx="130" ry="130" fill="#E9B949" filter="url(#wc)" style="opacity: 0.35"></ellipse>
+<path d="M60 290 C 64 220, 100 196, 140 196 C 180 196, 216 220, 220 290 Z" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.85"></path>
+<ellipse cx="140" cy="128" rx="54" ry="60" fill="#F3D5C0" filter="url(#wc)"></ellipse>
+<path d="M84 120 C 82 70, 120 56, 140 58 C 170 56, 200 72, 196 120 C 186 92, 160 84, 140 86 C 116 84, 94 96, 84 120 Z" fill="#C9C4CF" filter="url(#wc)"></path>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round">
+<circle cx="120" cy="132" r="14"></circle><circle cx="160" cy="132" r="14"></circle><path d="M134 132 H 146"></path>
+<path d="M126 162 C 134 168, 146 168, 154 162"></path>
+<path d="M140 196 L 126 290 M140 196 L 154 290"></path>
+</g>
+<circle cx="70" cy="70" r="20" fill="#FFFDF8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></circle>
+<path d="M70 58 V 70 L 78 76" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2; stroke-linecap: round"></path>
+</svg>
+</div>
+<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">It's 7 p.m. Her heart medicine runs out tonight.</h2>
+<p style="margin: 0">Margaret is 74 and lives alone in northern Michigan. She stopped driving. Her nearest pharmacy is 25 minutes away and closed at 6. Her daughter is three hours away.</p>
+<p style="margin: 0; font-size: 15px; color: #5A5468">A representative persona built from public data and our interviews.</p>
+</div>
+</div>
+<div style="position: relative; padding: 30px 30px 34px; display: flex; flex-direction: column; gap: 14px">
+<svg viewBox="0 0 1000 420" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 30 C 300 8, 700 22, 988 14 C 996 160, 994 300, 984 406 C 700 416, 300 412, 16 408 C 6 300, 8 160, 12 30 Z" fill="#FFF3E3" filter="url(#wc)"></path></svg>
+<p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700">What would you do, if you were Margaret?</p>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 24px">
+<div style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{opts}}" as="o" hint-placeholder-count="4">
+<button type="button" class="opt" onClick="{{o.pick}}" aria-pressed="{{o.pressed}}" style="text-align: left; font: inherit; color: #2E2A3B; background: {{o.bg}}; border: 2px solid {{o.border}}; border-radius: 18px 14px 20px 12px; padding: 12px 18px; cursor: pointer; min-height: 48px; font-weight: 700">{{o.label}}</button>
+</sc-for>
+</div>
+<div class="pop" style="flex: 999 1 360px; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 6px">
+<p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1; color: {{cur.ink}}">{{cur.stat}}</p>
+<p style="margin: 0; font-size: 18px">{{cur.text}}</p>
+</div>
+</div>
+<p style="position: relative; margin: 0; font-size: 14px; color: #5A5468">Sources in our pitch: GoodRx (2025), IRS mileage rate, KFF, Annals of Internal Medicine.</p>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 20px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #6A4F9A">02 · the chaos</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Three parties, no one in the middle</h2>
+<p style="margin: 0; max-width: 760px">Pharmacies, drone companies and patients each worked alone, so every order bounced back and forth by phone. Flip the switch to see what CareLift changes.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<button type="button" onClick="{{showBefore}}" aria-pressed="{{beforePressed}}" style="font: inherit; font-weight: 700; color: {{beforeInk}}; background: {{beforeBg}}; border: 2px solid #2E2A3B; border-radius: 22px 16px 24px 14px; padding: 10px 20px; min-height: 44px; cursor: pointer">Before CareLift</button>
+<button type="button" onClick="{{showAfter}}" aria-pressed="{{afterPressed}}" style="font: inherit; font-weight: 700; color: {{afterInk}}; background: {{afterBg}}; border: 2px solid #2E2A3B; border-radius: 16px 24px 14px 22px; padding: 10px 20px; min-height: 44px; cursor: pointer">With CareLift</button>
+</div>
+<div style="position: relative">
+<sc-if value="{{chaosBefore}}" hint-placeholder-val="{{ true }}">
+<svg class="pop" viewBox="0 0 900 420" style="width: 100%; height: auto" role="img" aria-label="Before: pharmacy, drone operator and patient connected by tangled lines full of questions">
+<path d="M150 110 C 300 40, 340 220, 420 120 S 600 60, 560 160 S 700 120, 750 110" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.4"></path>
+<path d="M150 130 C 200 260, 320 200, 280 300 S 400 380, 450 330" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.4"></path>
+<path d="M750 130 C 700 260, 560 180, 620 290 S 520 380, 470 330" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.4"></path>
+<path d="M170 120 C 260 160, 220 60, 330 100 C 420 140, 380 260, 300 220 C 240 180, 360 160, 440 200" fill="none" stroke="#B0573F" filter="url(#pc)" style="stroke-width: 2"></path>
+<ellipse cx="150" cy="110" rx="90" ry="54" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<ellipse cx="750" cy="110" rx="100" ry="54" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<ellipse cx="450" cy="340" rx="90" ry="54" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<text x="150" y="117" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Pharmacy</text>
+<text x="750" y="117" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Drone operator</text>
+<text x="450" y="347" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Patient</text>
+<text x="300" y="60" style="font-family: 'Caveat', cursive; font-size: 26px; fill: #B0573F">"Is it in stock?"</text>
+<text x="560" y="230" style="font-family: 'Caveat', cursive; font-size: 26px; fill: #B0573F">"Next flight is tomorrow"</text>
+<text x="80" y="250" style="font-family: 'Caveat', cursive; font-size: 26px; fill: #B0573F">"Who has my medicine?"</text>
+<text x="600" y="380" style="font-family: 'Caveat', cursive; font-size: 26px; fill: #B0573F">"Where is it now?"</text>
+</svg>
+</sc-if>
+<sc-if value="{{chaosAfter}}" hint-placeholder-val="{{ false }}">
+<svg class="pop" viewBox="0 0 900 420" style="width: 100%; height: auto" role="img" aria-label="After: CareLift sits in the middle and connects pharmacy, drone operator and patient with clean lines">
+<path d="M150 110 L 450 215 M750 110 L 450 215 M450 340 L 450 215" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3"></path>
+<ellipse cx="150" cy="110" rx="90" ry="54" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<ellipse cx="750" cy="110" rx="100" ry="54" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<ellipse cx="450" cy="340" rx="90" ry="54" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<ellipse cx="450" cy="215" rx="100" ry="50" fill="#E9B949" filter="url(#wc)"></ellipse>
+<text x="150" y="117" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Pharmacy</text>
+<text x="750" y="117" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Drone operator</text>
+<text x="450" y="347" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Patient</text>
+<text x="450" y="223" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 26px; fill: #2E2A3B">CareLift</text>
+<text x="40" y="200" style="font-family: 'Caveat', cursive; font-size: 24px; fill: #2F6B45">live stock, Rx checked once</text>
+<text x="600" y="200" style="font-family: 'Caveat', cursive; font-size: 24px; fill: #2A5F8F">matched orders, no calls</text>
+<text x="560" y="390" style="font-family: 'Caveat', cursive; font-size: 24px; fill: #A04A2E">live ETA, 10–20 min</text>
+</svg>
+</sc-if>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 22px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">03 · what I did</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">The person between the idea and the build</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">listen</p><p style="margin: 4px 0 0">Ran persona interviews and pulled five teammates' ideas into one direction.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 24px 16px 22px; padding: 22px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #6A4F9A">translate</p><p style="margin: 4px 0 0">Explained what each app had to do, and worked side by side with our engineers.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 16px 22px 18px; padding: 22px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">challenge</p><p style="margin: 4px 0 0">Flagged flows that didn't fit real users, and polished the UI with the team.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 16px 22px 18px 24px; padding: 22px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">pitch</p><p style="margin: 4px 0 0">Built the business model and planned the story of our final pitch.</p></div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 20px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2A5F8F">04 · two things I pushed back on</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Design for the moment, not the spec</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 28px">
+
+<div style="position: relative; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 500 640" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 22 C 160 8, 340 16, 488 12 C 496 220, 494 430, 486 628 C 340 636, 160 634, 16 630 C 6 430, 8 220, 12 22 Z" fill="#F7E3D8" filter="url(#wc)"></path></svg>
+<h3 style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-size: 25px">1. Getting the medicine at the door</h3>
+<div style="position: relative; display: flex; gap: 8px">
+<button type="button" onClick="{{pinBefore}}" aria-pressed="{{pinBeforePressed}}" style="font: inherit; font-weight: 700; font-size: 15px; color: {{pinBeforeInk}}; background: {{pinBeforeBg}}; border: 2px solid #2E2A3B; border-radius: 16px 12px 18px 10px; padding: 8px 16px; min-height: 44px; cursor: pointer">Before</button>
+<button type="button" onClick="{{pinAfter}}" aria-pressed="{{pinAfterPressed}}" style="font: inherit; font-weight: 700; font-size: 15px; color: {{pinAfterInk}}; background: {{pinAfterBg}}; border: 2px solid #2E2A3B; border-radius: 12px 18px 10px 16px; padding: 8px 16px; min-height: 44px; cursor: pointer">After my push</button>
+</div>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 20px; align-items: center">
+<div style="flex: 0 0 200px; height: 360px; box-sizing: border-box; border: 3px solid #2E2A3B; border-radius: 30px; background: #FFFDF8; padding: 28px 16px 16px; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; color: #A01E2B">Your drone has arrived</p>
+<sc-if value="{{pinIsBefore}}" hint-placeholder-val="{{ true }}">
+<p class="pop" style="margin: 0; font-size: 14px">Enter the 6-digit PIN from your order email to open the box.</p>
+<div class="pop" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px"><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span></div>
+<p class="pop" style="margin: 0; font-size: 12px; color: #5A5468">Can't find it? Check your email.</p>
+</sc-if>
+<sc-if value="{{pinIsAfter}}" hint-placeholder-val="{{ false }}">
+<p class="pop" style="margin: 0; font-size: 14px">Take your medicine from the drone, then tap below.</p>
+<span class="pop" style="display: flex; align-items: center; justify-content: center; text-align: center; background: #A01E2B; color: #FFFFFF; font-weight: 700; font-size: 18px; border-radius: 14px; padding: 18px 10px">I got my medicine</span>
+<p class="pop" style="margin: 0; font-size: 12px; color: #5A5468">Or press the button on the drone.</p>
+</sc-if>
+</div>
+<p class="pop" style="flex: 1 1 160px; margin: 0; font-family: 'Caveat', cursive; font-size: 25px; font-weight: 700; line-height: 1.25">{{pinNote}}</p>
+</div>
+</div>
+
+<div style="position: relative; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 500 640" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 22 C 160 8, 340 16, 488 12 C 496 220, 494 430, 486 628 C 340 636, 160 634, 16 630 C 6 430, 8 220, 12 22 Z" fill="#E4EEF7" filter="url(#wc)"></path></svg>
+<h3 style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-size: 25px">2. Large text for older users</h3>
+<div style="position: relative; display: flex; gap: 8px">
+<button type="button" onClick="{{ltBefore}}" aria-pressed="{{ltBeforePressed}}" style="font: inherit; font-weight: 700; font-size: 15px; color: {{ltBeforeInk}}; background: {{ltBeforeBg}}; border: 2px solid #2E2A3B; border-radius: 16px 12px 18px 10px; padding: 8px 16px; min-height: 44px; cursor: pointer">The idea</button>
+<button type="button" onClick="{{ltAfter}}" aria-pressed="{{ltAfterPressed}}" style="font: inherit; font-weight: 700; font-size: 15px; color: {{ltAfterInk}}; background: {{ltAfterBg}}; border: 2px solid #2E2A3B; border-radius: 12px 18px 10px 16px; padding: 8px 16px; min-height: 44px; cursor: pointer">What we shipped</button>
+</div>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 20px; align-items: center">
+<div style="flex: 0 0 200px; height: 360px; box-sizing: border-box; border: 3px solid #2E2A3B; border-radius: 30px; background: #FFFDF8; padding: 28px 16px 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden">
+<p style="margin: 0; font-size: {{ltTitle}}; font-weight: 700; line-height: 1.15">How can we help?</p>
+<span style="border: 2px solid #A01E2B; border-radius: 12px; padding: 10px; font-size: {{ltBody}}; font-weight: 700; color: #A01E2B">Emergency delivery</span>
+<span style="border: 1.5px solid #8C8496; border-radius: 12px; padding: 10px; font-size: {{ltBody}}; font-weight: 700">Normal delivery</span>
+<sc-if value="{{ltIsAfter}}" hint-placeholder-val="{{ false }}">
+<button type="button" class="pop" onClick="{{toggleBig}}" aria-pressed="{{bigPressed}}" style="margin-top: auto; font: inherit; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #F3ECDF; border: none; border-radius: 12px; padding: 10px 12px; min-height: 44px; cursor: pointer; color: #2E2A3B">Large text <span style="width: 38px; height: 22px; border-radius: 11px; background: {{switchBg}}; display: flex; align-items: center; justify-content: {{switchSide}}; padding: 0 3px; box-sizing: border-box"><span style="width: 16px; height: 16px; border-radius: 50%; background: #FFFFFF"></span></span></button>
+</sc-if>
+</div>
+<p class="pop" style="flex: 1 1 160px; margin: 0; font-family: 'Caveat', cursive; font-size: 25px; font-weight: 700; line-height: 1.25">{{ltNote}}</p>
+</div>
+</div>
+
+</div>
+</section>
+
+<section data-video-wrap="1" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 18px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #B0573F">05 · see it work</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Margaret's refill, end to end</h2>
+<p style="margin: 0; max-width: 760px">Our working MVP: the patient app, the pharmacy desk and the operator console, side by side. Jump to any step.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px">
+<sc-for list="{{chapters}}" as="ch" hint-placeholder-count="5">
+<button type="button" class="chap" onClick="{{ch.seek}}" aria-pressed="{{ch.pressed}}" style="text-align: left; font: inherit; color: {{ch.ink}}; background: {{ch.bg}}; border: 2px solid #2E2A3B; border-radius: 16px 12px 18px 10px; padding: 10px 14px; min-height: 44px; cursor: pointer"><span style="display: block; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">{{ch.n}}</span><span style="display: block; font-size: 14px; font-weight: 700">{{ch.label}}</span></button>
+</sc-for>
+</div>
+<div style="position: relative; padding: 14px; background: #2E2A3B; border-radius: 22px 18px 24px 16px">
+<video src="assets/carelift-demo.mp4" poster="assets/carelift-poster.jpg" controls="controls" muted="muted" playsinline="playsinline" preload="metadata" style="display: block; width: 100%; height: auto; border-radius: 12px; background: #FFFFFF"></video>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
+<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #6A4F9A">06 · the business</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">We're the platform, not the fleet</h2>
+<p style="margin: 0">CareLift owns no drones and no pharmacies. Like DoorDash with Wing, we run the network and take a small fee on each delivery. One flat price for an urgent rural delivery, at any pharmacy, at any hour.</p>
+</div>
+<div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 14px">
+<div style="position: relative; padding: 24px 22px"><svg viewBox="0 0 300 140" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="70" rx="145" ry="64" fill="#E9B949" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 44px; line-height: 1">$14.99</p><p style="position: relative; margin: 4px 0 0">flat per urgent delivery, about 20 minutes</p></div>
+<div style="position: relative; padding: 24px 22px"><svg viewBox="0 0 300 140" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="70" rx="145" ry="64" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 44px; line-height: 1">$0.9B</p><p style="position: relative; margin: 4px 0 0">yearly rural U.S. market, starting in rural Michigan</p></div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 40px 32px 72px; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">what's next</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; line-height: 1.4; max-width: 840px">We didn't win, but we didn't stop. We're turning CareLift into a startup, and applying for funding from U-M's Center for Entrepreneurship to run real research with rural patients, pharmacists and paramedics.</p>
+</section>
+
+<nav aria-label="Case studies" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 0 32px 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
+<a href="campusbite.html" style="font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← CampusBite</a>
+<a href="catalyst.html" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 14px 26px; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center">Next: Catalyst Labs →</a>
+</nav>
+
+</div>
+</template>
+<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":6600}}'>
+class Component extends DCLogic {
+renderVals() {
+const st = this.state || {};
+const dark = '#2E2A3B', light = '#FBF7EF';
+const optData = [
+{ label: 'Ask a neighbor to drive her', stat: '85 min', ink: '#A04A2E', text: 'A 36-mile round trip, about $27 in car costs, and the pharmacy is already closed.' },
+{ label: 'Go to the ER', stat: '~$646', ink: '#A04A2E', text: 'The average out-of-pocket ER visit, just for a missing dose.' },
+{ label: 'Wait until morning', stat: '≥10%', ink: '#A04A2E', text: 'of U.S. hospital stays come from missed medicines. Skipping a heart pill is a real risk.' },
+{ label: 'Order on CareLift', stat: '~20 min', ink: '#2F6B45', text: 'Her medicine flies to the door. She pays a $4.99 urgent fee on top of her copay.' }
+];
+const oSel = st.opt === undefined ? 3 : st.opt;
+const opts = optData.map((o, i) => Object.assign({}, o, {
+pressed: i === oSel ? 'true' : 'false',
+bg: i === oSel ? '#FFFDF8' : 'rgba(255,253,248,0.5)',
+border: i === oSel ? dark : 'transparent',
+pick: () => this.setState({ opt: i })
+}));
+const after = !!st.after;
+const pinA = st.pin === undefined ? false : st.pin;
+const ltA = st.lt === undefined ? false : st.lt;
+const big = st.big === undefined ? true : st.big;
+const showLarge = !ltA || big;
+const chapData = [
+{ n: '1', label: 'Margaret orders', t: 35 }, { n: '2', label: 'Pharmacy packs it', t: 47 },
+{ n: '3', label: 'Drone dispatched', t: 55 }, { n: '4', label: 'Tracked live', t: 63 }, { n: '5', label: 'At the door', t: 79 }
+];
+const chapters = chapData.map((c, i) => {
+const on = st.chapter === i;
+return Object.assign({}, c, {
+pressed: on ? 'true' : 'false', bg: on ? dark : '#FFFDF8', ink: on ? light : dark,
+seek: (e) => {
+const el = e && e.currentTarget;
+const wrap = el && el.closest ? el.closest('[data-video-wrap]') : null;
+const v = wrap ? wrap.querySelector('video') : null;
+if (v) { try { v.currentTime = c.t; const p = v.play(); if (p && p.catch) p.catch(function(){}); } catch (err) {} }
+this.setState({ chapter: i });
+}
+});
+});
+return {
+opts: opts, cur: optData[oSel], chapters: chapters,
+chaosBefore: !after, chaosAfter: after,
+showBefore: () => this.setState({ after: false }), showAfter: () => this.setState({ after: true }),
+beforePressed: after ? 'false' : 'true', afterPressed: after ? 'true' : 'false',
+beforeBg: after ? 'transparent' : dark, beforeInk: after ? dark : light,
+afterBg: after ? dark : 'transparent', afterInk: after ? light : dark,
+pinIsBefore: !pinA, pinIsAfter: pinA,
+pinBefore: () => this.setState({ pin: false }), pinAfter: () => this.setState({ pin: true }),
+pinBeforePressed: pinA ? 'false' : 'true', pinAfterPressed: pinA ? 'true' : 'false',
+pinBeforeBg: pinA ? 'transparent' : dark, pinBeforeInk: pinA ? dark : light,
+pinAfterBg: pinA ? dark : 'transparent', pinAfterInk: pinA ? light : dark,
+pinNote: pinA ? 'One tap, or one button on the drone. Nothing to remember.' : 'Margaret is 74. In an emergency, she will not be hunting for a PIN.',
+ltIsAfter: ltA,
+ltBefore: () => this.setState({ lt: false }), ltAfter: () => this.setState({ lt: true }),
+ltBeforePressed: ltA ? 'false' : 'true', ltAfterPressed: ltA ? 'true' : 'false',
+ltBeforeBg: ltA ? 'transparent' : dark, ltBeforeInk: ltA ? dark : light,
+ltAfterBg: ltA ? dark : 'transparent', ltAfterInk: ltA ? light : dark,
+ltTitle: showLarge ? '26px' : '18px', ltBody: showLarge ? '19px' : '14px',
+toggleBig: () => this.setState({ big: !big }), bigPressed: big ? 'true' : 'false',
+switchBg: big ? '#2F6B45' : '#B8B0C2', switchSide: big ? 'flex-end' : 'flex-start',
+ltNote: ltA ? 'A switch, not a rule. Often it is her daughter ordering, not Margaret. Try it.' : 'Our engineer’s idea: a large-text app for older users. Great idea, but who is actually ordering?'
+};
+}
+}
+</script>
+<script src="assets/morphdom.min.js"></script>
+<script src="assets/dc-lite.js"></script>
+<noscript><p style="font-family:sans-serif;padding:24px">This site needs JavaScript. Contact: chihchi@umich.edu</p></noscript>
+</body>
+</html>

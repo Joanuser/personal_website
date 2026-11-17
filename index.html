@@ -1,44 +1,395 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Chih-Chi (Joan) Huang is an MSI student in Product Management at the University of Michigan. Previously a Sales Operation Analyst at Uber, she is pursuing technical product management."
-    />
-    <meta name="theme-color" content="#10243F" />
-    <meta property="og:title" content="Chih-Chi Huang — Technical Product Management" />
-    <meta
-      property="og:description"
-      content="Product management student at UMSI. Selected work from Uber, eCloudvalley, Mead Johnson, LVMH, and EY."
-    />
-    <meta property="og:type" content="website" />
-    <link rel="icon" href="%BASE_URL%favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Noto+Sans+TC:wght@400;500;600&family=Noto+Serif+TC:wght@500;600&family=Outfit:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <title>Chih-Chi Huang — Technical Product Management</title>
-    <script>
-      (function (l) {
-        if (l.search[1] === "/") {
-          var decoded = l.search
-            .slice(1)
-            .split("&")
-            .map(function (s) {
-              return s.replace(/~and~/g, "&");
-            })
-            .join("?");
-          window.history.replaceState(null, "", l.pathname.slice(0, -1) + decoded + l.hash);
-        }
-      })(window.location);
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chih-Chi (Joan) Huang — Product Manager</title>
+<meta name="description" content="Chih-Chi (Joan) Huang, Product Manager. I turn messy processes into clear products.">
+<meta property="og:title" content="Chih-Chi (Joan) Huang — Product Manager">
+<meta property="og:description" content="Chih-Chi (Joan) Huang, Product Manager. I turn messy processes into clear products.">
+<meta property="og:image" content="assets/joan.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23E9B949'/%3E%3Cpath d='M16 36c6-14 14 8 20-8s10 2 14-6' fill='none' stroke='%232E2A3B' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500,100;9..144,700,100&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF7EF}
+a{color:#2E2A3B}a:hover{color:#7A5BA8}
+.card{transition:transform .25s ease, box-shadow .25s ease}
+.card:hover{transform:translateY(-6px) rotate(-0.4deg);box-shadow:0 14px 30px rgba(46,42,59,0.12)}
+.step{transition:transform .2s ease}
+.step:hover{transform:translateY(-4px)}
+.draw{stroke-dasharray:1700;stroke-dashoffset:1700;animation:draw 2.6s ease forwards}
+.draw-late{stroke-dasharray:80;stroke-dashoffset:80;animation:draw .5s ease 2.4s forwards}
+.reveal{animation:rise .45s ease}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.draw,.draw-late{animation:none;stroke-dashoffset:0}.reveal{animation:none}.card:hover,.step:hover{transform:none}}
+@media (max-width: 640px){h1{font-size:38px !important}h2{font-size:30px !important}}
+</style>
+<style>#app{min-height:100vh}</style>
+</head>
+<body>
+<div id="app"></div>
+<template id="dc-template">
+
+<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 17px; line-height: 1.6; overflow: hidden">
+
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0">
+<defs>
+<filter id="wc" x="-25%" y="-25%" width="150%" height="150%">
+<feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="4" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feGaussianBlur in="d" stdDeviation="1.6" result="b"></feGaussianBlur>
+<feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="9" result="m"></feTurbulence>
+<feColorMatrix in="m" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.9 1.25" result="ma"></feColorMatrix>
+<feComposite in="b" in2="ma" operator="in"></feComposite>
+</filter>
+<filter id="pc" x="-10%" y="-10%" width="120%" height="120%">
+<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="2" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="5" result="g"></feTurbulence>
+<feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2 1.6" result="ga"></feColorMatrix>
+<feComposite in="d" in2="ga" operator="in"></feComposite>
+</filter>
+<filter id="paper" x="0" y="0" width="100%" height="100%">
+<feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="11" result="n"></feTurbulence>
+<feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0 0.28  0 0 0 0.10 0"></feColorMatrix>
+</filter>
+</defs>
+</svg>
+
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"><rect width="100%" height="100%" filter="url(#paper)"></rect></svg>
+
+<header style="position: relative; max-width: 1160px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="#top" style="text-decoration: none; display: flex; align-items: center; gap: 12px">
+<svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18" fill="#E9B949" filter="url(#wc)" style="opacity: 0.85"></circle><path d="M12 24 C 16 14, 22 30, 26 18 S 32 20, 34 16" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.4; stroke-linecap: round"></path></svg>
+<span style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 21px">Chih-Chi (Joan) Huang</span></a>
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; align-items: center; gap: 28px; font-weight: 500; font-size: 16px">
+<a href="#work" style="text-decoration: none">Work</a>
+<a href="#about" style="text-decoration: none">About</a>
+<a href="#notes" style="text-decoration: none">Field notes</a>
+<a href="#contact" style="text-decoration: none">Work with me</a>
+<a href="assets/Chihchi_Huang_Resume.pdf" target="_blank" rel="noopener" style="text-decoration: none; border: 2px solid #2E2A3B; border-radius: 22px 18px 24px 16px; padding: 8px 18px; min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center">Résumé</a>
+</nav>
+</header>
+
+<section id="top" style="position: relative; max-width: 1160px; margin: 0 auto; padding: 40px 32px 88px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
+<div style="flex: 999 1 540px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #B0573F">Hi, I'm Joan!</p>
+<h1 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 64px; line-height: 1.05; letter-spacing: -0.015em">I turn messy processes into clear products.</h1>
+<p style="margin: 0; font-size: 20px; color: #5A5468; max-width: 600px">I'm a Product Manager who maps how work really happens, then gives engineers clear flow and UI feedback to build from. Grad student at U-M School of Information, incoming PM Intern at Antheros Capital.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px">
+<a href="#work" style="background: {{accent}}; color: #2E2A3B; text-decoration: none; font-weight: 700; border-radius: 28px 22px 30px 20px; padding: 14px 28px; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center">See my work</a>
+<a href="#contact" style="background: #2E2A3B; color: #FBF7EF; text-decoration: none; font-weight: 700; border-radius: 22px 30px 20px 28px; padding: 14px 28px; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center">Let's work together</a>
+</div>
+</div>
+<div style="flex: 1 1 360px; min-width: 0; display: flex; justify-content: center">
+<div style="position: relative; width: 400px; max-width: 100%; height: 440px">
+<svg viewBox="0 0 400 440" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<ellipse cx="215" cy="215" rx="165" ry="180" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.55"></ellipse>
+<ellipse cx="180" cy="250" rx="140" ry="150" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.45; mix-blend-mode: multiply"></ellipse>
+<ellipse cx="260" cy="150" rx="90" ry="80" fill="#E9B949" filter="url(#wc)" style="opacity: 0.45; mix-blend-mode: multiply"></ellipse>
+<path class="draw" d="M28 400 C 70 330, 120 430, 92 360 S 30 300, 86 296 S 170 350, 130 316 S 76 250, 140 252 S 214 290, 182 246 L 360 70" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round"></path>
+<path class="draw-late" d="M334 66 L 362 68 L 354 96" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round"></path>
+</svg>
+<img src="assets/joan.jpg" alt="Portrait of Joan Huang, smiling, in a striped shirt" style="position: absolute; left: 95px; top: 86px; width: 220px; height: 262px; object-fit: cover; object-position: center 30%; border-radius: 48% 52% 46% 54% / 55% 48% 52% 45%; border: 5px solid #FBF7EF; box-shadow: 0 10px 26px rgba(46,42,59,0.18)">
+<p style="position: absolute; right: 0; bottom: 10px; margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468; transform: rotate(-4deg)">mess in, clear flow out</p>
+</div>
+</div>
+</section>
+
+<section style="position: relative">
+<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: 72px 32px; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px">
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 40px">How I work</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; color: #5A5468">tap a step to see it in action</p>
+</div>
+<svg viewBox="0 0 1100 90" style="width: 100%; height: auto" aria-hidden="true">
+<path class="draw" d="M10 50 C 30 10, 60 90, 50 40 S 10 20, 40 60 S 110 80, 90 40 S 60 10, 130 30 C 220 70, 300 10, 400 50 C 480 80, 560 20, 640 45 C 720 60, 800 45, 1080 45" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3; stroke-linecap: round"></path>
+<path class="draw-late" d="M1058 32 L 1082 45 L 1058 58" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3; stroke-linecap: round; stroke-linejoin: round"></path>
+</svg>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
+<sc-for list="{{steps}}" as="st" hint-placeholder-count="3">
+<button type="button" class="step" onClick="{{st.pick}}" aria-pressed="{{st.pressed}}" style="position: relative; text-align: left; font: inherit; color: #2E2A3B; background: none; border: 2.5px solid {{st.border}}; border-radius: 34px 28px 36px 30px; padding: 28px 24px; cursor: pointer; min-height: 44px">
+<svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><rect x="10" y="10" width="280" height="180" rx="40" fill="{{st.color}}" filter="url(#wc)" style="opacity: {{st.op}}"></rect></svg>
+<span style="position: relative; display: block; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: {{st.ink}}">{{st.kicker}}</span>
+<span style="position: relative; display: block; font-family: 'Fraunces', serif; font-size: 25px; font-weight: 700; margin-top: 4px">{{st.title}}</span>
+<span style="position: relative; display: block; color: #4A4458; margin-top: 8px">{{st.blurb}}</span>
+<span style="position: relative; display: block; font-family: 'Caveat', cursive; font-size: 22px; font-weight: 700; margin-top: 12px">{{st.cta}}</span>
+</button>
+</sc-for>
+</div>
+<div class="reveal" style="position: relative; padding: 36px 40px; display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
+<svg viewBox="0 0 1100 260" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M20 40 C 300 10, 800 30, 1080 20 C 1095 120, 1090 200, 1070 245 C 760 255, 300 250, 30 240 C 12 160, 10 100, 20 40 Z" fill="#FFFDF8" stroke="#D9CDB8" filter="url(#pc)" style="stroke-width: 2"></path></svg>
+<div style="position: relative; flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: {{cur.ink}}">{{cur.where}}</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 24px; line-height: 1.35">{{cur.story}}</p>
+<a href="orvp.html" style="font-family: 'Caveat', cursive; font-size: 22px; font-weight: 700">see the full ORVP story →</a>
+</div>
+<div style="position: relative; flex: 1 1 200px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+<p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; color: #2E2A3B">{{cur.stat}}</p>
+<p style="margin: 0; font-size: 15px; color: #5A5468; text-align: center">{{cur.statLabel}}</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="work" style="position: relative; max-width: 1160px; margin: 0 auto; padding: 80px 32px; display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 40px">Selected work</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; color: #5A5468">four messes, four flows</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 32px">
+
+<a href="orvp.html" class="card" style="text-decoration: none; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 30px 24px 32px 26px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 400 210" style="width: 100%; height: auto" role="img" aria-label="Watercolor illustration of stacked documents under a magnifying glass">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.5"></ellipse>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round">
+<rect x="118" y="46" width="120" height="140" rx="6" fill="#FFFDF8" transform="rotate(-6 178 116)"></rect>
+<rect x="138" y="38" width="120" height="140" rx="6" fill="#FFFDF8"></rect>
+<path d="M156 70 H 240 M156 92 H 228 M156 114 H 236 M156 136 H 214" fill="none"></path>
+<circle cx="268" cy="130" r="34" fill="none"></circle>
+<path d="M292 154 L 322 184" fill="none" style="stroke-width: 5"></path>
+</g>
+<path d="M154 92 H 230" stroke="#E9B949" filter="url(#wc)" style="stroke-width: 12; opacity: 0.7"></path>
+<path d="M154 136 H 216" stroke="#E9B949" filter="url(#wc)" style="stroke-width: 12; opacity: 0.7"></path>
+</svg>
+<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A4790">U-M Office of the VP for Research · AI workflow</p>
+<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 27px; line-height: 1.2; color: #2E2A3B">Turning 30-page funding calls into setup-ready data</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 28px">
+<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">97.4%</p><p style="margin: 0; font-size: 14px; color: #5A5468">field accuracy (38 of 39)</p></div>
+<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">~$0.02</p><p style="margin: 0; font-size: 14px; color: #5A5468">per solicitation</p></div>
+</div>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2E2A3B">read the story →</p>
+</a>
+
+<a href="campusbite.html" class="card" style="text-decoration: none; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 32px 26px 30px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 400 210" style="width: 100%; height: auto" role="img" aria-label="Watercolor illustration of a pizza slice next to a map pin">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.55"></ellipse>
+<path d="M120 60 L 220 80 L 150 180 Z" fill="#E9B949" filter="url(#wc)" style="opacity: 0.85"></path>
+<circle cx="160" cy="95" r="10" fill="#D9705E" filter="url(#wc)"></circle>
+<circle cx="185" cy="105" r="8" fill="#D9705E" filter="url(#wc)"></circle>
+<circle cx="160" cy="130" r="9" fill="#D9705E" filter="url(#wc)"></circle>
+<path d="M276 70 C 248 70, 236 96, 248 118 L 276 162 L 304 118 C 316 96, 304 70, 276 70 Z" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.8"></path>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
+<path d="M120 60 L 220 80 L 150 180 Z"></path>
+<path d="M114 56 C 150 58, 196 66, 226 78"></path>
+<path d="M276 70 C 248 70, 236 96, 248 118 L 276 162 L 304 118 C 316 96, 304 70, 276 70 Z"></path>
+<circle cx="276" cy="100" r="11"></circle>
+</g>
+</svg>
+<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2F6B45">CampusBite · MHacks 2026</p>
+<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 27px; line-height: 1.2; color: #2E2A3B">80 catered events, only 3 tagged "free food"</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 28px">
+<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">~380</p><p style="margin: 0; font-size: 14px; color: #5A5468">meals rescued (estimate)</p></div>
+<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">0 → 1</p><p style="margin: 0; font-size: 14px; color: #5A5468">in one hackathon weekend</p></div>
+</div>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2E2A3B">read the story →</p>
+</a>
+
+<a href="carelift.html" class="card" style="text-decoration: none; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 26px 30px 24px 32px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 400 210" style="width: 100%; height: auto" role="img" aria-label="Watercolor illustration of a drone carrying a medicine package">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.5"></ellipse>
+<rect x="176" y="128" width="48" height="40" rx="5" fill="#FFFDF8"></rect>
+<path d="M200 138 V 158 M190 148 H 210" stroke="#D9705E" filter="url(#wc)" style="stroke-width: 7"></path>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
+<rect x="170" y="70" width="60" height="22" rx="8"></rect>
+<path d="M170 78 L 124 62 M230 78 L 276 62"></path>
+<ellipse cx="118" cy="58" rx="30" ry="6"></ellipse>
+<ellipse cx="282" cy="58" rx="30" ry="6"></ellipse>
+<path d="M190 92 L 186 128 M210 92 L 214 128"></path>
+<rect x="176" y="128" width="48" height="40" rx="5"></rect>
+<path d="M60 180 C 100 170, 130 186, 170 178 M240 182 C 280 172, 310 186, 350 176" style="stroke-width: 1.8"></path>
+</g>
+</svg>
+<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">CareLift · Business+Tech</p>
+<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 27px; line-height: 1.2; color: #2E2A3B">Medicine in minutes, not hours: drone delivery for rural patients</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 28px">
+<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">6 weeks</p><p style="margin: 0; font-size: 14px; color: #5A5468">to a working MVP of 3 apps</p></div>
+<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">~20 min</p><p style="margin: 0; font-size: 14px; color: #5A5468">from request to door</p></div>
+</div>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2E2A3B">read the story →</p>
+</a>
+
+<a href="catalyst.html" class="card" style="text-decoration: none; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 32px 26px 30px 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 400 210" style="width: 100%; height: auto" role="img" aria-label="Watercolor illustration of three learners walking toward a laptop">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.45"></ellipse>
+<circle cx="110" cy="96" r="16" fill="#E9B949" filter="url(#wc)"></circle>
+<circle cx="160" cy="90" r="16" fill="#9CC3A5" filter="url(#wc)"></circle>
+<circle cx="210" cy="96" r="16" fill="#B7A6DB" filter="url(#wc)"></circle>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
+<circle cx="110" cy="96" r="16"></circle>
+<circle cx="160" cy="90" r="16"></circle>
+<circle cx="210" cy="96" r="16"></circle>
+<path d="M88 160 C 90 128, 130 128, 132 160 M138 154 C 140 122, 180 122, 182 154 M188 160 C 190 128, 230 128, 232 160"></path>
+<rect x="262" y="88" width="80" height="54" rx="6"></rect>
+<path d="M250 152 H 354"></path>
+<path d="M284 116 L 296 128 L 320 102"></path>
+</g>
+</svg>
+<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #A04A1E">Beyond Code Collective · In progress</p>
+<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 27px; line-height: 1.2; color: #2E2A3B">Turning sign-ups into live attendance at Catalyst Lab</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 28px">
+<div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">~83%</p><p style="margin: 0; font-size: 14px; color: #5A5468">of registrants never showed up</p></div><div><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 32px; color: #2E2A3B">5 steps</p><p style="margin: 0; font-size: 14px; color: #5A5468">walked as a learner</p></div>
+</div>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2E2A3B">follow along →</p>
+</a>
+
+</div>
+</section>
+
+<section id="about" style="position: relative">
+<svg viewBox="0 0 1280 900" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<path d="M40 70 C 300 10, 700 50, 1000 24 C 1180 14, 1262 110, 1244 300 C 1236 560, 1214 840, 960 870 C 640 892, 300 860, 120 866 C 20 850, 12 500, 30 230 Z" fill="#E9E3F5" filter="url(#wc)"></path>
+<ellipse cx="1080" cy="140" rx="160" ry="90" fill="#F7E3A8" filter="url(#wc)" style="opacity: 0.6; mix-blend-mode: multiply"></ellipse>
+</svg>
+<div style="position: relative; max-width: 1160px; margin: 0 auto; padding: 100px 56px; display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-wrap: wrap; gap: 48px">
+<div style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #B0573F">a little about me</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 40px; line-height: 1.15">In every job, I ended up fixing the process.</h2>
+<p style="margin: 0; font-size: 19px">I started in audit at EY, building audit working papers from scratch on a first-year engagement. Then finance at LVMH, IT systems at eCloudvalley, and sales operations at Uber, where I cut weekly Salesforce tickets by 95% during an APAC rollout.</p>
+<p style="margin: 0; font-size: 19px">Different titles, same pattern: find where the work breaks, talk to the people stuck in it, and make it simple. That pattern led me to product management, and to the University of Michigan School of Information.</p>
+</div>
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A4790">Education</p>
+<div style="background: #FFFDF8; border-radius: 18px 14px 20px 12px; padding: 14px 18px"><p style="margin: 0; font-weight: 700">University of Michigan, School of Information</p><p style="margin: 0; font-size: 15px; color: #4A4458">Master's, School of Information · Product Management · 2026–2028</p></div>
+<div style="background: #FFFDF8; border-radius: 14px 20px 12px 18px; padding: 14px 18px"><p style="margin: 0; font-weight: 700">National Central University, Taiwan</p><p style="margin: 0; font-size: 15px; color: #4A4458">BBA, Business Administration and Finance (double major) · GPA 3.9, top 5%</p></div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px">
+<p style="margin: 0; background: #F2CF7A; border-radius: 18px 14px 20px 12px; padding: 5px 13px; font-weight: 700; font-size: 14px; transform: rotate(-2deg)">Oil paintings</p>
+<p style="margin: 0; background: #F4C1B6; border-radius: 14px 20px 12px 18px; padding: 5px 13px; font-weight: 700; font-size: 14px; transform: rotate(1.5deg)">Watercolor illustration</p>
+<p style="margin: 0; background: #C5DFCB; border-radius: 20px 12px 18px 14px; padding: 5px 13px; font-weight: 700; font-size: 14px; transform: rotate(-1deg)">Yoga &amp; Pilates</p>
+<p style="margin: 0; background: #CFE0F2; border-radius: 12px 18px 14px 20px; padding: 5px 13px; font-weight: 700; font-size: 14px; transform: rotate(2deg)">My own stock dashboard</p>
+<p style="margin: 0; background: #E2DAF3; border-radius: 16px 12px 18px 14px; padding: 5px 13px; font-weight: 700; font-size: 14px; transform: rotate(-1.5deg)">中文 · English</p>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px">
+<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A4790">Experience</p>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 22px; color: #4A4458">tap a role to see the mess I fixed</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px">
+<div style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{jobs}}" as="j" hint-placeholder-count="6">
+<button type="button" class="step" onClick="{{j.pick}}" aria-pressed="{{j.pressed}}" style="text-align: left; font: inherit; color: #2E2A3B; background: {{j.bg}}; border: 2px solid {{j.border}}; border-radius: 18px 14px 20px 12px; padding: 10px 16px; min-height: 48px; cursor: pointer; display: flex; justify-content: space-between; gap: 12px; align-items: baseline">
+<span style="display: flex; align-items: center; gap: 12px">
+<sc-if value="{{j.hasLogo}}" hint-placeholder-val="{{ true }}"><img src="{{j.logo}}" alt="" style="flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; object-fit: contain; background: #FFFFFF; border: 1px solid #E6DCCB"></sc-if>
+<sc-if value="{{j.noLogo}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="flex: 0 0 40px; width: 40px; height: 40px; border-radius: 10px; background: #F2CF7A; display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">A</span></sc-if>
+<span><span style="display: block; font-weight: 700">{{j.company}}</span><span style="display: block; font-size: 14px; color: #4A4458">{{j.title}}</span></span>
+</span>
+<span style="font-size: 13px; color: #4A4458; white-space: nowrap">{{j.when}}</span>
+</button>
+</sc-for>
+</div>
+<div class="reveal" style="flex: 999 1 460px; min-width: 0; background: #FFFDF8; border-radius: 28px 22px 30px 24px; padding: 30px 32px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 10px 26px rgba(46,42,59,0.08)">
+<div style="display: flex; align-items: center; gap: 14px">
+<sc-if value="{{job.hasLogo}}" hint-placeholder-val="{{ true }}"><img src="{{job.logo}}" alt="{{job.company}} logo" style="width: 64px; height: 64px; border-radius: 14px; object-fit: contain; background: #FFFFFF; border: 1px solid #E6DCCB"></sc-if>
+<p style="margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A4790">{{job.company}} · {{job.place}}</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px">
+<p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1; color: #2F6B45">{{job.stat}}</p>
+<p style="margin: 0; font-size: 17px; max-width: 320px">{{job.statLabel}}</p>
+</div>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">{{job.messLine}}</p>
+<p style="margin: 0">{{job.detail}}</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="notes" style="position: relative; max-width: 1160px; margin: 0 auto; padding: 88px 32px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 40px">Field notes</h2>
+<p style="margin: 0; color: #4A4458">What I learn from talks, projects and books, and what I do with it.</p>
+</div>
+</div>
+<a href="notes-saw-it-solved-it.html" class="card" style="text-decoration: none; color: #2E2A3B; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 30px 24px 32px 26px; padding: 22px; display: flex; flex-wrap: wrap; gap: 28px; align-items: center">
+<img src="assets/entr-hour.jpg" alt="A fireside chat on stage at Michigan Ross during Entrepreneurship Hour" style="flex: 1 1 320px; min-width: 0; max-width: 460px; height: 260px; object-fit: cover; border-radius: 18px 14px 20px 12px">
+<div style="flex: 999 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">latest · November 2026</p>
+<h3 style="margin: 0; font-family: 'Fraunces', serif; font-size: 30px; line-height: 1.2">Saw it, solved it: five things a unicorn founder taught me</h3>
+<p style="margin: 0; color: #4A4458">A writer-turned-founder on daily discipline, picking up the phone, and hiring people who know more than you. Plus how I'm using each lesson.</p>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700">read the note →</p>
+</div>
+</a>
+</section>
+
+<section id="contact" style="position: relative; max-width: 1160px; margin: 0 auto; padding: 0 32px 88px">
+<div style="position: relative; padding: 72px 56px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px">
+<svg viewBox="0 0 1100 340" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<path d="M30 60 C 250 10, 700 40, 1060 30 C 1090 140, 1080 250, 1050 310 C 700 330, 300 320, 50 300 C 20 200, 20 120, 30 60 Z" fill="#E9B949" filter="url(#wc)" style="opacity: 0.75"></path>
+<ellipse cx="900" cy="250" rx="160" ry="70" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.45; mix-blend-mode: multiply"></ellipse>
+</svg>
+<div style="position: relative; flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 44px; line-height: 1.1">Got a messy process? Let's untangle it.</h2>
+<p style="margin: 0; font-size: 19px">Hiring for a PM role, or need help with process mapping, PRDs or UX flow reviews? I'd love to hear from you.</p>
+</div>
+<div style="position: relative; flex: 1 1 260px; display: flex; flex-direction: column; gap: 12px">
+<a href="mailto:chihchi@umich.edu" style="background: #2E2A3B; color: #FBF7EF; text-decoration: none; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 16px 28px; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center">chihchi@umich.edu</a>
+<a href="https://cal.com/%E9%BB%83%E8%8A%B7%E7%90%AA-dd2tcm/20min" target="_blank" rel="noopener" style="background: #FBF7EF; color: #2E2A3B; text-decoration: none; font-weight: 700; border-radius: 20px 28px 22px 26px; padding: 16px 28px; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center">Book a 20-min chat</a>
+</div>
+</div>
+</section>
+
+<footer style="position: relative; max-width: 1160px; margin: 0 auto; padding: 0 32px 48px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-size: 15px; color: #5A5468">
+<p style="margin: 0">© 2026 Chih-Chi (Joan) Huang · Ann Arbor, MI</p>
+<div style="display: flex; flex-wrap: wrap; gap: 24px">
+<a href="https://www.linkedin.com/in/chihchi-h-b862a9136/">LinkedIn</a>
+</div>
+</footer>
+
+</div>
+</template>
+<script type="text/x-dc" id="dc-logic" data-props='{"accent":{"editor":"color","default":"#E9B949","options":["#E9B949","#E59A8C","#9CC3A5","#B7A6DB"]},"$preview":{"width":1280,"height":5000}}'>
+class Component extends DCLogic {
+renderVals() {
+const accent = this.props.accent ?? '#E9B949';
+const active = (this.state && this.state.step) || 0;
+const data = [
+{ kicker: 'step one', title: 'Untangle the mess', blurb: 'I talk to the people doing the work and map the process as it really runs.', color: '#E59A8C', ink: '#A04A2E',
+  where: 'In action · U-M Office of the VP for Research', story: 'I sat down with the manager who sets up every limited-submission competition and mapped her six-stage workflow. The bottleneck was stage two: translating a 30-page solicitation by hand.', stat: '6 → 1', statLabel: 'six stages mapped, one bottleneck found' },
+{ kicker: 'step two', title: 'Design the flow', blurb: 'I turn the fix into a clear flow and PRD the team can design and build from.', color: '#B7A6DB', ink: '#5A4790',
+  where: 'In action · U-M Office of the VP for Research', story: 'In the PRD, I specified a four-screen flow: upload, review each field next to its source passage, re-check, export. The review screen got the most detail, because that is where trust is won.', stat: '4', statLabel: 'screens, from PDF to setup-ready data' },
+{ kicker: 'step three', title: 'Prove it works', blurb: 'I set success metrics up front and test against real data.', color: '#9CC3A5', ink: '#2F6B45',
+  where: 'In action · U-M Office of the VP for Research', story: 'We tested the tool on seven real solicitations and scored it against competitions the team had already built by hand.', stat: '97.4%', statLabel: 'field accuracy, 38 of 39 fields' }
+];
+const steps = data.map((d, i) => {
+const on = i === active;
+return Object.assign({}, d, {
+pressed: on ? 'true' : 'false',
+cta: on ? 'showing below ↓' : 'see it in action →',
+op: on ? '0.75' : '0.35',
+border: on ? '#2E2A3B' : 'transparent',
+pick: () => this.setState({ step: i })
+});
+});
+const jobData = [
+{ company: 'Antheros Capital', logo: '', hasLogo: false, title: 'Product Manager Intern', when: 'Nov 2026 –', place: 'Remote', stat: 'Soon', statLabel: 'Starting my first PM internship this month.', mess: '', messLine: 'to be discovered', detail: 'I will share what I learn here once I have real work to show.' },
+{ company: 'Uber', logo: 'assets/logo-uber.png', hasLogo: true, title: 'Sales Operations Analyst', when: '2025 – 2026', place: 'Taipei', stat: '−95%', statLabel: 'weekly Salesforce tickets, within two months', mess: 'a new APAC quotation feature launched, and the tickets piled up', detail: 'I traced the root causes behind user issues, ranked fixes by frequency and business impact with engineering (cutting fix time by 80%), and started a five-minute monthly report on adoption and progress.' },
+{ company: 'eCloudvalley', logo: 'assets/logo-ecloudvalley.png', hasLogo: true, title: 'IT System Engineer', when: '2025', place: 'Taipei', stat: '−90%', statLabel: 'wrong or inconsistent pricing data', mess: 'every department uploaded pricing catalogs its own way', detail: 'I led a cross-team effort to standardize catalog uploads, and onboarded new departments with no defined process in three weeks by mapping their quoting needs onto our system.' },
+{ company: 'LVMH Watches & Jewelry', logo: 'assets/logo-lvmh.png', hasLogo: true, title: 'Financial Analyst (contract)', when: '2024', place: 'Taipei', stat: '−80%', statLabel: 'management review time', mess: 'margins swung and expenses rose, and no one knew exactly why', detail: 'I found the root causes through variance analysis to support product sales strategy, and re-forecasted the second-half budget to keep profit margin within 1%.' },
+{ company: 'EY', logo: 'assets/logo-ey.png', hasLogo: true, title: 'Audit Associate', when: '2022 – 2024', place: 'Taipei', stat: '−90%', statLabel: 'follow-up queries on a first-year audit', mess: 'a new client, a vague engagement, and no past working papers', detail: 'I built the audit working papers from scratch and standardized the audit trail. I also broke intern work into checkpoints, raising on-time delivery by 80%.' },
+{ company: 'Mead Johnson Nutrition', logo: 'assets/logo-meadjohnson.png', hasLogo: true, title: 'Salesforce Effectiveness Intern', when: '2022', place: 'Taipei', stat: '−80%', statLabel: 'onboarding time for new sales reps', mess: 'contracts stalled waiting for signatures, and new reps were lost in the system', detail: 'I ran the contract approval flow end to end, saving sales managers half their admin time, and wrote the step-by-step manual new reps learned from.' }
+];
+const jSel = (this.state && this.state.job !== undefined) ? this.state.job : 1;
+jobData.forEach(j => { if (!j.messLine) j.messLine = 'the mess: ' + j.mess; j.noLogo = !j.hasLogo; });
+const jobs = jobData.map((j, i) => Object.assign({}, j, {
+pressed: i === jSel ? 'true' : 'false',
+bg: i === jSel ? '#FFFDF8' : 'rgba(255,253,248,0.45)',
+border: i === jSel ? '#2E2A3B' : 'transparent',
+pick: () => this.setState({ job: i })
+}));
+return { accent: accent, steps: steps, cur: data[active], jobs: jobs, job: jobData[jSel] };
+}
+}
+</script>
+<script src="assets/morphdom.min.js"></script>
+<script src="assets/dc-lite.js"></script>
+<noscript><p style="font-family:sans-serif;padding:24px">This site needs JavaScript. Contact: chihchi@umich.edu</p></noscript>
+</body>
 </html>

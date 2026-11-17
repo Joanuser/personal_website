@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study: Catalyst Labs attendance</title>
+<meta name="description" content="Case study: finding where learners drop off before a live AI workshop.">
+<meta property="og:title" content="Case study: Catalyst Labs attendance">
+<meta property="og:description" content="Case study: finding where learners drop off before a live AI workshop.">
+<meta property="og:image" content="assets/joan.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23E9B949'/%3E%3Cpath d='M16 36c6-14 14 8 20-8s10 2 14-6' fill='none' stroke='%232E2A3B' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500,100;9..144,700,100&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FBF7EF}
+a{color:#2E2A3B}a:hover{color:#7A5BA8}
+.flip{transition:transform .2s ease}
+.flip:hover{transform:translateY(-4px) rotate(-0.4deg)}
+.opt{transition:transform .15s ease}
+.opt:hover{transform:translateX(4px)}
+.chap{transition:transform .15s ease}
+.chap:hover{transform:translateY(-3px)}
+.draw{stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.4s ease forwards}
+.pop{animation:pop .35s ease}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.draw{animation:none;stroke-dashoffset:0}.pop{animation:none}.flip:hover,.opt:hover,.chap:hover{transform:none}}
+@media (max-width: 640px){h1{font-size:38px !important}h2{font-size:30px !important}}
+</style>
+<style>#app{min-height:100vh}</style>
+</head>
+<body>
+<div id="app"></div>
+<template id="dc-template">
+
+<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.65; overflow: hidden">
+
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0">
+<defs>
+<filter id="wc" x="-25%" y="-25%" width="150%" height="150%">
+<feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="4" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feGaussianBlur in="d" stdDeviation="1.6" result="b"></feGaussianBlur>
+<feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="9" result="m"></feTurbulence>
+<feColorMatrix in="m" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.9 1.25" result="ma"></feColorMatrix>
+<feComposite in="b" in2="ma" operator="in"></feComposite>
+</filter>
+<filter id="pc" x="-10%" y="-10%" width="120%" height="120%">
+<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="2" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="5" result="g"></feTurbulence>
+<feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2 1.6" result="ga"></feColorMatrix>
+<feComposite in="d" in2="ga" operator="in"></feComposite>
+</filter>
+<filter id="paper" x="0" y="0" width="100%" height="100%">
+<feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="11" result="n"></feTurbulence>
+<feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0 0.28  0 0 0 0.10 0"></feColorMatrix>
+</filter>
+</defs>
+</svg>
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"><rect width="100%" height="100%" filter="url(#paper)"></rect></svg>
+
+<header style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="index.html" style="text-decoration: none; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">Chih-Chi (Joan) Huang</a>
+<a href="index.html" style="font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← back to all work</a>
+</header>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 40px 32px 64px; display: flex; flex-direction: column; gap: 24px">
+<svg viewBox="0 0 1040 360" preserveAspectRatio="none" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%" aria-hidden="true">
+<ellipse cx="860" cy="120" rx="220" ry="120" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.4"></ellipse>
+<ellipse cx="950" cy="240" rx="140" ry="80" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.35; mix-blend-mode: multiply"></ellipse>
+</svg>
+<p style="position: relative; margin: 0; display: inline-flex; align-self: flex-start; gap: 8px; align-items: center; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 999px; padding: 4px 14px; font-size: 14px; font-weight: 700"><span style="width: 8px; height: 8px; border-radius: 50%; background: #E9B949"></span>In progress · final findings in December 2026</p>
+<p style="position: relative; margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #A04A1E">Case study · Beyond Code Collective · Catalyst Labs</p>
+<h1 style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 840px">Most people who signed up never showed up</h1>
+<p style="position: relative; margin: 0; font-size: 21px; color: #4A4458; max-width: 740px">Catalyst Labs runs free, live 90-minute AI workshops for adults with little tech background. The outreach worked. Then about 83% of registrants never made it to the live session. My job: find out where they slipped away.</p>
+<div style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 12px">
+<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My role</p><p style="margin: 0; font-weight: 500">UX research: joined as a learner, client interviews, research dossier</p></div>
+<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 0; font-weight: 500">UMSI grad students: UX, CS, psychology, data science</p></div>
+<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">When</p><p style="margin: 0; font-weight: 500">Oct – Dec 2026</p></div>
+<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Client</p><p style="margin: 0; font-weight: 500">Nonprofit bridging the AI literacy divide</p></div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 20px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #B0573F">01 · walk the journey</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Where do learners slip away?</h2>
+<p style="margin: 0; max-width: 760px">The team assumed they needed more marketing. I joined a session as a learner and walked the whole journey myself. Tap each step to see what I found.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="5">
+<button type="button" class="chap" onClick="{{s.pick}}" aria-pressed="{{s.pressed}}" style="position: relative; text-align: left; font: inherit; color: {{s.ink}}; background: {{s.bg}}; border: 2px solid #2E2A3B; border-radius: 18px 14px 20px 12px; padding: 12px 14px; min-height: 76px; cursor: pointer">
+<span style="display: block; font-family: 'Caveat', cursive; font-size: 22px; font-weight: 700">{{s.n}}</span>
+<span style="display: block; font-weight: 700; line-height: 1.25">{{s.label}}</span>
+</button>
+</sc-for>
+</div>
+<svg viewBox="0 0 1000 70" preserveAspectRatio="none" style="width: 100%; height: 56px" aria-hidden="true">
+<path d="M0 6 L 1000 24 L 1000 46 L 0 64 Z" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.55"></path>
+<text x="12" y="42" style="font-family: 'Caveat', cursive; font-size: 24px; fill: #2E2A3B">everyone who registered</text>
+<text x="830" y="42" style="font-family: 'Caveat', cursive; font-size: 24px; fill: #2E2A3B">~17% show up</text>
+</svg>
+<div class="reveal" style="position: relative; padding: 30px 32px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
+<svg viewBox="0 0 1000 220" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 24 C 300 8, 700 18, 988 12 C 996 90, 994 160, 984 208 C 700 216, 300 212, 16 210 C 6 160, 8 90, 12 24 Z" fill="#FFFDF8" stroke="#D9CDB8" filter="url(#pc)" style="stroke-width: 2"></path></svg>
+<div style="position: relative; flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: {{cur.tagInk}}">{{cur.tag}}</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 23px; line-height: 1.4">{{cur.finding}}</p>
+</div>
+<p style="position: relative; flex: 1 1 220px; margin: 0; font-family: 'Caveat', cursive; font-size: 25px; font-weight: 700; color: #2F6B45">→ {{cur.fix}}</p>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 20px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #6A4F9A">02 · the survey, up close</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Small design choices, big friction</h2>
+<p style="margin: 0; max-width: 760px">The pre-session survey was the first real task a new learner faced. Switch between the original and my redesign.</p>
+<div style="display: flex; gap: 10px">
+<button type="button" onClick="{{svBefore}}" aria-pressed="{{svBeforePressed}}" style="font: inherit; font-weight: 700; color: {{svBeforeInk}}; background: {{svBeforeBg}}; border: 2px solid #2E2A3B; border-radius: 22px 16px 24px 14px; padding: 10px 20px; min-height: 44px; cursor: pointer">Original</button>
+<button type="button" onClick="{{svAfter}}" aria-pressed="{{svAfterPressed}}" style="font: inherit; font-weight: 700; color: {{svAfterInk}}; background: {{svAfterBg}}; border: 2px solid #2E2A3B; border-radius: 16px 24px 14px 22px; padding: 10px 20px; min-height: 44px; cursor: pointer">My redesign</button>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+<div class="pop" style="flex: 1 1 380px; min-width: 0; background: #FFFDF8; border: 1.5px solid #D9CDB8; border-radius: 12px; padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 10px 24px rgba(46,42,59,0.08)">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Page 1 of 5</p>
+<sc-for list="{{svQs}}" as="q" hint-placeholder-count="3">
+<div style="border-bottom: 1.5px dashed #E6DCCB; padding-bottom: 12px; display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-weight: 700">{{q.q}}</p>
+<sc-if value="{{q.scale}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; text-align: center; font-size: 12px">
+<sc-for list="{{q.opts}}" as="o" hint-placeholder-count="5"><span style="border: 1.5px solid #8C8496; border-radius: 8px; padding: 6px 2px">{{o}}</span></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{q.text}}" hint-placeholder-val="{{ false }}"><span style="height: 32px; border: 1.5px solid #8C8496; border-radius: 8px"></span></sc-if>
+</div>
+</sc-for>
+</div>
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<sc-for list="{{svNotes}}" as="n" hint-placeholder-count="3">
+<p class="pop" style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; line-height: 1.25; color: {{n.ink}}">{{n.t}}</p>
+</sc-for>
+</div>
+</div>
+<p style="margin: 0; font-size: 14px; color: #5A5468">Simplified recreation for illustration. Question wording is paraphrased.</p>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 22px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">03 · what I did</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">be the learner</p><p style="margin: 4px 0 0">Joined a live session the way a real participant would. Some of our own team never got the session link.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 24px 16px 22px; padding: 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #6A4F9A">listen to the team</p><p style="margin: 4px 0 0">Interviewed the client about their goals, tools and biggest time sinks: manual follow-up with registrants.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 16px 22px 18px; padding: 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">write it down</p><p style="margin: 4px 0 0">Turned it into a research dossier: who the learners are, where the funnel breaks, and what to research next.</p></div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 40px 32px 72px; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2A5F8F">what's next</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; line-height: 1.4; max-width: 840px">Next we interview the people who registered but didn't come, build learner personas from survey data, and deliver final recommendations and Figma designs in December.</p>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">check back for the results</p>
+</section>
+
+<nav aria-label="Case studies" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 0 32px 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
+<a href="carelift.html" style="font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← CareLift</a>
+<a href="index.html" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 14px 26px; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center">Back to all work →</a>
+</nav>
+
+</div>
+</template>
+<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":4400}}'>
+class Component extends DCLogic {
+renderVals() {
+const st = this.state || {};
+const dark = '#2E2A3B', light = '#FBF7EF';
+const stepData = [
+{ n: 'step 1', label: 'Register', tag: 'Working', tagInk: '#2F6B45', finding: 'Sign-ups were healthy. The outreach was not the problem, so more marketing would only pour more people into a leaky funnel.', fix: 'fix what happens after sign-up first' },
+{ n: 'step 2', label: 'Confirmation email', tag: 'Leaking', tagInk: '#B0573F', finding: 'After moving off Eventbrite to their own platform, the four-email sequence failed now and then. No email meant no calendar invite and no link.', fix: 'audit the email delivery logs' },
+{ n: 'step 3', label: 'Pre-session survey', tag: 'Leaking', tagInk: '#B0573F', finding: 'Five pages, a reversed answer scale, and income and disability questions before any trust was built. It promised to tailor the session, but never asked about goals.', fix: 'redesign the intake (see below)' },
+{ n: 'step 4', label: 'Reminder and link', tag: 'Leaking', tagInk: '#B0573F', finding: 'When I joined as a learner, some of our own team never received the session link. The client traced it to a platform issue.', fix: 'tech check before every session (now in place)' },
+{ n: 'step 5', label: 'Live session', tag: 'Mixed', tagInk: '#A0761E', finding: 'The facilitation was energetic and warm. But skill levels ranged widely, and everyone got the same 90 minutes.', fix: 'tiered content: entry, intermediate, advanced' }
+];
+const sSel = st.step === undefined ? 1 : st.step;
+const steps = stepData.map((s, i) => Object.assign({}, s, {
+pressed: i === sSel ? 'true' : 'false', bg: i === sSel ? dark : '#FFFDF8', ink: i === sSel ? light : dark,
+pick: () => this.setState({ step: i })
+}));
+const after = !!st.sv;
+const reversed = ['1 Strongly agree', '2', '3', '4', '5 Strongly disagree'];
+const normal = ['1 Strongly disagree', '2', '3', '4', '5 Strongly agree'];
+const svQs = after ? [
+{ q: 'What do you hope to do with AI after this session?', text: true, scale: false, opts: [] },
+{ q: 'I feel confident using AI tools.', text: false, scale: true, opts: normal },
+{ q: 'A few optional questions about you (later, on the last page)', text: false, scale: false, opts: [] }
+] : [
+{ q: 'What is your annual household income? (required)', text: true, scale: false, opts: [] },
+{ q: 'Do you have a disability? (required)', text: true, scale: false, opts: [] },
+{ q: 'I feel confident using AI tools.', text: false, scale: true, opts: reversed }
+];
+const svNotes = after ? [
+{ t: '1. Goals first: the survey can finally tailor the session, as it promised.', ink: '#2F6B45' },
+{ t: '2. Standard scale direction, so answers mean what people think they mean.', ink: '#2F6B45' },
+{ t: '3. Sensitive questions optional and last, with inclusive options.', ink: '#2F6B45' }
+] : [
+{ t: '1. Sensitive questions, required, before any trust is built.', ink: '#B0573F' },
+{ t: '2. Reversed scale: 1 means "agree." Easy to answer backwards.', ink: '#B0573F' },
+{ t: '3. No question about learning goals anywhere in five pages.', ink: '#B0573F' }
+];
+return {
+steps: steps, cur: stepData[sSel],
+svQs: svQs, svNotes: svNotes,
+svBefore: () => this.setState({ sv: false }), svAfter: () => this.setState({ sv: true }),
+svBeforePressed: after ? 'false' : 'true', svAfterPressed: after ? 'true' : 'false',
+svBeforeBg: after ? 'transparent' : dark, svBeforeInk: after ? dark : light,
+svAfterBg: after ? dark : 'transparent', svAfterInk: after ? light : dark
+};
+}
+}
+</script>
+<script src="assets/morphdom.min.js"></script>
+<script src="assets/dc-lite.js"></script>
+<noscript><p style="font-family:sans-serif;padding:24px">This site needs JavaScript. Contact: chihchi@umich.edu</p></noscript>
+</body>
+</html>
