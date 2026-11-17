@@ -33,7 +33,7 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <div id="app"></div>
 <template id="dc-template">
 
-<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.65; overflow: hidden">
+<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.65; overflow-x: clip">
 
 <svg aria-hidden="true" style="position: absolute; width: 0; height: 0">
 <defs>
@@ -65,26 +65,69 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 <a href="index.html" style="font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← back to all work</a>
 </header>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 40px 32px 64px; display: flex; flex-direction: column; gap: 24px">
+<nav aria-label="On this page" style="position: sticky; top: 0; z-index: 5; background: rgba(251,247,239,0.92); backdrop-filter: blur(6px); border-bottom: 1.5px solid #E6DCCB">
+<div style="max-width: 1040px; margin: 0 auto; padding: 8px 32px; display: flex; flex-wrap: wrap; gap: 6px 22px; font-weight: 700; font-size: 15px">
+<a href="#basics" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">1 · The project</a>
+<a href="#research" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">2 · Problem &amp; research</a>
+<a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · Decisions &amp; pivot</a>
+<a href="#results" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">4 · Solution &amp; results</a>
+</div>
+</nav>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px 24px; display: flex; flex-direction: column; gap: 20px">
 <svg viewBox="0 0 1040 360" preserveAspectRatio="none" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%" aria-hidden="true">
 <ellipse cx="860" cy="120" rx="220" ry="120" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.5"></ellipse>
 <ellipse cx="950" cy="240" rx="140" ry="80" fill="#E9B949" filter="url(#wc)" style="opacity: 0.4; mix-blend-mode: multiply"></ellipse>
 </svg>
 <p style="position: relative; margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2F6B45">Case study · CampusBite · MHacks 2026</p>
 <h1 style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 840px">80 catered events. Only 3 said "free food."</h1>
-<p style="position: relative; margin: 0; font-size: 21px; color: #4A4458; max-width: 740px">As a grad student, I'm always hunting for free food. I kept finding catered events that never said so. Meanwhile, organizers threw leftovers away. So in one hackathon weekend, we built a live map that finds the food and closes the loop.</p>
-<div style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 12px">
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My role</p><p style="margin: 0; font-weight: 500">Product Manager and designer (Figma)</p></div>
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 0; font-weight: 500">3</p></div>
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">When</p><p style="margin: 0; font-weight: 500">One weekend, MHacks 2026</p></div>
-<div style="border-top: 2px solid #2E2A3B; padding-top: 10px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Links</p><p style="margin: 0; font-weight: 500"><a href="https://devpost.com/software/campusbite-q0p47g">Devpost</a> · <a href="https://lnkd.in/gBAGZXAX">Demo video</a></p></div>
+<p style="position: relative; margin: 0; font-size: 21px; color: #4A4458; max-width: 740px">A live campus map that finds leftover event food before it's thrown away, and helps students get to it in time.</p>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="basics" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #B0573F">part 1</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">The project</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 28px">
+<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My role · Product Manager and designer</p>
+<p style="margin: 0">As a grad student, I'm always hunting for free food, and this project started from that habit. I:</p>
+<ul style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px">
+<li>Spotted the problem and measured it by auditing the U-M events calendar</li>
+<li>Talked to about 5 students about how they find free food and what stops them</li>
+<li>Designed the desktop app and the mobile layout in Figma</li>
+<li>Pushed for two key calls: a required food photo, and a tree that grows with your impact</li>
+</ul>
+</div>
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 4px 0 0">Chih-Chi (Joan) Huang, Wan-Lin Lin, Chih-Fan Lin</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">MHacks 2026 · 2 days</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Figma · VS Code · Cursor</p></div>
+</div>
 </div>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 20px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #B0573F">01 · the gap I noticed</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Search like a student. Then search like CampusBite.</h2>
-<p style="margin: 0; max-width: 760px">Hosts don't write "free food." They write "lunch provided" or "pizza." I audited the U-M events calendar to measure the gap. Try both searches.</p>
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="research" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">part 2</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Problem &amp; research</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Target users</p><p style="margin: 6px 0 0"><strong>Students</strong>, especially on tight budgets, looking for a quick bite between classes. <strong>Event hosts</strong> with leftovers and no quick way to share them.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Problem statement</p><p style="margin: 6px 0 0">Students who would happily take leftover event food rarely hear about it in time, so hosts throw it away.</p></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome we aimed for</p><p style="margin: 6px 0 0">Students can see where food is right now, and get there before it's gone.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Impact outcome we aimed for</p><p style="margin: 6px 0 0">Less food wasted on campus, and an easy way for hosts to share leftovers.</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we researched</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">keyword audit of the U-M events calendar</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">~5</p><p style="margin: 0">quick conversations with students</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">outside study on leftovers per guest, to estimate impact</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Insight 1 · Hosts don't write "free food." Try both searches:</p>
 <div style="display: flex; flex-wrap: wrap; gap: 10px">
 <button type="button" onClick="{{searchFree}}" aria-pressed="{{freePressed}}" style="font: inherit; font-weight: 700; color: {{freeInk}}; background: {{freeBg}}; border: 2px solid #2E2A3B; border-radius: 22px 16px 24px 14px; padding: 10px 20px; min-height: 44px; cursor: pointer">Search "free food"</button>
 <button type="button" onClick="{{searchAll}}" aria-pressed="{{allPressed}}" style="font: inherit; font-weight: 700; color: {{allInk}}; background: {{allBg}}; border: 2px solid #2E2A3B; border-radius: 16px 24px 14px 22px; padding: 10px 20px; min-height: 44px; cursor: pointer">Search like CampusBite</button>
@@ -111,25 +154,20 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 </div>
 <p style="margin: 0; font-size: 14px; color: #5A5468">Pins are placed for illustration; counts are from our audit of the U-M events calendar.</p>
-</section>
-
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 20px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #6A4F9A">02 · the loop</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Find it, grab it, close it</h2>
-<svg viewBox="0 0 1000 60" style="width: 100%; height: auto" aria-hidden="true"><path class="draw" d="M10 30 C 40 6, 70 54, 60 24 S 20 14, 60 40 C 200 10, 400 50, 600 28 C 760 14, 880 34, 990 30" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3; stroke-linecap: round"></path></svg>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">1 · discover</p><p style="margin: 4px 0 0">A scraper reads public U-M event listings for the words hosts actually use.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 24px 16px 22px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">2 · map</p><p style="margin: 4px 0 0">Live pins with countdowns show where food is right now.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 16px 22px 18px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">3 · report</p><p style="margin: 4px 0 0">Students tap "I'm going," "Get some" or "All gone" so the map stays honest.</p></div>
-<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 16px 22px 18px 24px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">4 · close</p><p style="margin: 4px 0 0">Hosts post leftovers and mark them gone with a private key.</p></div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Insight 2 · Students find food by accident</p>
+<div style="position: relative; padding: 30px 34px; transform: rotate(-0.5deg)">
+<svg viewBox="0 0 800 160" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M8 12 C 260 4, 540 8, 792 6 C 798 60, 796 110, 790 154 C 540 158, 260 156, 12 154 C 4 110, 4 60, 8 12 Z" fill="#F7E3A8" filter="url(#wc)"></path></svg>
+<p style="position: relative; margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; line-height: 1.25">Most students only find free food by walking past it. If they knew about it, and it wasn't far, they'd usually go.</p>
 </div>
-
+<p style="margin: 0; color: #4A4458">So the product had to solve two things: <strong>knowing</strong> (a live map) and <strong>getting there in time</strong> (distance and countdowns).</p>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 20px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2A5F8F">03 · three calls I made</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">What would you choose?</h2>
-<p style="margin: 0; max-width: 760px">Every feature was a trade-off. Make the call yourself, then see mine.</p>
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="decisions" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2A5F8F">part 3</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Decisions &amp; pivot</h2>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Three calls I made · what would you choose?</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 22px">
 <sc-for list="{{calls}}" as="q" hint-placeholder-count="3">
 <div style="position: relative; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px">
@@ -146,13 +184,17 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </div>
 </sc-for>
 </div>
-</section>
-
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-wrap: wrap; gap: 36px; align-items: center">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The pivot · from charts to a tree</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch">
+<div style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">first plan</p><p style="margin: 4px 0 0">Show impact with data only: charts of meals rescued and CO₂ avoided.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">my push</p><p style="margin: 4px 0 0">Numbers feel abstract. People need a picture of their own impact, something that feels like progress.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what we built</p><p style="margin: 4px 0 0">A personal tree that grows with every pickup, next to the impact charts.</p></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 36px; align-items: center">
 <div style="flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">04 · grow your tree</p>
-<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.15">Points feel like work. A tree feels like progress.</h2>
-<p style="margin: 0">I pushed for a personal tree that grows with every pickup, because rescuing food should feel rewarding, not like collecting points. Try it.</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 24px; font-weight: 700">Try it: grow your tree</p>
 <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
 <button type="button" onClick="{{pickup}}" style="font: inherit; font-weight: 700; color: #FBF7EF; background: #2F6B45; border: none; border-radius: 22px 16px 24px 14px; padding: 12px 22px; min-height: 48px; cursor: pointer">I picked up food</button>
 <button type="button" onClick="{{resetTree}}" style="font: inherit; font-weight: 700; color: #2E2A3B; background: none; border: 2px solid #2E2A3B; border-radius: 16px 22px 14px 24px; padding: 10px 18px; min-height: 48px; cursor: pointer">Start over</button>
@@ -178,26 +220,60 @@ a{color:#2E2A3B}a:hover{color:#7A5BA8}
 </sc-if>
 </svg>
 </div>
+</div>
 </section>
 
-<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px; display: flex; flex-direction: column; gap: 22px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #B0573F">05 · the results</p>
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="results" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #2E2A3B; padding-bottom: 10px; scroll-margin-top: 80px">
+<span style="font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #2F6B45">part 4</span>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px; line-height: 1.15">Solution &amp; results</h2>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The loop we shipped in 2 days</p>
+<svg viewBox="0 0 1000 60" style="width: 100%; height: auto" aria-hidden="true"><path class="draw" d="M10 30 C 40 6, 70 54, 60 24 S 20 14, 60 40 C 200 10, 400 50, 600 28 C 760 14, 880 34, 990 30" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3; stroke-linecap: round"></path></svg>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">1 · discover</p><p style="margin: 4px 0 0">A scraper reads public U-M event listings for the words hosts actually use.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 24px 16px 22px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">2 · map</p><p style="margin: 4px 0 0">Live pins with countdowns show where food is right now.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 16px 22px 18px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">3 · report</p><p style="margin: 4px 0 0">Students tap "I'm going," "Get some" or "All gone" so the map stays honest.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 16px 22px 18px 24px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">4 · close</p><p style="margin: 4px 0 0">Hosts post leftovers and mark them gone with a private key.</p></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="https://devpost.com/software/campusbite-q0p47g" target="_blank" rel="noopener" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 22px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">See all 15 Figma screens on Devpost →</a>
+<a href="https://lnkd.in/gBAGZXAX" target="_blank" rel="noopener" style="text-decoration: none; color: #2E2A3B; font-weight: 700; border: 2px solid #2E2A3B; border-radius: 20px 26px 22px 28px; padding: 10px 20px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">Watch the demo video</a>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Results</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px">
 <div style="position: relative; padding: 28px 24px"><svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#E9B949" filter="url(#wc)" style="opacity: 0.45"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1">26×</p><p style="position: relative; margin: 8px 0 0">more food events found: about 79 vs 3</p></div>
 <div style="position: relative; padding: 28px 24px"><svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1">~380</p><p style="position: relative; margin: 8px 0 0">meals that could be rescued, a conservative estimate</p></div>
 <div style="position: relative; padding: 28px 24px"><svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1">~125 kg</p><p style="position: relative; margin: 8px 0 0">of CO₂e avoided, from about 209 kg of food</p></div>
 </div>
-<p style="margin: 0; max-width: 820px">In one weekend we shipped the full loop: discovery, a live map, student reports, host posts and closing an event.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0"><strong>Built:</strong> the full loop, from discovery to posting, reporting and closing an event. <strong>Not yet proven:</strong> impact is an estimate, and the tree's effect on reporting is untested.</p></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">What students said</p><p style="margin: 6px 0 0">The students we talked to said a tool like this would be really useful.</p></div>
+</div>
 </section>
 
-<nav aria-label="Case studies" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">my reflection</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px">
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.5deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what went well</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Defining the problem with data first. "80 vs 3" got the whole team aligned in a two-day sprint.</li><li>Making impact visible with the tree, not just charts.</li><li>Balancing easy posting (no login) with trust (a required photo).</li></ul></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(0.4deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">what didn't</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>We only talked to one side. CampusBite is two-sided, and whether hosts will post is what makes or breaks it.</li><li>We asked for opinions, not behavior. "This would be useful" is easy to say.</li><li>Our impact numbers are estimates, and the tree is untested.</li></ul></div>
+<div style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.3deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">next time</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Interview 2–3 frequent hosts on day one.</li><li>Ask "the last time you saw free food, what did you do?"</li><li>Pilot with one group, like WISE, and measure real pickups and reports.</li></ul></div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px 56px; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">what's next</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 24px; line-height: 1.4; max-width: 840px">Pilot with groups that serve food often, such as WISE, Rackham and Student Life. Add sources like Maize Pages, GroupMe and Slack, alert students to food within 500 meters, and build the mobile version from the Figma designs.</p>
+</section>
+
+<nav aria-label="Case studies" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 0 32px 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
 <a href="orvp.html" style="font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← ORVP</a>
-<a href="carelift.html" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 14px 26px; min-height: 52px; box-sizing: border-box; display: inline-flex; align-items: center">Next: CareLift →</a>
+<a href="carelift.html" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 22px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">Next: CareLift →</a>
 </nav>
 
 </div>
 </template>
-<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":5200}}'>
+<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":7800}}'>
 class Component extends DCLogic {
 renderVals() {
 const st = this.state || {};
