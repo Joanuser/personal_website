@@ -237,7 +237,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="margin: 0">I owned the "what" and the "why": I ran the user interviews, wrote the PRD and planned the roadmap. Specifically, I:</p>
 <ul style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px">
 <li>Wrote our interview questions, then mapped how a funding call becomes a competition today from the client's answers</li>
-<li>Asked the client for hands-on access to their system, and logged every field and its limits</li>
+<li>Asked the client for hands-on access to InfoReady, and logged every field and its limits</li>
 <li>Wrote the PRD: users, essential fields, the four-screen flow, and success metrics</li>
 <li>Planned the roadmap, starting with the most painful step</li>
 </ul>
@@ -269,7 +269,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Target user</p>
 <p style="margin: 0">The research office staff who set up internal competitions for limited-submission funding calls.</p>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Problem statement</p>
-<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 22px; line-height: 1.4">Staff read every long, dense funding call by hand and retype its rules into the competition system. The rules hide in different places in each document, and one missed limit goes out to the whole campus.</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 22px; line-height: 1.4">Staff read every long, dense funding call by hand and map its rules into the right fields in InfoReady, their competition platform. The rules hide in different places in each document, and one missed limit goes out to the whole campus.</p>
 </div>
 <div style="flex: 1 1 280px; display: flex; justify-content: center">
 <svg viewBox="0 0 320 300" style="width: 100%; max-width: 340px; height: auto" role="img" aria-label="Illustration of a tall stack of paper with one highlighted line buried in the middle">
@@ -308,7 +308,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p class="tk">What we had to solve</p>
 <p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700">Four notes we pinned to the wall</p>
 <div class="tnotes">
-<div class="tnote"><span class="tnum">1</span><span>Staff find each call on a sponsor's site or in an email, download the criteria, then read every page and retype the rules by hand.</span></div>
+<div class="tnote"><span class="tnum">1</span><span>Staff find each call on a sponsor's site or in an email, download the criteria, then read every page to map it into the right InfoReady fields.</span></div>
 <div class="tnote"><span class="tnum">2</span><span>Without a source, staff can't trust an AI answer.</span></div>
 <div class="tnote"><span class="tnum">3</span><span>No API, no internal data, and no view of their system.</span></div>
 <div class="tnote"><span class="tnum">4</span><span>Will the staff who use it every day find it helpful?</span></div>
@@ -368,7 +368,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p class="tk">Back to the notes</p>
 <p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700">How each decision answers them</p>
 <div class="tnotes">
-<div class="tnote"><span class="tnum">1</span><span><span class="arrow">answers note 1 &#x2192;</span>Drop in the downloaded criteria. AI fills every field in their system's order, ready to copy with one click.</span></div>
+<div class="tnote"><span class="tnum">1</span><span><span class="arrow">answers note 1 &#x2192;</span>Drop in the downloaded criteria. AI maps the content to InfoReady’s fields, in InfoReady’s order, ready to copy with one click.</span></div>
 <div class="tnote"><span class="tnum">2</span><span><span class="arrow">answers note 2 &#x2192;</span>Every value cites its source page. When rules conflict, the tool flags them for a person instead of guessing.</span></div>
 <div class="tnote"><span class="tnum">3</span><span><span class="arrow">answers note 3 &#x2192;</span>We got hands-on access, logged every field and its limits, and tested on public funding calls.</span></div>
 <div class="tnote"><span class="tnum">4</span><span><span class="arrow">answers note 4 &#x2192;</span>Only daily use can answer this one.</span></div>
@@ -432,7 +432,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </div>
 <div style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
-<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">Competition fields</p>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">InfoReady fields</p>
 <sc-for list="{{oFields}}" as="f" hint-placeholder-count="4">
 <button type="button" class="field" onClick="{{f.pick}}" aria-pressed="{{f.pressed}}" aria-disabled="{{f.ariaDis}}" style="text-align: left; font: inherit; color: #2E2A3B; background: {{f.bg}}; border: 2px solid {{f.border}}; border-radius: 18px 14px 20px 12px; padding: 12px 16px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; min-height: 64px; opacity: {{f.op}}">
 <span style="display: flex; justify-content: space-between; gap: 10px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #5A5468">{{f.label}}<span style="color: {{f.statusInk}}">{{f.status}}</span></span>
@@ -520,8 +520,8 @@ renderVals() {
 const st = this.state || {};
 const open = st.open || {};
 const cardData = [
-{ want: 'An API into their system', got: 'No API at all', fill: '#F4C1B6',
-  fix: 'We laid out the output in the exact field order of their system, with one-click copy for each field. No integration needed.' },
+{ want: 'An API into InfoReady', got: 'No API at all', fill: '#F4C1B6',
+  fix: 'We laid out the output in the exact field order of InfoReady, with one-click copy for each field. No integration needed.' },
 { want: 'Internal documents and past data', got: 'Only public information', fill: '#D9D0F0',
   fix: 'Funding calls are public, so we used real ones as our test set and scored the tool against competitions staff had already built.' },
 { want: 'To know what the system needs', got: 'No view of the system', fill: '#F7E3A8',
