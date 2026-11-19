@@ -102,6 +102,17 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 @supports (animation-timeline: view()){section.chapter{animation:chin linear both;animation-timeline:view();animation-range:entry 0% entry 60%}}
 @keyframes chin{from{opacity:0;translate:0 60px}to{opacity:1;translate:0 0}}
 @media (prefers-reduced-motion: reduce){section.chapter{animation:none}}
+
+.endnav{position:relative;max-width:1040px;margin:0 auto;padding:16px 32px 72px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.endnav .thanks{margin:0;text-align:center;font-family:'Caveat',cursive;font-size:30px;font-weight:700;color:#5A5468}
+.endnav .row{width:100%;display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
+.endnav a{min-height:52px;box-sizing:border-box;display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;color:#2E2A3B}
+.endnav .prev{justify-self:start;font-size:16px;padding:12px 4px}
+.endnav .prev small,.endnav .next small{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.7;font-weight:700}
+.endnav .home{justify-self:center;background:#FFFDF8;border:2px solid #2E2A3B;border-radius:22px 28px 20px 26px;padding:12px 22px;font-size:16px}
+.endnav .next{justify-self:end;text-align:right;background:#2E2A3B;color:#FBF7EF;border-radius:26px 20px 28px 22px;padding:12px 22px;font-size:16px}
+.endnav a:hover{transform:translateY(-2px)}.endnav a:focus-visible{outline:3px solid #7A5BA8;outline-offset:3px}
+@media (max-width: 640px){.endnav .row{grid-template-columns:1fr;justify-items:stretch}.endnav .prev,.endnav .home,.endnav .next{justify-self:stretch;justify-content:center;text-align:center}.endnav .home{order:3}}
 </style>
 <style>#app{min-height:100vh}</style>
 </head>
@@ -343,9 +354,13 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </section>
 
-<nav aria-label="Case studies" style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
-<a href="carelift.html" style="font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← CareLift</a>
-<a href="index.html#work" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 22px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">Back to all work →</a>
+<nav class="endnav" aria-label="Case studies">
+<p class="thanks">Thanks for reading to the end!</p>
+<div class="row">
+<a class="prev" href="carelift.html"><span aria-hidden="true">&#x2190;</span><span><small>Previous case</small>CareLift</span></a>
+<a class="home" href="index.html"><span aria-hidden="true">&#x2302;</span> Back to Homepage</a>
+<a class="next" href="orvp.html"><span><small>Next case</small>ORVP</span><span aria-hidden="true">&#x2192;</span></a>
+</div>
 </nav>
 
 </div>
