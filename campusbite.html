@@ -12,6 +12,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500,100;9..144,700,100&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
 <style>
+.hfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;width:100%;max-width:860px;margin:8px auto 0;padding:0}
+.hfacts div{background:rgba(255,253,248,.85);border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:12px 14px;text-align:left}
+.hfacts dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5468}
+.hfacts dd{margin:2px 0 0;font-weight:500}
+.hwatch{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 22px;box-sizing:border-box;background:#2E2A3B;color:#FBF7EF !important;text-decoration:none;font-weight:700;border-radius:26px 20px 28px 22px}
+.team{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.team li{display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline}.team b{font-weight:500}.team a{font-weight:700}
+.team span{font-size:14px;color:#5A5468}
 body{margin:0;background:#FBF7EF}
 a{color:#2E2A3B}a:hover{color:#7A5BA8}
 .flip{transition:transform .2s ease}
@@ -215,6 +223,13 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="position: relative; margin: 0 auto; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2F6B45">Case study · CampusBite · MHacks 2026</p>
 <h1 style="position: relative; margin: 0 auto; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 860px">80 catered events. Only 3 said "free food."</h1>
 <p style="position: relative; margin: 0 auto; font-size: 21px; color: #4A4458; max-width: 740px">A live campus map that finds leftover event food before it's thrown away, and helps students get to it in time.</p>
+<dl class="hfacts">
+<div><dt>My role</dt><dd>Product Manager &amp; designer</dd></div>
+<div><dt>Team</dt><dd>3 · <a href="#basics">see who</a></dd></div>
+<div><dt>Timeline</dt><dd>MHacks 2026 · 2 days</dd></div>
+<div><dt>Tools</dt><dd>Figma · VS Code · Cursor</dd></div>
+</dl>
+<a href="https://lnkd.in/gBAGZXAX" target="_blank" rel="noopener" class="hwatch"><span aria-hidden="true">&#9654;</span> Watch the 2-min demo</a>
 
 </div>
 </section>
@@ -252,7 +267,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </ul>
 </div>
 <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 4px 0 0">Chih-Chi (Joan) Huang, Wan-Lin Lin, Chih-Fan Lin</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><ul class="team"><sc-for list="{{team}}" as="m" hint-placeholder-count="3"><li><sc-if value="{{m.linked}}" hint-placeholder-val="{{ false }}"><a href="{{m.url}}" target="_blank" rel="noopener">{{m.name}}</a></sc-if><sc-if value="{{m.plain}}" hint-placeholder-val="{{ true }}"><b>{{m.name}}</b></sc-if><span>{{m.role}}</span></li></sc-for></ul></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">MHacks 2026 · 2 days</p></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Figma · VS Code · Cursor</p></div>
 </div>
@@ -554,6 +569,14 @@ parts.forEach(p => io.observe(p));
 }
 }
 renderVals() {
+// ===== EDIT ME =====
+// Teammates: paste each portfolio or LinkedIn URL. A name without a URL shows as plain text.
+const TEAM = [
+  { name: "Chih-Chi (Joan) Huang", role: "Product Manager &amp; designer (me)", url: '' },
+  { name: "Wan-Lin Lin", role: "", url: '' },
+  { name: "Chih-Fan Lin", role: "", url: '' }
+];
+// ===================
 const st = this.state || {};
 const dark = '#2E2A3B', light = '#FBF7EF';
 const all = !!st.all;
@@ -611,6 +634,7 @@ const stepDone = [cb.ev[0].going || cb.ev[1].going, doneCount >= 1, seen && cb.t
 const stepText = [['Find free food', 'Tap \u201cI\u2019m going\u201d on the WISE dinner.'], ['Report what you found', 'Tap \u201cGot some!\u201d once you have picked it up.'], ['Watch your tree grow', 'Your report waters your tree.'], ['Do it again', 'Go back and claim the pizza, too.']];
 const cbSteps = stepText.map((t, i) => ({ n: i + 1, title: t[0], hint: t[1], on: (doneCount === 2 && i !== 2 ? false : stepState[i]) ? 'true' : 'false', done: stepDone[i] ? 'true' : 'false' }));
 return {
+team: TEAM.map(m => ({ name: m.name, role: m.role, url: m.url, linked: !!m.url, plain: !m.url })),
 pins: pins,
 count: all ? '79' : '3',
 countLabel: all ? 'events with food, matching words like "lunch provided" and "pizza"' : 'events tagged "free food"',

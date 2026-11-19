@@ -12,6 +12,32 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500,100;9..144,700,100&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
 <style>
+.hfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;width:100%;max-width:860px;margin:8px auto 0;padding:0}
+.hfacts div{background:rgba(255,253,248,.85);border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:12px 14px;text-align:left}
+.hfacts dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5468}
+.hfacts dd{margin:2px 0 0;font-weight:500}
+.hwatch{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 22px;box-sizing:border-box;background:#2E2A3B;color:#FBF7EF !important;text-decoration:none;font-weight:700;border-radius:26px 20px 28px 22px}
+.team{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.team li{display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline}.team b{font-weight:500}.team a{font-weight:700}
+.team span{font-size:14px;color:#5A5468}
+.path{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;counter-reset:step}
+.path li{counter-increment:step;position:relative;background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:20px 16px 22px 14px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:4px}
+.path li::before{content:counter(step);font-family:'Fraunces',serif;font-weight:700;font-size:15px;color:#6A4F9A}
+.path b{font-family:'Fraunces',serif;font-size:19px}.path span{font-size:15px}
+.path em{font-style:normal;font-family:'Caveat',cursive;font-size:20px;font-weight:700;color:#2A5F8F;line-height:1.15}
+.jwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+.jmap{position:relative;min-width:760px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding-top:118px}
+.jcurve{position:absolute;left:0;top:0;width:100%;height:110px}
+.jstep{background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:14px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.jstep b{font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#A04A2E}
+.jstep i{font-style:normal;font-family:'Caveat',cursive;font-size:21px;color:#4A4458;line-height:1.1}
+.jgo{background:#EAF4EC;border-color:#9CC3A5}.jgo b{color:#2F6B45}
+.arts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.arts figure{margin:0;background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:10px}
+.arts img{display:block;width:100%;height:auto;border-radius:10px}.arts figcaption{font-size:14px;color:#4A4458;margin-top:6px}
+.tplan{background:#FFFDF8;border:1.5px dashed #2F6B45;border-radius:22px 18px 24px 16px;padding:22px 24px;display:flex;flex-direction:column;gap:10px}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.tgrid div{display:flex;flex-direction:column;gap:2px}.tgrid b{font-family:'Fraunces',serif;font-size:22px;color:#2F6B45}.tgrid span{font-size:15px}
 body{margin:0;background:#FBF7EF}
 a{color:#2E2A3B}a:hover{color:#7A5BA8}
 .flip{transition:transform .2s ease}
@@ -203,6 +229,13 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="position: relative; margin: 0 auto; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">Case study · CareLift · Business+Tech</p>
 <h1 style="position: relative; margin: 0 auto; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 860px">Medicine in minutes, not hours</h1>
 <p style="position: relative; margin: 0 auto; font-size: 21px; color: #4A4458; max-width: 740px">A platform that connects rural patients, local pharmacies and drone companies, so urgent medicine reaches the door in about 20 minutes.</p>
+<dl class="hfacts">
+<div><dt>My role</dt><dd>Product Manager</dd></div>
+<div><dt>Team</dt><dd>5 · <a href="#basics">Care Pilots</a></dd></div>
+<div><dt>Timeline</dt><dd>6 weeks · fall 2026</dd></div>
+<div><dt>Tools</dt><dd>Figma · React · TypeScript · Node.js · SQLite</dd></div>
+</dl>
+<a href="#demo" class="hwatch"><span aria-hidden="true">&#9654;</span> Watch the demo</a>
 
 </div>
 </section>
@@ -240,7 +273,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </ul>
 </div>
 <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team · Care Pilots</p><p style="margin: 4px 0 0">Chih-Chi (Joan) Huang, Kyeonchan, Seren, Gyuri, Jeannelle</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team · Care Pilots</p><ul class="team"><sc-for list="{{team}}" as="m" hint-placeholder-count="5"><li><sc-if value="{{m.linked}}" hint-placeholder-val="{{ false }}"><a href="{{m.url}}" target="_blank" rel="noopener">{{m.name}}</a></sc-if><sc-if value="{{m.plain}}" hint-placeholder-val="{{ true }}"><b>{{m.name}}</b></sc-if><span>{{m.role}}</span></li></sc-for></ul></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Business+Tech · fall 2026 · 6 weeks</p></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Figma · built with React, TypeScript, Node.js and SQLite</p></div>
 </div>
@@ -312,6 +345,14 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 <p style="position: relative; margin: 0; font-size: 14px; color: #5A5468">Sources in our pitch: GoodRx (2025), IRS mileage rate, KFF, Annals of Internal Medicine.</p>
 </div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Our path in six weeks · and my part in each step</p>
+<ol class="path">
+<li><b>Discover</b><span>Pharmacist and physician interviews, a survey, and a scan of alternatives</span><em>me: ran the persona interviews</em></li>
+<li><b>Synthesize</b><span>Margaret's persona, the three-party map, four problem notes</span><em>me: pulled five teammates' ideas into one direction</em></li>
+<li><b>Decide</b><span>Narrowed to rural older patients, set the price from benchmarks</span><em>me: built the business model and pricing</em></li>
+<li><b>Build</b><span>A working MVP of the patient, pharmacy and operator apps</span><em>me: wrote what each app had to do, and flagged flows that didn't fit</em></li>
+<li><b>Pitch</b><span>Final pitch to judges</span><em>me: planned the story of the pitch</em></li>
+</ol>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we researched</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">5</p><p style="margin: 0">pharmacist interviews</p></div>
@@ -361,6 +402,22 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </sc-if>
 </div>
 <p style="margin: 0; color: #4A4458">And one we didn't expect: our physician interview pointed to hospital logistics, like lab samples and organs, as a future market.</p>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Journey map · Margaret's evening today</p>
+<div class="jwrap" role="group" aria-label="Journey map of Margaret's evening">
+<div class="jmap">
+<svg class="jcurve" viewBox="0 0 1000 110" preserveAspectRatio="none" aria-hidden="true"><path d="M100 30 C 200 30, 220 62, 300 62 S 420 84, 500 84 S 620 100, 700 100 S 820 10, 900 14" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.4; stroke-dasharray: 6 6"></path><circle cx="100" cy="30" r="9" fill="#E9B949"></circle><circle cx="300" cy="62" r="9" fill="#E59A8C"></circle><circle cx="500" cy="84" r="9" fill="#D9705E"></circle><circle cx="700" cy="100" r="9" fill="#A04A2E"></circle><circle cx="900" cy="14" r="9" fill="#2F6B45"></circle></svg>
+<div class="jstep"><b>7:00 pm · notices</b><span>The bottle is almost empty. A heart pill is due tonight.</span><i>"I'll just pick it up."</i></div>
+<div class="jstep"><b>7:05 · checks</b><span>The pharmacy closed at 6, and it's 25 minutes away. She stopped driving.</span><i>"Now what?"</i></div>
+<div class="jstep"><b>7:15 · searches</b><span>Calls around to find who has it in stock and is still open.</span><i>"Who has my medicine?"</i></div>
+<div class="jstep"><b>7:45 · weighs it</b><span>A neighbor's 85-minute drive, a ~$646 ER visit, or skipping the dose.</span><i>"None of these are good."</i></div>
+<div class="jstep jgo"><b>with CareLift</b><span>A few taps, any partner pharmacy, at the door in about 20 minutes.</span><i>the moment we designed for</i></div>
+</div>
+</div>
+<p style="margin: 0; font-size: 14px; color: #5A5468">The line tracks how Margaret feels; lower is worse. Built from our interviews and the public data above.</p>
+<sc-if value="{{hasArtifacts}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">From the wall · our working artifacts</p>
+<div class="arts"><sc-for list="{{artifacts}}" as="a" hint-placeholder-count="3"><figure><a href="{{a.src}}" target="_blank" rel="noopener"><img src="{{a.src}}" alt="{{a.alt}}" loading="lazy"></a><figcaption>{{a.caption}}</figcaption></figure></sc-for></div>
+</sc-if>
 <div class="thread">
 <p class="tk">What we had to solve</p>
 <p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700">Four notes we pinned to the wall</p>
@@ -492,12 +549,22 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <button type="button" class="chap" onClick="{{ch.seek}}" aria-pressed="{{ch.pressed}}" style="text-align: left; font: inherit; color: {{ch.ink}}; background: {{ch.bg}}; border: 2px solid #2E2A3B; border-radius: 16px 12px 18px 10px; padding: 10px 14px; min-height: 44px; cursor: pointer"><span style="display: block; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">{{ch.n}}</span><span style="display: block; font-size: 14px; font-weight: 700">{{ch.label}}</span></button>
 </sc-for>
 </div>
-<div style="position: relative; padding: 14px; background: #2E2A3B; border-radius: 22px 18px 24px 16px">
-<video src="assets/carelift-demo.mp4" poster="assets/carelift-poster.jpg" controls="controls" muted="muted" playsinline="playsinline" preload="metadata" style="display: block; width: 100%; height: auto; border-radius: 12px; background: #FFFFFF"></video>
+<div id="demo" style="position: relative; scroll-margin-top: 120px; padding: 14px; background: #2E2A3B; border-radius: 22px 18px 24px 16px">
+<video src="assets/carelift-demo.mp4" poster="assets/carelift-poster.jpg" controls="controls" playsinline="playsinline" preload="metadata" style="display: block; width: 100%; height: auto; border-radius: 12px; background: #FFFFFF"></video>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">What we shipped</p><p style="margin: 6px 0 0">A working MVP of all three apps in 6 weeks, with large-text mode and a one-tap 911 button. Prescriptions and drone dispatch are simulated until partners are in place.</p></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0"><strong>Not yet tested with real users:</strong> only our team has used the MVP so far. The 20-minute delivery and the flow for older users still need a real pilot.</p></div>
+</div>
+<div class="tplan">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we'll know it worked · our first pilot</p>
+<p style="margin: 0">We only tested the flow end to end inside our team, with prescriptions and drones simulated. This is the test I would run next, with the bar set by the product outcome we aimed for:</p>
+<div class="tgrid">
+<div><b>Under 30 min</b><span>from request to door, on real rural routes</span></div>
+<div><b>4 of 5</b><span>older adults or caregivers place an order with no help</span></div>
+<div><b>Under 2 min</b><span>to order, from opening the app</span></div>
+<div><b>Yes from pharmacists</b><span>they'd confirm an Rx in the pharmacy desk without calling us</span></div>
+</div>
 </div>
 </section>
 
@@ -547,13 +614,26 @@ parts.forEach(p => io.observe(p));
 }
 }
 renderVals() {
+// ===== EDIT ME =====
+// 1) Teammates: paste each portfolio or LinkedIn URL. A name without a URL shows as plain text.
+const TEAM = [
+  { name: 'Chih-Chi (Joan) Huang', role: 'Product Manager (me)', url: '' },
+  { name: 'Kyeonchan', role: '', url: '' },
+  { name: 'Seren', role: '', url: '' },
+  { name: 'Gyuri', role: '', url: '' },
+  { name: 'Jeannelle', role: '', url: '' }
+];
+// 2) Optional photos of real artifacts (affinity map, sketches, wireframes). Put images in assets/.
+//    e.g. { src: 'assets/carelift-affinity.jpg', alt: 'Affinity map', caption: 'Affinity map from 5 pharmacist interviews' }
+const ARTIFACTS = [];
+// ===================
 const st = this.state || {};
 const dark = '#2E2A3B', light = '#FBF7EF';
 const optData = [
 { label: 'Ask a neighbor to drive her', stat: '85 min', ink: '#A04A2E', text: 'A 36-mile round trip, about $27 in car costs, and the pharmacy is already closed.' },
 { label: 'Go to the ER', stat: '~$646', ink: '#A04A2E', text: 'The average out-of-pocket ER visit, just for a missing dose.' },
 { label: 'Wait until morning', stat: '≥10%', ink: '#A04A2E', text: 'of U.S. hospital stays come from missed medicines. Skipping a heart pill is a real risk.' },
-{ label: 'Order on CareLift', stat: '~20 min', ink: '#2F6B45', text: 'Her medicine flies to the door. She pays a $4.99 urgent fee on top of her copay.' }
+{ label: 'Order on CareLift', stat: '~20 min', ink: '#2F6B45', text: 'Her medicine flies to the door. She pays a flat $14.99 for the delivery.' }
 ];
 const oSel = st.opt === undefined ? 3 : st.opt;
 const opts = optData.map((o, i) => Object.assign({}, o, {
@@ -585,6 +665,8 @@ this.setState({ chapter: i });
 });
 });
 return {
+team: TEAM.map(m => ({ name: m.name, role: m.role, url: m.url, linked: !!m.url, plain: !m.url })),
+artifacts: ARTIFACTS, hasArtifacts: ARTIFACTS.length > 0,
 opts: opts, cur: optData[oSel], chapters: chapters,
 chaosBefore: !after, chaosAfter: after,
 showBefore: () => this.setState({ after: false }), showAfter: () => this.setState({ after: true }),

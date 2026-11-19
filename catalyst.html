@@ -12,6 +12,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500,100;9..144,700,100&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
 <style>
+.hfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;width:100%;max-width:860px;margin:8px auto 0;padding:0}
+.hfacts div{background:rgba(255,253,248,.85);border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:12px 14px;text-align:left}
+.hfacts dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5468}
+.hfacts dd{margin:2px 0 0;font-weight:500}
+.hwatch{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 22px;box-sizing:border-box;background:#2E2A3B;color:#FBF7EF !important;text-decoration:none;font-weight:700;border-radius:26px 20px 28px 22px}
+.team{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.team li{display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline}.team b{font-weight:500}.team a{font-weight:700}
+.team span{font-size:14px;color:#5A5468}
 body{margin:0;background:#FBF7EF}
 a{color:#2E2A3B}a:hover{color:#7A5BA8}
 .flip{transition:transform .2s ease}
@@ -188,6 +196,12 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="position: relative; margin: 0 auto; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #A04A1E">Case study · Beyond Code Collective · Catalyst Labs</p>
 <h1 style="position: relative; margin: 0 auto; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 860px">Most people who signed up never showed up</h1>
 <p style="position: relative; margin: 0 auto; font-size: 21px; color: #4A4458; max-width: 740px">Finding where learners slip away between signing up and joining a free, live AI workshop, so more of them make it to the session.</p>
+<dl class="hfacts">
+<div><dt>My role</dt><dd>UX research</dd></div>
+<div><dt>Team</dt><dd>10 · <a href="#basics">see who</a></dd></div>
+<div><dt>Timeline</dt><dd>Oct–Dec 2026 · in progress</dd></div>
+<div><dt>Client</dt><dd>Beyond Code Collective, a nonprofit</dd></div>
+</dl>
 
 </div>
 </section>
@@ -224,7 +238,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </ul>
 </div>
 <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team of 10</p><p style="margin: 4px 0 0; font-size: 16px">Chih-Chi (Joan) Huang, Bobby Ye, Rena Huang, Jangael Rosales, Ruihao (Real) Chen, Bonnie Baffoe-Bonnie, Seren Lee, Pongpol (Pong) Vongasvathepchai, Felipe Barrios, Zoya Chaudhry</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team of 10</p><ul class="team"><sc-for list="{{team}}" as="m" hint-placeholder-count="10"><li><sc-if value="{{m.linked}}" hint-placeholder-val="{{ false }}"><a href="{{m.url}}" target="_blank" rel="noopener">{{m.name}}</a></sc-if><sc-if value="{{m.plain}}" hint-placeholder-val="{{ true }}"><b>{{m.name}}</b></sc-if><span>{{m.role}}</span></li></sc-for></ul></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Fall 2026 · October to December</p></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Client</p><p style="margin: 4px 0 0">Beyond Code Collective, a nonprofit bridging the AI literacy divide</p></div>
 </div>
@@ -386,6 +400,21 @@ parts.forEach(p => io.observe(p));
 }
 }
 renderVals() {
+// ===== EDIT ME =====
+// Teammates: paste each portfolio or LinkedIn URL. A name without a URL shows as plain text.
+const TEAM = [
+  { name: "Chih-Chi (Joan) Huang", role: "UX research (me)", url: '' },
+  { name: "Bobby Ye", role: "", url: '' },
+  { name: "Rena Huang", role: "", url: '' },
+  { name: "Jangael Rosales", role: "", url: '' },
+  { name: "Ruihao (Real) Chen", role: "", url: '' },
+  { name: "Bonnie Baffoe-Bonnie", role: "", url: '' },
+  { name: "Seren Lee", role: "", url: '' },
+  { name: "Pongpol (Pong) Vongasvathepchai", role: "", url: '' },
+  { name: "Felipe Barrios", role: "", url: '' },
+  { name: "Zoya Chaudhry", role: "", url: '' }
+];
+// ===================
 const st = this.state || {};
 const dark = '#2E2A3B', light = '#FBF7EF';
 const stepData = [
@@ -422,6 +451,7 @@ const svNotes = after ? [
 { t: '3. No question about learning goals anywhere in five pages.', ink: '#B0573F' }
 ];
 return {
+team: TEAM.map(m => ({ name: m.name, role: m.role, url: m.url, linked: !!m.url, plain: !m.url })),
 steps: steps, cur: stepData[sSel],
 svQs: svQs, svNotes: svNotes,
 svBefore: () => this.setState({ sv: false }), svAfter: () => this.setState({ sv: true }),

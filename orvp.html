@@ -12,6 +12,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500,100;9..144,700,100&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
 <style>
+.hfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;width:100%;max-width:860px;margin:8px auto 0;padding:0}
+.hfacts div{background:rgba(255,253,248,.85);border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:12px 14px;text-align:left}
+.hfacts dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5468}
+.hfacts dd{margin:2px 0 0;font-weight:500}
+.hwatch{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 22px;box-sizing:border-box;background:#2E2A3B;color:#FBF7EF !important;text-decoration:none;font-weight:700;border-radius:26px 20px 28px 22px}
+.team{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.team li{display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline}.team b{font-weight:500}.team a{font-weight:700}
+.team span{font-size:14px;color:#5A5468}
 body{margin:0;background:#FBF7EF}
 a{color:#2E2A3B}a:hover{color:#7A5BA8}
 .flip{transition:transform .2s ease}
@@ -217,6 +225,12 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="position: relative; margin: 0 auto; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A4790">Case study · U-M Office of the VP for Research</p>
 <h1 style="position: relative; margin: 0 auto; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 860px">Turning 30-page funding calls into setup-ready data</h1>
 <p style="position: relative; margin: 0 auto; font-size: 21px; color: #4A4458; max-width: 720px">An AI assistant that reads a funding call and fills in what the research office needs, with every answer tied to its source, so staff check instead of hunt.</p>
+<dl class="hfacts">
+<div><dt>My role</dt><dd>Product Manager</dd></div>
+<div><dt>Team</dt><dd>4 · <a href="#basics">see who</a></dd></div>
+<div><dt>Timeline</dt><dd>Fall 2026 · about 2 months</dd></div>
+<div><dt>Tools</dt><dd>Figma · Notion · U-M GPT</dd></div>
+</dl>
 
 </div>
 </section>
@@ -254,7 +268,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </ul>
 </div>
 <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><p style="margin: 4px 0 0">Chih-Chi (Joan) Huang, Ric, Joyce, Emrys</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><ul class="team"><sc-for list="{{team}}" as="m" hint-placeholder-count="4"><li><sc-if value="{{m.linked}}" hint-placeholder-val="{{ false }}"><a href="{{m.url}}" target="_blank" rel="noopener">{{m.name}}</a></sc-if><sc-if value="{{m.plain}}" hint-placeholder-val="{{ true }}"><b>{{m.name}}</b></sc-if><span>{{m.role}}</span></li></sc-for></ul></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Fall 2026 · about 2 months</p></div>
 <div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Figma (prototype, flowcharts) · Notion (project management) · U-M GPT</p></div>
 </div>
@@ -532,6 +546,15 @@ parts.forEach(p => io.observe(p));
 }
 }
 renderVals() {
+// ===== EDIT ME =====
+// Teammates: paste each portfolio or LinkedIn URL. A name without a URL shows as plain text.
+const TEAM = [
+  { name: "Chih-Chi (Joan) Huang", role: "Product Manager (me)", url: '' },
+  { name: "Ric", role: "", url: '' },
+  { name: "Joyce", role: "", url: '' },
+  { name: "Emrys", role: "", url: '' }
+];
+// ===================
 const st = this.state || {};
 const open = st.open || {};
 const cardData = [
@@ -615,7 +638,7 @@ const kick = { ready: 'Challenge · the old way', hunt: 'Challenge · the old wa
 const title = { ready: 'Find the sponsor’s deadline in this 30-page call. Click the sentence when you see it.', hunt: 'Scroll and click the sentence with the sponsor’s deadline.',
 found: 'You found it in ' + you.toFixed(1) + ' seconds, for one field. Staff fill in dozens.', gaveup: 'Hard, right? Staff hunt like this for every field, in every call.',
 tool: 'Tap any field. The call jumps to its source and highlights it.' }[mode];
-return { cards: cards, oParas: oParas, oFields: oFields, oMode: mode, oKicker: kick, oTitle: title,
+return { cards: cards, team: TEAM.map(m => ({ name: m.name, role: m.role, url: m.url, linked: !!m.url, plain: !m.url })), oParas: oParas, oFields: oFields, oMode: mode, oKicker: kick, oTitle: title,
 oShowTimer: mode !== 'tool', oClock: elapsed.toFixed(1), oCanStart: mode === 'ready', oRunning: mode === 'hunt', oShowTool: mode === 'found' || mode === 'gaveup', oInTool: inTool,
 oShowScore: inTool && you > 0, oYou: you.toFixed(1) + ' s', oToolPct: Math.max(3, Math.round(0.8 / Math.max(you, 0.8) * 100)),
 oNote: inTool ? cur.note : (mode === 'ready' ? 'Tip: the deadline could be anywhere.' : ''),
