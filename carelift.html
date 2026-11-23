@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study: CareLift drone medicine delivery</title>
+<meta name="description" content="Case study: CareLift, on-demand drone delivery of urgent medicine for rural patients.">
+<meta property="og:title" content="Case study: CareLift drone medicine delivery">
+<meta property="og:description" content="Case study: CareLift, on-demand drone delivery of urgent medicine for rural patients.">
+<meta property="og:image" content="assets/joan.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23E9B949'/%3E%3Cpath d='M16 36c6-14 14 8 20-8s10 2 14-6' fill='none' stroke='%232E2A3B' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500,100;9..144,700,100&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+.hfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;width:100%;max-width:860px;margin:8px auto 0;padding:0}
+.hfacts div{background:rgba(255,253,248,.85);border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:12px 14px;text-align:left}
+.hfacts dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5468}
+.hfacts dd{margin:2px 0 0;font-weight:500}
+.hwatch{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 22px;box-sizing:border-box;background:#2E2A3B;color:#FBF7EF !important;text-decoration:none;font-weight:700;border-radius:26px 20px 28px 22px}
+.team{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.team li{display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline}.team b{font-weight:500}.team a{font-weight:700}
+.team span{font-size:14px;color:#5A5468}
+.path{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;counter-reset:step}
+.path li{counter-increment:step;position:relative;background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:20px 16px 22px 14px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:4px}
+.path li::before{content:counter(step);font-family:'Fraunces',serif;font-weight:700;font-size:15px;color:#6A4F9A}
+.path b{font-family:'Fraunces',serif;font-size:19px}.path span{font-size:15px}
+.path em{font-style:normal;font-family:'Caveat',cursive;font-size:20px;font-weight:700;color:#2A5F8F;line-height:1.15}
+.jwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+.jmap{position:relative;min-width:760px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding-top:118px}
+.jcurve{position:absolute;left:0;top:0;width:100%;height:110px}
+.jstep{background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:14px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.jstep b{font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#A04A2E}
+.jstep i{font-style:normal;font-family:'Caveat',cursive;font-size:21px;color:#4A4458;line-height:1.1}
+.jgo{background:#EAF4EC;border-color:#9CC3A5}.jgo b{color:#2F6B45}
+.arts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.arts figure{margin:0;background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:10px}
+.arts img{display:block;width:100%;height:auto;border-radius:10px}.arts figcaption{font-size:14px;color:#4A4458;margin-top:6px}
+.tplan{background:#FFFDF8;border:1.5px dashed #2F6B45;border-radius:22px 18px 24px 16px;padding:22px 24px;display:flex;flex-direction:column;gap:10px}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.tgrid div{display:flex;flex-direction:column;gap:2px}.tgrid b{font-family:'Fraunces',serif;font-size:22px;color:#2F6B45}.tgrid span{font-size:15px}
+body{margin:0;background:#FBF7EF}
+a{color:#2E2A3B}a:hover{color:#7A5BA8}
+.flip{transition:transform .2s ease}
+.flip:hover{transform:translateY(-4px) rotate(-0.4deg)}
+.opt{transition:transform .15s ease}
+.opt:hover{transform:translateX(4px)}
+.chap{transition:transform .15s ease}
+.chap:hover{transform:translateY(-3px)}
+.draw{stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.4s ease forwards}
+.pop{animation:pop .35s ease}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.draw{animation:none;stroke-dashoffset:0}.pop{animation:none}.flip:hover,.opt:hover,.chap:hover{transform:none}}
+@media (max-width: 640px){h1{font-size:38px !important}h2{font-size:30px !important}}
+.lane{position:relative;height:46px;border-top:1px dashed rgba(46,42,59,0.12)}.progress{position:absolute;left:0;bottom:7px;height:2.34px;width:calc(var(--p,0) * (100% - 94.8px));background:#E42E2D;border-radius:2px 0 0 2px;box-shadow:0 .4px 0 rgba(74,13,16,.6),0 -.4px 0 rgba(74,13,16,.4);pointer-events:none}.progress::after{content:'';position:absolute;left:calc(100% - 1px);bottom:-4.92px;width:94.8px;height:44px;background:url(assets/dog-walk-thick.png) left bottom/contain no-repeat}@media (max-width: 640px){.progress{height:1.91px;width:calc(var(--p,0) * (100% - 77.5px))}.progress::after{width:77.5px;height:36px;bottom:-4.03px}}
+.spine{position:absolute;top:0;height:100%;left:calc(50% - 604px);width:48px;pointer-events:none;z-index:0}
+.spine path{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,0))}
+@media (max-width: 1200px){.spine{display:none}}
+@supports (animation-timeline: view()){.rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 35%}@keyframes rv{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}}
+@media (prefers-reduced-motion: reduce){.rv{animation:none !important}.spine path{stroke-dashoffset:0}.progress{display:none}}
+.chapter{background:var(--tint);border-radius:40px 30px 44px 34px;margin:48px auto !important;box-shadow:0 18px 44px rgba(46,42,59,0.10);border:1.5px solid rgba(46,42,59,0.06)}
+.chap-open{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px 26px;padding:0 0 18px;border-bottom:2px dashed rgba(46,42,59,0.25);scroll-margin-top:140px}
+.chap-num{position:relative;font-family:'Fraunces',serif;font-weight:700;font-size:84px;line-height:.85;letter-spacing:-0.03em}
+.bloom{position:absolute;left:-26px;top:45%;width:170px;height:140px;translate:0 -50%;pointer-events:none}
+@supports (animation-timeline: view()){
+.chapter{animation:panelIn linear both;animation-timeline:view();animation-range:entry 0% entry 25%}
+.chap-num{animation:numIn linear both;animation-timeline:view();animation-range:entry 5% cover 25%}
+.bloom{animation:bloom linear both;animation-timeline:view();animation-range:entry 5% cover 30%}
+@keyframes panelIn{from{opacity:0;translate:0 70px;scale:.96}to{opacity:1;translate:0 0;scale:1}}
+@keyframes numIn{from{opacity:0;translate:-60px 0}to{opacity:1;translate:0 0}}
+@keyframes bloom{from{opacity:0;scale:.3}to{opacity:1;scale:1}}
+}
+.toc a{border-radius:999px;padding:0 12px;transition:background .3s ease,color .3s ease}
+html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc a[href="#research"],html[data-part="decisions"] .toc a[href="#decisions"],html[data-part="results"] .toc a[href="#results"]{background:#2E2A3B;color:#FBF7EF}
+@media (max-width: 640px){.chap-num{font-size:64px}.chapter{border-radius:28px;margin:28px 12px !important}}
+@media (prefers-reduced-motion: reduce){.chapter,.chap-num,.bloom{animation:none !important}}
+.tile{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:150px;padding:20px;text-align:center;background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:24px 18px 26px 20px;text-decoration:none;color:#2E2A3B;box-shadow:0 10px 24px rgba(46,42,59,0.08);transition:transform .2s ease,box-shadow .2s ease}
+.tile:hover{transform:translateY(-6px) rotate(-0.6deg);box-shadow:0 18px 34px rgba(46,42,59,0.14)}
+.tile-num{position:absolute;left:50%;top:50%;translate:-50% -50%;font-family:'Fraunces',serif;font-weight:700;font-size:120px;line-height:1;opacity:.12;pointer-events:none}
+.chap-open{justify-content:center !important;text-align:center;background:#FFFDF8;border:1.5px solid #E6DCCB !important;border-radius:28px 22px 30px 24px;padding:30px 24px !important;max-width:600px;width:100%;margin:0 auto 10px;box-shadow:0 10px 24px rgba(46,42,59,0.08);overflow:hidden}
+.chap-open > div{align-items:center}
+.chap-num{position:absolute !important;left:50%;top:50%;translate:-50% -50%;font-size:150px !important;opacity:.13;pointer-events:none}
+.chap-open .bloom{display:none}
+@supports (animation-timeline: view()){.chap-num{animation:none !important}}
+.stars{display:flex;justify-content:center;gap:18px;margin:8px 0}
+@media (max-width: 640px){.tile-num{font-size:90px}.chap-num{font-size:110px !important}}
+@media (prefers-reduced-motion: reduce){.tile:hover{transform:none}}
+.drift-a{animation:drift 14s ease-in-out infinite alternate}
+.drift-b{animation:drift 19s ease-in-out infinite alternate-reverse}
+.drift-c{animation:drift 24s ease-in-out infinite alternate}
+@keyframes drift{from{translate:-28px 0}to{translate:28px 0}}
+.float{animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -10px}}
+.breathe{transform-box:fill-box;transform-origin:center;animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{scale:1}50%{scale:1.06}}
+.mag{animation:mag 5s ease-in-out infinite}
+@keyframes mag{0%,100%{translate:0 0}30%{translate:-70px -40px}60%{translate:-40px 10px}}
+.hl{stroke-dasharray:90;animation:hl 5s ease-in-out infinite}
+@keyframes hl{0%{stroke-dashoffset:90}35%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-90}}
+.pin{animation:pin 2.4s ease-in-out infinite}
+@keyframes pin{0%,100%{translate:0 0}40%{translate:0 -14px}55%{translate:0 0}65%{translate:0 -4px}}
+.wob{animation:wob 3.6s ease-in-out infinite}
+@keyframes wob{0%,100%{translate:0 0}50%{translate:-4px 5px}}
+.hov{animation:hov 3s ease-in-out infinite}
+@keyframes hov{0%,100%{translate:0 0}50%{translate:6px -12px}}
+.rotor{transform-box:fill-box;transform-origin:center;animation:rotor .25s linear infinite}
+@keyframes rotor{0%,100%{scale:1 1}50%{scale:.55 1}}
+.p1{animation:walk 1.6s ease-in-out infinite}
+.p2{animation:walk 1.6s ease-in-out -.5s infinite}
+.p3{animation:walk 1.6s ease-in-out -1s infinite}
+@keyframes walk{0%,100%{translate:0 0}50%{translate:0 -6px}}
+.check{stroke-dasharray:60;animation:hl2 3.2s ease-in-out infinite}
+@keyframes hl2{0%{stroke-dashoffset:60}40%,90%{stroke-dashoffset:0}100%{stroke-dashoffset:60}}
+.card:hover .hov,.card:hover .pin,.card:hover .mag,.card:hover .p1,.card:hover .p2,.card:hover .p3{animation-duration:1s}
+@media (prefers-reduced-motion: reduce){.drift-a,.drift-b,.drift-c,.float,.breathe,.mag,.hl,.pin,.wob,.hov,.rotor,.p1,.p2,.p3,.check{animation:none !important}}
+.chap-open h2{font-size:30px !important}
+.chap-num{font-size:110px !important}
+@media (max-width: 640px){.chap-open{position:relative !important;top:auto}}
+.tocbar::after{content:"";position:absolute;left:0;right:0;top:100%;height:36px;pointer-events:none;background:linear-gradient(rgba(251,247,239,0.85),rgba(251,247,239,0))}
+
+.cstrip{position:relative;max-width:1040px;margin:0 auto;padding:30px 32px 26px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.cstrip .tease{margin:0;max-width:640px;font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1.3;color:#2E2A3B}
+.cstrip .tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.cstrip .st{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border-radius:14px 18px 12px 16px;font-weight:700;font-size:14px;text-decoration:none;color:#5A5468;background:#FFFDF8;border:1.5px dashed rgba(46,42,59,.22)}
+.cstrip .st.done{color:#2F6B45;border-style:solid;border-color:#B9D6C1;background:#F1F7F2}
+.cstrip .st.next{color:#2E2A3B;background:#FFFDF8;border:2px solid #2E2A3B;font-size:16px;padding:8px 16px;flex-direction:column;align-items:flex-start;gap:0;line-height:1.25}.cstrip .st.next .up{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7A5BA8}
+@media (prefers-reduced-motion: reduce){.cstrip .st.next,.cstrip .st.next .arr{animation:none}}
+
+.thread{display:flex;flex-direction:column;gap:12px}
+.thread .tk{margin:0;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5468}
+.tnotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.tnote{position:relative;display:flex;gap:10px;align-items:flex-start;padding:16px 16px 18px;background:#FFF6CF;border-radius:4px 4px 14px 4px;box-shadow:0 8px 14px rgba(46,42,59,.10);font-size:15.5px;line-height:1.45;color:#2E2A3B}
+.tnote:nth-child(4n+1){transform:rotate(-1.2deg)}.tnote:nth-child(4n+2){transform:rotate(.9deg);background:#FDE6DE}.tnote:nth-child(4n+3){transform:rotate(-.6deg);background:#E3F0E6}.tnote:nth-child(4n+4){transform:rotate(1.1deg);background:#E8E2F5}
+.tnote::before{content:'';position:absolute;top:-8px;left:50%;width:54px;height:16px;transform:translateX(-50%) rotate(-3deg);background:rgba(255,255,255,.65);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.tnum{flex:0 0 30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:700;background:#2E2A3B;color:#FBF7EF;font-size:15px}
+.tnote .arrow{display:block;font-family:'Caveat',cursive;font-size:20px;font-weight:700;color:#5A5468;margin-bottom:2px}
+.tcheck{flex:0 0 30px;height:30px}
+.tcheck circle{fill:none;stroke:#2E2A3B;stroke-width:2}
+.tcheck path{fill:none;stroke:#2F6B45;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:0}
+.tnote.open .tcheck circle{stroke-dasharray:4 4}
+@supports (animation-timeline: view()){.tcheck path{animation:tdraw linear both;animation-timeline:view();animation-range:entry 30% cover 45%}.tnote{animation:tpin linear both;animation-timeline:view();animation-range:entry 0% cover 30%}}
+@keyframes tdraw{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}
+@keyframes tpin{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+@media (prefers-reduced-motion: reduce){.tcheck path,.tnote{animation:none}}
+@supports (animation-timeline: view()){section.chapter{animation:chin linear both;animation-timeline:view();animation-range:entry 0% entry 60%}}
+@keyframes chin{from{opacity:0;translate:0 60px}to{opacity:1;translate:0 0}}
+@media (prefers-reduced-motion: reduce){section.chapter{animation:none}}
+
+.endnav{position:relative;max-width:1040px;margin:0 auto;padding:16px 32px 72px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.endnav .thanks{margin:0;text-align:center;font-family:'Caveat',cursive;font-size:30px;font-weight:700;color:#5A5468}
+.endnav .row{width:100%;display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
+.endnav a{min-height:52px;box-sizing:border-box;display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;color:#2E2A3B}
+.endnav .prev{justify-self:start;font-size:16px;padding:12px 4px}
+.endnav .prev small,.endnav .next small{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.7;font-weight:700}
+.endnav .home{justify-self:center;background:#FFFDF8;border:2px solid #2E2A3B;border-radius:22px 28px 20px 26px;padding:12px 22px;font-size:16px}
+.endnav .next{justify-self:end;text-align:right;background:#2E2A3B;color:#FBF7EF;border-radius:26px 20px 28px 22px;padding:12px 22px;font-size:16px}
+.endnav a:hover{transform:translateY(-2px)}.endnav a:focus-visible{outline:3px solid #7A5BA8;outline-offset:3px}
+@media (max-width: 640px){.endnav .row{grid-template-columns:1fr;justify-items:stretch}.endnav .prev,.endnav .home,.endnav .next{justify-self:stretch;justify-content:center;text-align:center}.endnav .home{order:3}}
+</style>
+<style>#app{min-height:100vh}</style>
+</head>
+<body>
+<div id="app"></div>
+<template id="dc-template">
+
+<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.65; overflow-x: clip">
+
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0">
+<defs>
+<filter id="wc" x="-25%" y="-25%" width="150%" height="150%">
+<feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="4" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feGaussianBlur in="d" stdDeviation="1.6" result="b"></feGaussianBlur>
+<feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="9" result="m"></feTurbulence>
+<feColorMatrix in="m" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.9 1.25" result="ma"></feColorMatrix>
+<feComposite in="b" in2="ma" operator="in"></feComposite>
+</filter>
+<filter id="pc" x="-10%" y="-10%" width="120%" height="120%">
+<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="2" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="5" result="g"></feTurbulence>
+<feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2 1.6" result="ga"></feColorMatrix>
+<feComposite in="d" in2="ga" operator="in"></feComposite>
+</filter>
+<filter id="paper" x="0" y="0" width="100%" height="100%">
+<feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="11" result="n"></feTurbulence>
+<feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0 0.28  0 0 0 0.10 0"></feColorMatrix>
+</filter>
+</defs>
+</svg>
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"><rect width="100%" height="100%" filter="url(#paper)"></rect></svg>
+
+<header style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="index.html" style="text-decoration: none; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">Chih-Chi (Joan) Huang</a>
+<a href="index.html#work" style="font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← back to all work</a>
+</header>
+
+<nav class="tocbar" aria-label="On this page" style="position: sticky; top: 0; z-index: 5; background: rgba(251,247,239,0.72); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1.5px solid rgba(230,220,203,0.8)">
+<div class="toc" style="max-width: 1040px; margin: 0 auto; padding: 8px 32px; display: flex; flex-wrap: wrap; gap: 6px 10px; font-weight: 700; font-size: 15px">
+<a href="#basics" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">1 · The crew</a>
+<a href="#research" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">2 · Pre-flight check</a>
+<a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · Change of course</a>
+<a href="#results" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">4 · Touchdown</a>
+</div>
+<div class="lane" aria-hidden="true"><div class="progress"></div></div>
+</nav>
+
+<section style="position: relative; padding: 40px 32px 56px; overflow-x: clip">
+<svg viewBox="0 0 1440 600" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<rect x="-40" y="0" width="1520" height="600" fill="#E6EFF8"></rect>
+<path class="drift-b" d="M-40 380 C 300 350, 700 400, 1060 365 S 1400 380, 1480 370 L 1480 470 C 1100 490, 700 455, 300 485 S 0 470, -40 475 Z" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.6"></path>
+</svg>
+<div style="position: relative; max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center">
+<svg viewBox="0 0 400 210" style="position: relative; width: 100%; max-width: 520px; height: auto; display: block; margin: 0 auto" role="img" aria-label="Watercolor illustration of a drone carrying a medicine package">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.5"></ellipse>
+<rect class="hov" x="176" y="128" width="48" height="40" rx="5" fill="#FFFDF8"></rect>
+<path class="hov" d="M200 138 V 158 M190 148 H 210" stroke="#D9705E" filter="url(#wc)" style="stroke-width: 7"></path>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
+<rect class="hov" x="170" y="70" width="60" height="22" rx="8"></rect>
+<path class="hov" d="M170 78 L 124 62 M230 78 L 276 62"></path>
+<g class="hov"><ellipse class="rotor" cx="118" cy="58" rx="30" ry="6"></ellipse></g>
+<g class="hov"><ellipse class="rotor" cx="282" cy="58" rx="30" ry="6"></ellipse></g>
+<path class="hov" d="M190 92 L 186 128 M210 92 L 214 128"></path>
+<rect class="hov" x="176" y="128" width="48" height="40" rx="5"></rect>
+<path d="M60 180 C 100 170, 130 186, 170 178 M240 182 C 280 172, 310 186, 350 176" style="stroke-width: 1.8"></path>
+</g>
+</svg>
+
+<p style="position: relative; margin: 0 auto; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">Case study · CareLift · Business+Tech</p>
+<h1 style="position: relative; margin: 0 auto; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 860px">Medicine in minutes, not hours</h1>
+<p style="position: relative; margin: 0 auto; font-size: 21px; color: #4A4458; max-width: 740px">A platform that connects rural patients, local pharmacies and drone companies, so urgent medicine reaches the door in about 20 minutes.</p>
+<dl class="hfacts">
+<div><dt>My role</dt><dd>Product Manager</dd></div>
+<div><dt>Team</dt><dd>5 · <a href="#basics">Care Pilots</a></dd></div>
+<div><dt>Timeline</dt><dd>6 weeks · fall 2026</dd></div>
+<div><dt>Tools</dt><dd>Figma · React · TypeScript · Node.js · SQLite</dd></div>
+</dl>
+<a href="#demo" class="hwatch"><span aria-hidden="true">&#9654;</span> Watch the demo</a>
+
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px 8px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center">
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><rect x="13" y="16" width="14" height="6" rx="2" fill="#8FB3D9" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></rect><path d="M13 18 L 5 12 M27 18 L 35 12 M18 22 L 17 30 M22 22 L 23 30" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2; stroke-linecap: round"></path><ellipse cx="5" cy="11" rx="5" ry="1.5" fill="#2E2A3B"></ellipse><ellipse cx="35" cy="11" rx="5" ry="1.5" fill="#2E2A3B"></ellipse><rect x="15" y="29" width="10" height="7" rx="1" fill="#E59A8C"></rect></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><rect x="13" y="16" width="14" height="6" rx="2" fill="#8FB3D9" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></rect><path d="M13 18 L 5 12 M27 18 L 35 12 M18 22 L 17 30 M22 22 L 23 30" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2; stroke-linecap: round"></path><ellipse cx="5" cy="11" rx="5" ry="1.5" fill="#2E2A3B"></ellipse><ellipse cx="35" cy="11" rx="5" ry="1.5" fill="#2E2A3B"></ellipse><rect x="15" y="29" width="10" height="7" rx="1" fill="#E59A8C"></rect></svg><svg width="30" height="30" viewBox="0 0 40 40"><rect x="13" y="16" width="14" height="6" rx="2" fill="#8FB3D9" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></rect><path d="M13 18 L 5 12 M27 18 L 35 12 M18 22 L 17 30 M22 22 L 23 30" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2; stroke-linecap: round"></path><ellipse cx="5" cy="11" rx="5" ry="1.5" fill="#2E2A3B"></ellipse><ellipse cx="35" cy="11" rx="5" ry="1.5" fill="#2E2A3B"></ellipse><rect x="15" y="29" width="10" height="7" rx="1" fill="#E59A8C"></rect></svg></div>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 36px">Let's break my process down:</h2>
+<div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px">
+<a href="#basics" class="tile"><span class="tile-num" style="color: #2A5F8F" aria-hidden="true">01</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the crew:</span><span style="position: relative; color: #4A4458">the project · role, team, timeline, tools</span></a>
+<a href="#research" class="tile"><span class="tile-num" style="color: #2A5F8F" aria-hidden="true">02</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">pre-flight check:</span><span style="position: relative; color: #4A4458">problem &amp; research · users, problem, methods, insights</span></a>
+<a href="#decisions" class="tile"><span class="tile-num" style="color: #2A5F8F" aria-hidden="true">03</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">change of course:</span><span style="position: relative; color: #4A4458">decisions &amp; pivot · what changed, and why</span></a>
+<a href="#results" class="tile"><span class="tile-num" style="color: #2A5F8F" aria-hidden="true">04</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">touchdown:</span><span style="position: relative; color: #4A4458">solution &amp; results · what we built, what happened</span></a>
+</div>
+</section>
+
+<section class="chapter" style="--tint: #FBEFE6; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="basics" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #A04A2E">01</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A04A2E">Part 1 of 4 · The project</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The crew</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Who, when, and what I owned</p>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 28px">
+<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My role · Product Manager</p>
+<p style="margin: 0">I was the person between the idea and the build. I:</p>
+<ul style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px">
+<li>Ran persona interviews, and pulled five teammates' ideas into one direction</li>
+<li>Explained what each app had to do, and worked side by side with our engineers</li>
+<li>Flagged flows that didn't fit real users, and polished the UI with the team</li>
+<li>Built the business model and planned the story of our final pitch</li>
+</ul>
+</div>
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team · Care Pilots</p><ul class="team"><sc-for list="{{team}}" as="m" hint-placeholder-count="5"><li><sc-if value="{{m.linked}}" hint-placeholder-val="{{ false }}"><a href="{{m.url}}" target="_blank" rel="noopener">{{m.name}}</a></sc-if><sc-if value="{{m.plain}}" hint-placeholder-val="{{ true }}"><b>{{m.name}}</b></sc-if><span>{{m.role}}</span></li></sc-for></ul></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Business+Tech · fall 2026 · 6 weeks</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Figma · built with React, TypeScript, Node.js and SQLite</p></div>
+</div>
+</div>
+</section>
+
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">Six weeks, a team of five, a drone. But who actually needs medicine in minutes?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The crew</a><a href="#research" class="st next"><span class="up">Up next</span> 2 · Pre-flight check</a><span class="st">3 · Change of course</span><span class="st">4 · Touchdown</span></div>
+</nav>
+<section class="chapter" style="--tint: #F1ECF8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="research" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #5A4790">02</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5A4790">Part 2 of 4 · Problem &amp; research</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Pre-flight check</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What was really broken?</p>
+</div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Meet our primary user</p>
+<div style="display: flex; flex-wrap: wrap; border-radius: 30px 24px 34px 26px; overflow: hidden; box-shadow: 0 16px 36px rgba(46,42,59,0.14); border: 1.5px solid #D9CDB8">
+<div style="flex: 1 1 280px; background: #CFE0F2; display: flex; align-items: flex-end; justify-content: center; padding: 24px 10px 0"><svg viewBox="0 0 280 300" style="width: 100%; max-width: 280px; height: auto" role="img" aria-label="Watercolor illustration of an older woman with glasses and a cardigan">
+<ellipse cx="140" cy="160" rx="130" ry="130" fill="#E9B949" filter="url(#wc)" style="opacity: 0.35"></ellipse>
+<path d="M60 290 C 64 220, 100 196, 140 196 C 180 196, 216 220, 220 290 Z" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.85"></path>
+<ellipse cx="140" cy="128" rx="54" ry="60" fill="#F3D5C0" filter="url(#wc)"></ellipse>
+<path d="M84 120 C 82 70, 120 56, 140 58 C 170 56, 200 72, 196 120 C 186 92, 160 84, 140 86 C 116 84, 94 96, 84 120 Z" fill="#C9C4CF" filter="url(#wc)"></path>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round">
+<circle cx="120" cy="132" r="14"></circle><circle cx="160" cy="132" r="14"></circle><path d="M134 132 H 146"></path>
+<path d="M126 162 C 134 168, 146 168, 154 162"></path>
+<path d="M140 196 L 126 290 M140 196 L 154 290"></path>
+</g>
+<circle cx="70" cy="70" r="20" fill="#FFFDF8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></circle>
+<path d="M70 58 V 70 L 78 76" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2; stroke-linecap: round"></path>
+</svg></div>
+<div style="flex: 999 1 420px; min-width: 0; background: #2E3F5C; color: #FBF7EF; padding: 30px 32px; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 44px; line-height: 1; color: #F2CF7A">MARGARET, 74</p>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700">It's 7 p.m. Her heart medicine runs out tonight.</p>
+<p style="margin: 0; font-size: 14px; color: #D9D0E8">Lives alone · northern Michigan · stopped driving · 5 daily medicines</p>
+<div style="display: flex; flex-wrap: wrap; gap: 18px; color: #FBF7EF">
+<div style="flex: 1 1 180px; min-width: 0"><p style="margin: 0 0 6px; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #F2CF7A">needs</p><ul style="margin: 0; padding-left: 18px; font-size: 15px; display: flex; flex-direction: column; gap: 4px"><li>Never run out of a critical medicine</li><li>Stay independent at home</li><li>Order in a few simple taps</li></ul></div>
+<div style="flex: 1 1 180px; min-width: 0"><p style="margin: 0 0 6px; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #F4C1B6">what gets in the way</p><ul style="margin: 0; padding-left: 18px; font-size: 15px; display: flex; flex-direction: column; gap: 4px"><li>Pharmacy is 25 min away, closes at 6 p.m.</li><li>Calling around to find who has it</li><li>Most apps aren't built for her</li></ul></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<span style="background: rgba(251,247,239,0.12); border-radius: 12px; padding: 6px 12px; font-size: 14px"><strong>85%</strong> of adults 60+ take a prescription</span>
+<span style="background: rgba(251,247,239,0.12); border-radius: 12px; padding: 6px 12px; font-size: 14px"><strong>13 vs 6 min</strong> ambulance time, rural vs urban</span>
+</div>
+<p style="margin: 0; font-size: 12px; color: #B9B0C9">Representative persona built from public data and our interviews.</p>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Problem statement</p><p style="margin: 6px 0 0">Older patients in rural areas can run out of a critical medicine after the pharmacy closes, with no fast way to get it, while pharmacies and drone companies can't see each other or the patient's need.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome we aimed for</p><p style="margin: 6px 0 0">Request to door in under 30 minutes, any pharmacy, any hour, in a few simple taps.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Business outcome we aimed for</p><p style="margin: 6px 0 0">A platform fee on every delivery, starting in rural Michigan within a $0.9B rural U.S. market.</p></div>
+</div>
+<div style="position: relative; padding: 30px 30px 34px; display: flex; flex-direction: column; gap: 14px">
+<svg viewBox="0 0 1000 420" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 30 C 300 8, 700 22, 988 14 C 996 160, 994 300, 984 406 C 700 416, 300 412, 16 408 C 6 300, 8 160, 12 30 Z" fill="#FFF3E3" filter="url(#wc)"></path></svg>
+<p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700">What would you do, if you were Margaret?</p>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 24px">
+<div style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{opts}}" as="o" hint-placeholder-count="4">
+<button type="button" class="opt" onClick="{{o.pick}}" aria-pressed="{{o.pressed}}" style="text-align: left; font: inherit; color: #2E2A3B; background: {{o.bg}}; border: 2px solid {{o.border}}; border-radius: 18px 14px 20px 12px; padding: 12px 18px; cursor: pointer; min-height: 48px; font-weight: 700">{{o.label}}</button>
+</sc-for>
+</div>
+<div class="pop" style="flex: 999 1 360px; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 6px">
+<p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1; color: {{cur.ink}}">{{cur.stat}}</p>
+<p style="margin: 0; font-size: 18px">{{cur.text}}</p>
+</div>
+</div>
+<p style="position: relative; margin: 0; font-size: 14px; color: #5A5468">Sources in our pitch: GoodRx (2025), IRS mileage rate, KFF, Annals of Internal Medicine.</p>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Our path in six weeks · and my part in each step</p>
+<ol class="path">
+<li><b>Discover</b><span>Pharmacist and physician interviews, a survey, and a scan of alternatives</span><em>me: ran the persona interviews</em></li>
+<li><b>Synthesize</b><span>Margaret's persona, the three-party map, four problem notes</span><em>me: pulled five teammates' ideas into one direction</em></li>
+<li><b>Decide</b><span>Narrowed to rural older patients, set the price from benchmarks</span><em>me: built the business model and pricing</em></li>
+<li><b>Build</b><span>A working MVP of the patient, pharmacy and operator apps</span><em>me: wrote what each app had to do, and flagged flows that didn't fit</em></li>
+<li><b>Pitch</b><span>Final pitch to judges</span><em>me: planned the story of the pitch</em></li>
+</ol>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we researched</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">5</p><p style="margin: 0">pharmacist interviews</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">physician interview</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">30+</p><p style="margin: 0">survey responses</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">4</p><p style="margin: 0">kinds of alternatives compared: Zipline, Amazon, Uber and DoorDash, CVS</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Key insight · three parties, no one in the middle</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<button type="button" onClick="{{showBefore}}" aria-pressed="{{beforePressed}}" style="font: inherit; font-weight: 700; color: {{beforeInk}}; background: {{beforeBg}}; border: 2px solid #2E2A3B; border-radius: 22px 16px 24px 14px; padding: 10px 20px; min-height: 44px; cursor: pointer">Before CareLift</button>
+<button type="button" onClick="{{showAfter}}" aria-pressed="{{afterPressed}}" style="font: inherit; font-weight: 700; color: {{afterInk}}; background: {{afterBg}}; border: 2px solid #2E2A3B; border-radius: 16px 24px 14px 22px; padding: 10px 20px; min-height: 44px; cursor: pointer">With CareLift</button>
+</div>
+<div style="position: relative">
+<sc-if value="{{chaosBefore}}" hint-placeholder-val="{{ true }}">
+<svg class="pop" viewBox="0 0 900 420" style="width: 100%; height: auto" role="img" aria-label="Before: pharmacy, drone operator and patient connected by tangled lines full of questions">
+<path d="M150 110 C 300 40, 340 220, 420 120 S 600 60, 560 160 S 700 120, 750 110" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.4"></path>
+<path d="M150 130 C 200 260, 320 200, 280 300 S 400 380, 450 330" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.4"></path>
+<path d="M750 130 C 700 260, 560 180, 620 290 S 520 380, 470 330" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.4"></path>
+<path d="M170 120 C 260 160, 220 60, 330 100 C 420 140, 380 260, 300 220 C 240 180, 360 160, 440 200" fill="none" stroke="#B0573F" filter="url(#pc)" style="stroke-width: 2"></path>
+<ellipse cx="150" cy="110" rx="90" ry="54" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<ellipse cx="750" cy="110" rx="100" ry="54" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<ellipse cx="450" cy="340" rx="90" ry="54" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<text x="150" y="117" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Pharmacy</text>
+<text x="750" y="117" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Drone operator</text>
+<text x="450" y="347" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Patient</text>
+<text x="300" y="60" style="font-family: 'Caveat', cursive; font-size: 26px; fill: #B0573F">"Is it in stock?"</text>
+<text x="560" y="230" style="font-family: 'Caveat', cursive; font-size: 26px; fill: #B0573F">"Next flight is tomorrow"</text>
+<text x="80" y="250" style="font-family: 'Caveat', cursive; font-size: 26px; fill: #B0573F">"Who has my medicine?"</text>
+<text x="600" y="380" style="font-family: 'Caveat', cursive; font-size: 26px; fill: #B0573F">"Where is it now?"</text>
+</svg>
+</sc-if>
+<sc-if value="{{chaosAfter}}" hint-placeholder-val="{{ false }}">
+<svg class="pop" viewBox="0 0 900 420" style="width: 100%; height: auto" role="img" aria-label="After: CareLift sits in the middle and connects pharmacy, drone operator and patient with clean lines">
+<path d="M150 110 L 450 215 M750 110 L 450 215 M450 340 L 450 215" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 3"></path>
+<ellipse cx="150" cy="110" rx="90" ry="54" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<ellipse cx="750" cy="110" rx="100" ry="54" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<ellipse cx="450" cy="340" rx="90" ry="54" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.8"></ellipse>
+<ellipse cx="450" cy="215" rx="100" ry="50" fill="#E9B949" filter="url(#wc)"></ellipse>
+<text x="150" y="117" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Pharmacy</text>
+<text x="750" y="117" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Drone operator</text>
+<text x="450" y="347" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px; fill: #2E2A3B">Patient</text>
+<text x="450" y="223" text-anchor="middle" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 26px; fill: #2E2A3B">CareLift</text>
+<text x="40" y="200" style="font-family: 'Caveat', cursive; font-size: 24px; fill: #2F6B45">live stock, Rx checked once</text>
+<text x="600" y="200" style="font-family: 'Caveat', cursive; font-size: 24px; fill: #2A5F8F">matched orders, no calls</text>
+<text x="560" y="390" style="font-family: 'Caveat', cursive; font-size: 24px; fill: #A04A2E">live ETA, 10–20 min</text>
+</svg>
+</sc-if>
+</div>
+<p style="margin: 0; color: #4A4458">And one we didn't expect: our physician interview pointed to hospital logistics, like lab samples and organs, as a future market.</p>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Journey map · Margaret's evening today</p>
+<div class="jwrap" role="group" aria-label="Journey map of Margaret's evening">
+<div class="jmap">
+<svg class="jcurve" viewBox="0 0 1000 110" preserveAspectRatio="none" aria-hidden="true"><path d="M100 30 C 200 30, 220 62, 300 62 S 420 84, 500 84 S 620 100, 700 100 S 820 10, 900 14" fill="none" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.4; stroke-dasharray: 6 6"></path><circle cx="100" cy="30" r="9" fill="#E9B949"></circle><circle cx="300" cy="62" r="9" fill="#E59A8C"></circle><circle cx="500" cy="84" r="9" fill="#D9705E"></circle><circle cx="700" cy="100" r="9" fill="#A04A2E"></circle><circle cx="900" cy="14" r="9" fill="#2F6B45"></circle></svg>
+<div class="jstep"><b>7:00 pm · notices</b><span>The bottle is almost empty. A heart pill is due tonight.</span><i>"I'll just pick it up."</i></div>
+<div class="jstep"><b>7:05 · checks</b><span>The pharmacy closed at 6, and it's 25 minutes away. She stopped driving.</span><i>"Now what?"</i></div>
+<div class="jstep"><b>7:15 · searches</b><span>Calls around to find who has it in stock and is still open.</span><i>"Who has my medicine?"</i></div>
+<div class="jstep"><b>7:45 · weighs it</b><span>A neighbor's 85-minute drive, a ~$646 ER visit, or skipping the dose.</span><i>"None of these are good."</i></div>
+<div class="jstep jgo"><b>with CareLift</b><span>A few taps, any partner pharmacy, at the door in about 20 minutes.</span><i>the moment we designed for</i></div>
+</div>
+</div>
+<p style="margin: 0; font-size: 14px; color: #5A5468">The line tracks how Margaret feels; lower is worse. Built from our interviews and the public data above.</p>
+<sc-if value="{{hasArtifacts}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">From the wall · our working artifacts</p>
+<div class="arts"><sc-for list="{{artifacts}}" as="a" hint-placeholder-count="3"><figure><a href="{{a.src}}" target="_blank" rel="noopener"><img src="{{a.src}}" alt="{{a.alt}}" loading="lazy"></a><figcaption>{{a.caption}}</figcaption></figure></sc-for></div>
+</sc-if>
+<div class="thread">
+<p class="tk">What we had to solve</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700">Four notes we pinned to the wall</p>
+<div class="tnotes">
+<div class="tnote"><span class="tnum">1</span><span>After 6 p.m., Margaret has no way to get her medicine.</span></div>
+<div class="tnote"><span class="tnum">2</span><span>Most apps aren't built for her.</span></div>
+<div class="tnote"><span class="tnum">3</span><span>Patient, pharmacy and drone operator can't see each other.</span></div>
+<div class="tnote"><span class="tnum">4</span><span>Would older adults actually use it?</span></div>
+</div></div>
+</section>
+
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">Three parties, no one in the middle, and a patient who can’t wait. Our first plan tried to serve everyone. What had to change?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The crew</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · Pre-flight check</a><a href="#decisions" class="st next"><span class="up">Up next</span> 3 · Change of course</a><span class="st">4 · Touchdown</span></div>
+</nav>
+<section class="chapter" style="--tint: #EAF1F8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="decisions" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #2A5F8F">03</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2A5F8F">Part 3 of 4 · Decisions &amp; pivot</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Change of course</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What changed our plan?</p>
+</div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The pivot · who is this for?</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch">
+<div class="rv" style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">first plan</p><p style="margin: 4px 0 0">Anyone who needs medicine urgently.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div class="rv" style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">what we learned</p><p style="margin: 4px 0 0">"Anyone urgent" was too broad to design for. Every choice, from the app to the price, pulled in a different direction.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div class="rv" style="flex: 1 1 240px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">new focus</p><p style="margin: 4px 0 0">Older patients in rural areas, where pharmacies are farthest and close earliest.</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Two things I pushed back on · flip each one</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 28px">
+
+<div style="position: relative; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 500 640" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 22 C 160 8, 340 16, 488 12 C 496 220, 494 430, 486 628 C 340 636, 160 634, 16 630 C 6 430, 8 220, 12 22 Z" fill="#F7E3D8" filter="url(#wc)"></path></svg>
+<h3 style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-size: 25px">1. Getting the medicine at the door</h3>
+<div style="position: relative; display: flex; gap: 8px">
+<button type="button" onClick="{{pinBefore}}" aria-pressed="{{pinBeforePressed}}" style="font: inherit; font-weight: 700; font-size: 15px; color: {{pinBeforeInk}}; background: {{pinBeforeBg}}; border: 2px solid #2E2A3B; border-radius: 16px 12px 18px 10px; padding: 8px 16px; min-height: 44px; cursor: pointer">Before</button>
+<button type="button" onClick="{{pinAfter}}" aria-pressed="{{pinAfterPressed}}" style="font: inherit; font-weight: 700; font-size: 15px; color: {{pinAfterInk}}; background: {{pinAfterBg}}; border: 2px solid #2E2A3B; border-radius: 12px 18px 10px 16px; padding: 8px 16px; min-height: 44px; cursor: pointer">After my push</button>
+</div>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 20px; align-items: center">
+<div style="flex: 0 0 200px; height: 360px; box-sizing: border-box; border: 3px solid #2E2A3B; border-radius: 30px; background: #FFFDF8; padding: 28px 16px 16px; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; color: #A01E2B">Your drone has arrived</p>
+<sc-if value="{{pinIsBefore}}" hint-placeholder-val="{{ true }}">
+<p class="pop" style="margin: 0; font-size: 14px">Enter the 6-digit PIN from your order email to open the box.</p>
+<div class="pop" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px"><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span><span style="height: 30px; border: 1.5px solid #8C8496; border-radius: 6px"></span></div>
+<p class="pop" style="margin: 0; font-size: 12px; color: #5A5468">Can't find it? Check your email.</p>
+</sc-if>
+<sc-if value="{{pinIsAfter}}" hint-placeholder-val="{{ false }}">
+<p class="pop" style="margin: 0; font-size: 14px">Take your medicine from the drone, then tap below.</p>
+<span class="pop" style="display: flex; align-items: center; justify-content: center; text-align: center; background: #A01E2B; color: #FFFFFF; font-weight: 700; font-size: 18px; border-radius: 14px; padding: 18px 10px">I got my medicine</span>
+<p class="pop" style="margin: 0; font-size: 12px; color: #5A5468">Or press the button on the drone.</p>
+</sc-if>
+</div>
+<p class="pop" style="flex: 1 1 160px; margin: 0; font-family: 'Caveat', cursive; font-size: 25px; font-weight: 700; line-height: 1.25">{{pinNote}}</p>
+</div>
+</div>
+
+<div style="position: relative; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 500 640" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 22 C 160 8, 340 16, 488 12 C 496 220, 494 430, 486 628 C 340 636, 160 634, 16 630 C 6 430, 8 220, 12 22 Z" fill="#E4EEF7" filter="url(#wc)"></path></svg>
+<h3 style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-size: 25px">2. Large text for older users</h3>
+<div style="position: relative; display: flex; gap: 8px">
+<button type="button" onClick="{{ltBefore}}" aria-pressed="{{ltBeforePressed}}" style="font: inherit; font-weight: 700; font-size: 15px; color: {{ltBeforeInk}}; background: {{ltBeforeBg}}; border: 2px solid #2E2A3B; border-radius: 16px 12px 18px 10px; padding: 8px 16px; min-height: 44px; cursor: pointer">The idea</button>
+<button type="button" onClick="{{ltAfter}}" aria-pressed="{{ltAfterPressed}}" style="font: inherit; font-weight: 700; font-size: 15px; color: {{ltAfterInk}}; background: {{ltAfterBg}}; border: 2px solid #2E2A3B; border-radius: 12px 18px 10px 16px; padding: 8px 16px; min-height: 44px; cursor: pointer">What we shipped</button>
+</div>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 20px; align-items: center">
+<div style="flex: 0 0 200px; height: 360px; box-sizing: border-box; border: 3px solid #2E2A3B; border-radius: 30px; background: #FFFDF8; padding: 28px 16px 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden">
+<p style="margin: 0; font-size: {{ltTitle}}; font-weight: 700; line-height: 1.15">How can we help?</p>
+<span style="border: 2px solid #A01E2B; border-radius: 12px; padding: 10px; font-size: {{ltBody}}; font-weight: 700; color: #A01E2B">Emergency delivery</span>
+<span style="border: 1.5px solid #8C8496; border-radius: 12px; padding: 10px; font-size: {{ltBody}}; font-weight: 700">Normal delivery</span>
+<sc-if value="{{ltIsAfter}}" hint-placeholder-val="{{ false }}">
+<button type="button" class="pop" onClick="{{toggleBig}}" aria-pressed="{{bigPressed}}" style="margin-top: auto; font: inherit; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #F3ECDF; border: none; border-radius: 12px; padding: 10px 12px; min-height: 44px; cursor: pointer; color: #2E2A3B">Large text <span style="width: 38px; height: 22px; border-radius: 11px; background: {{switchBg}}; display: flex; align-items: center; justify-content: {{switchSide}}; padding: 0 3px; box-sizing: border-box"><span style="width: 16px; height: 16px; border-radius: 50%; background: #FFFFFF"></span></span></button>
+</sc-if>
+</div>
+<p class="pop" style="flex: 1 1 160px; margin: 0; font-family: 'Caveat', cursive; font-size: 25px; font-weight: 700; line-height: 1.25">{{ltNote}}</p>
+</div>
+</div>
+
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The hardest call · pricing</p>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
+<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0">There was no product quite like ours to copy a price from, and everyone on the team had a different number in mind. So we benchmarked what each alternative costs for one urgent rural delivery, from drone programs to car couriers, and landed on one flat price.</p>
+<p style="margin: 0">We're the platform, not the fleet: we own no drones and no pharmacies, and keep a small fee on each delivery.</p>
+</div>
+<div style="flex: 1 1 240px; position: relative; padding: 24px 22px"><svg viewBox="0 0 300 140" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="70" rx="145" ry="64" fill="#E9B949" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 44px; line-height: 1">$14.99</p><p style="position: relative; margin: 4px 0 0">flat per urgent delivery within 10 miles</p></div>
+</div>
+<div class="thread">
+<p class="tk">Back to the notes</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700">How each decision answers them</p>
+<div class="tnotes">
+<div class="tnote"><span class="tnum">1</span><span><span class="arrow">answers note 1 &#x2192;</span>Any partner pharmacy, at any hour, can send a drone.</span></div>
+<div class="tnote"><span class="tnum">2</span><span><span class="arrow">answers note 2 &#x2192;</span>One tap to order, no PIN, and a large-text mode.</span></div>
+<div class="tnote"><span class="tnum">3</span><span><span class="arrow">answers note 3 &#x2192;</span>One platform, with an app each for patients, pharmacies and drone operators.</span></div>
+<div class="tnote"><span class="tnum">4</span><span><span class="arrow">answers note 4 &#x2192;</span>Can't be settled at a desk. Only testing with real users can answer this one.</span></div>
+</div></div>
+</section>
+
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">One tap, large text, $14.99. Did it fly?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The crew</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · Pre-flight check</a><a href="#decisions" class="st done"><span aria-hidden="true">&#x2713;</span> 3 · Change of course</a><a href="#results" class="st next"><span class="up">Up next</span> 4 · Touchdown</a></div>
+</nav>
+<section class="chapter" data-video-wrap="1" style="--tint: #EAF4EC; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="results" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #2F6B45">04</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2F6B45">Part 4 of 4 · Solution &amp; results</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Touchdown</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Did it work?</p>
+</div>
+</div>
+<div class="thread">
+<p class="tk">The four notes, one last time</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700">Did we solve them?</p>
+<div class="tnotes">
+<div class="tnote"><span class="tnum">1</span><span><b style="display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: #2F6B45">Solved</b>Order to door works end to end in our MVP, in about 20 minutes (simulated).</span><svg class="tcheck" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13"></circle><path d="M8 15.5 L 13 20.5 L 22.5 9.5"></path></svg><span class="sr"></span></div>
+<div class="tnote"><span class="tnum">2</span><span><b style="display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: #2F6B45">Solved</b>One-tap ordering and large-text mode are built.</span><svg class="tcheck" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13"></circle><path d="M8 15.5 L 13 20.5 L 22.5 9.5"></path></svg><span class="sr"></span></div>
+<div class="tnote"><span class="tnum">3</span><span><b style="display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: #2F6B45">Solved</b>A working MVP of all three apps.</span><svg class="tcheck" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13"></circle><path d="M8 15.5 L 13 20.5 L 22.5 9.5"></path></svg><span class="sr"></span></div>
+<div class="tnote open"><span class="tnum">4</span><span><b style="display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: #B0573F">Still open</b>Not yet tested with real older adults. That's next.</span><svg class="tcheck" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13"></circle></svg><span class="sr"></span></div>
+</div></div>
+
+<p style="margin: 0; max-width: 760px">Our working MVP: the patient app, the pharmacy desk and the operator console, side by side. Jump to any step.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px">
+<sc-for list="{{chapters}}" as="ch" hint-placeholder-count="5">
+<button type="button" class="chap" onClick="{{ch.seek}}" aria-pressed="{{ch.pressed}}" style="text-align: left; font: inherit; color: {{ch.ink}}; background: {{ch.bg}}; border: 2px solid #2E2A3B; border-radius: 16px 12px 18px 10px; padding: 10px 14px; min-height: 44px; cursor: pointer"><span style="display: block; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">{{ch.n}}</span><span style="display: block; font-size: 14px; font-weight: 700">{{ch.label}}</span></button>
+</sc-for>
+</div>
+<div id="demo" style="position: relative; scroll-margin-top: 120px; padding: 14px; background: #2E2A3B; border-radius: 22px 18px 24px 16px">
+<video src="assets/carelift-demo.mp4" poster="assets/carelift-poster.jpg" controls="controls" playsinline="playsinline" preload="metadata" style="display: block; width: 100%; height: auto; border-radius: 12px; background: #FFFFFF"></video>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">What we shipped</p><p style="margin: 6px 0 0">A working MVP of all three apps in 6 weeks, with large-text mode and a one-tap 911 button. Prescriptions and drone dispatch are simulated until partners are in place.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0"><strong>Not yet tested with real users:</strong> only our team has used the MVP so far. The 20-minute delivery and the flow for older users still need a real pilot.</p></div>
+</div>
+<div class="tplan">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we'll know it worked · our first pilot</p>
+<p style="margin: 0">We only tested the flow end to end inside our team, with prescriptions and drones simulated. This is the test I would run next, with the bar set by the product outcome we aimed for:</p>
+<div class="tgrid">
+<div><b>Under 30 min</b><span>from request to door, on real rural routes</span></div>
+<div><b>4 of 5</b><span>older adults or caregivers place an order with no help</span></div>
+<div><b>Under 2 min</b><span>to order, from opening the app</span></div>
+<div><b>Yes from pharmacists</b><span>they'd confirm an Rx in the pharmacy desk without calling us</span></div>
+</div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">flight log · my reflection</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.5deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what went well</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Narrowing to rural older patients. It made every later decision easier.</li><li>Judging flows by the user's real moment, like an emergency, not by the spec.</li></ul></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(0.4deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">what didn't</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>We designed for older patients without testing with one. Only our team used the MVP.</li><li>Pricing took long because we debated opinions before we had benchmarks.</li></ul></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.3deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">next time</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Put the MVP in front of rural seniors and caregivers early.</li><li>Gather price benchmarks first, then decide.</li></ul></div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px 56px; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">what's next</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 24px; line-height: 1.4; max-width: 840px">We didn't win, but we didn't stop. We're turning CareLift into a startup, and applying for funding from U-M's Center for Entrepreneurship to run real research with rural patients, pharmacists and paramedics.</p>
+</section>
+
+<nav class="endnav" aria-label="Case studies">
+<p class="thanks">Thanks for reading to the end!</p>
+<div class="row">
+<a class="prev" href="campusbite.html"><span aria-hidden="true">&#x2190;</span><span><small>Previous case</small>CampusBite</span></a>
+<a class="home" href="index.html"><span aria-hidden="true">&#x2302;</span> Back to Homepage</a>
+<a class="next" href="catalyst.html"><span><small>Next case</small>BCC Catalyst Lab</span><span aria-hidden="true">&#x2192;</span></a>
+</div>
+</nav>
+
+</div>
+</template>
+<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":8400}}'>
+class Component extends DCLogic {
+componentDidMount() {
+const set = () => {
+const h = document.documentElement;
+const max = (h.scrollHeight - window.innerHeight) || 1;
+h.style.setProperty('--p', Math.min(1, Math.max(0, window.scrollY / max)).toFixed(4));
+h.style.setProperty('--d', Math.min(1, (window.scrollY + window.innerHeight * 0.75) / (h.scrollHeight || 1)).toFixed(4));
+};
+set();
+window.addEventListener('scroll', set, { passive: true });
+window.addEventListener('resize', set);
+const parts = ['basics', 'research', 'decisions', 'results'].map(id => document.getElementById(id)).filter(Boolean);
+if (window.IntersectionObserver && parts.length) {
+const io = new IntersectionObserver(entries => {
+entries.forEach(e => { if (e.isIntersecting) document.documentElement.setAttribute('data-part', e.target.id); });
+}, { rootMargin: '-40% 0px -55% 0px' });
+parts.forEach(p => io.observe(p));
+}
+}
+renderVals() {
+// ===== EDIT ME =====
+// 1) Teammates: paste each portfolio or LinkedIn URL. A name without a URL shows as plain text.
+const TEAM = [
+  { name: 'Chih-Chi (Joan) Huang', role: 'Product Manager (me)', url: '' },
+  { name: 'Kyeongchan Choi', role: '', url: 'https://www.linkedin.com/in/kyeongchan-choi-9571a9256/' },
+  { name: 'Seren', role: '', url: '' },
+  { name: 'Gyuri', role: '', url: '' },
+  { name: 'Jeannelle Lee', role: '', url: 'https://www.linkedin.com/in/jeannelle-lee/' }
+];
+// 2) Optional photos of real artifacts (affinity map, sketches, wireframes). Put images in assets/.
+//    e.g. { src: 'assets/carelift-affinity.jpg', alt: 'Affinity map', caption: 'Affinity map from 5 pharmacist interviews' }
+const ARTIFACTS = [];
+// ===================
+const st = this.state || {};
+const dark = '#2E2A3B', light = '#FBF7EF';
+const optData = [
+{ label: 'Ask a neighbor to drive her', stat: '85 min', ink: '#A04A2E', text: 'A 36-mile round trip, about $27 in car costs, and the pharmacy is already closed.' },
+{ label: 'Go to the ER', stat: '~$646', ink: '#A04A2E', text: 'The average out-of-pocket ER visit, just for a missing dose.' },
+{ label: 'Wait until morning', stat: '≥10%', ink: '#A04A2E', text: 'of U.S. hospital stays come from missed medicines. Skipping a heart pill is a real risk.' },
+{ label: 'Order on CareLift', stat: '~20 min', ink: '#2F6B45', text: 'Her medicine flies to the door. She pays a flat $14.99 for the delivery.' }
+];
+const oSel = st.opt === undefined ? 3 : st.opt;
+const opts = optData.map((o, i) => Object.assign({}, o, {
+pressed: i === oSel ? 'true' : 'false',
+bg: i === oSel ? '#FFFDF8' : 'rgba(255,253,248,0.5)',
+border: i === oSel ? dark : 'transparent',
+pick: () => this.setState({ opt: i })
+}));
+const after = !!st.after;
+const pinA = st.pin === undefined ? false : st.pin;
+const ltA = st.lt === undefined ? false : st.lt;
+const big = st.big === undefined ? true : st.big;
+const showLarge = !ltA || big;
+const chapData = [
+{ n: '1', label: 'Margaret orders', t: 35 }, { n: '2', label: 'Pharmacy packs it', t: 47 },
+{ n: '3', label: 'Drone dispatched', t: 55 }, { n: '4', label: 'Tracked live', t: 63 }, { n: '5', label: 'At the door', t: 79 }
+];
+const chapters = chapData.map((c, i) => {
+const on = st.chapter === i;
+return Object.assign({}, c, {
+pressed: on ? 'true' : 'false', bg: on ? dark : '#FFFDF8', ink: on ? light : dark,
+seek: (e) => {
+const el = e && e.currentTarget;
+const wrap = el && el.closest ? el.closest('[data-video-wrap]') : null;
+const v = wrap ? wrap.querySelector('video') : null;
+if (v) { try { v.currentTime = c.t; const p = v.play(); if (p && p.catch) p.catch(function(){}); } catch (err) {} }
+this.setState({ chapter: i });
+}
+});
+});
+return {
+team: TEAM.map(m => ({ name: m.name, role: m.role, url: m.url, linked: !!m.url, plain: !m.url })),
+artifacts: ARTIFACTS, hasArtifacts: ARTIFACTS.length > 0,
+opts: opts, cur: optData[oSel], chapters: chapters,
+chaosBefore: !after, chaosAfter: after,
+showBefore: () => this.setState({ after: false }), showAfter: () => this.setState({ after: true }),
+beforePressed: after ? 'false' : 'true', afterPressed: after ? 'true' : 'false',
+beforeBg: after ? 'transparent' : dark, beforeInk: after ? dark : light,
+afterBg: after ? dark : 'transparent', afterInk: after ? light : dark,
+pinIsBefore: !pinA, pinIsAfter: pinA,
+pinBefore: () => this.setState({ pin: false }), pinAfter: () => this.setState({ pin: true }),
+pinBeforePressed: pinA ? 'false' : 'true', pinAfterPressed: pinA ? 'true' : 'false',
+pinBeforeBg: pinA ? 'transparent' : dark, pinBeforeInk: pinA ? dark : light,
+pinAfterBg: pinA ? dark : 'transparent', pinAfterInk: pinA ? light : dark,
+pinNote: pinA ? 'One tap, or one button on the drone. Nothing to remember.' : 'Margaret is 74. In an emergency, she will not be hunting for a PIN.',
+ltIsAfter: ltA,
+ltBefore: () => this.setState({ lt: false }), ltAfter: () => this.setState({ lt: true }),
+ltBeforePressed: ltA ? 'false' : 'true', ltAfterPressed: ltA ? 'true' : 'false',
+ltBeforeBg: ltA ? 'transparent' : dark, ltBeforeInk: ltA ? dark : light,
+ltAfterBg: ltA ? dark : 'transparent', ltAfterInk: ltA ? light : dark,
+ltTitle: showLarge ? '26px' : '18px', ltBody: showLarge ? '19px' : '14px',
+toggleBig: () => this.setState({ big: !big }), bigPressed: big ? 'true' : 'false',
+switchBg: big ? '#2F6B45' : '#B8B0C2', switchSide: big ? 'flex-end' : 'flex-start',
+ltNote: ltA ? 'A switch, not a rule. Often it is her daughter ordering, not Margaret. Try it.' : 'Our engineer’s idea: a large-text app for older users. Great idea, but who is actually ordering?'
+};
+}
+}
+</script>
+<script src="assets/morphdom.min.js"></script>
+<script src="assets/dc-lite.js"></script>
+<noscript><p style="font-family:sans-serif;padding:24px">This site needs JavaScript. Contact: chihchi@umich.edu</p></noscript>
+</body>
+</html>

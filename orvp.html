@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study: ORVP funding-call tool</title>
+<meta name="description" content="Case study: turning 30-page funding calls into setup-ready data with a human-in-the-loop AI workflow.">
+<meta property="og:title" content="Case study: ORVP funding-call tool">
+<meta property="og:description" content="Case study: turning 30-page funding calls into setup-ready data with a human-in-the-loop AI workflow.">
+<meta property="og:image" content="assets/joan.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23E9B949'/%3E%3Cpath d='M16 36c6-14 14 8 20-8s10 2 14-6' fill='none' stroke='%232E2A3B' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500,100;9..144,700,100&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+.hfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;width:100%;max-width:860px;margin:8px auto 0;padding:0}
+.hfacts div{background:rgba(255,253,248,.85);border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:12px 14px;text-align:left}
+.hfacts dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5468}
+.hfacts dd{margin:2px 0 0;font-weight:500}
+.hwatch{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 22px;box-sizing:border-box;background:#2E2A3B;color:#FBF7EF !important;text-decoration:none;font-weight:700;border-radius:26px 20px 28px 22px}
+.team{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.team li{display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline}.team b{font-weight:500}.team a{font-weight:700}
+.team span{font-size:14px;color:#5A5468}
+body{margin:0;background:#FBF7EF}
+a{color:#2E2A3B}a:hover{color:#7A5BA8}
+.flip{transition:transform .2s ease}
+.flip:hover{transform:translateY(-4px) rotate(-0.4deg)}
+.field{transition:transform .15s ease}
+.field:hover{transform:translateX(4px)}
+.draw{stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.4s ease forwards}
+.pop{animation:pop .35s ease}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.draw{animation:none;stroke-dashoffset:0}.pop{animation:none}.flip:hover,.field:hover{transform:none}}
+@media (max-width: 640px){h1{font-size:38px !important}h2{font-size:30px !important}}
+.lane{position:relative;height:46px;border-top:1px dashed rgba(46,42,59,0.12)}.progress{position:absolute;left:0;bottom:7px;height:2.34px;width:calc(var(--p,0) * (100% - 94.8px));background:#E42E2D;border-radius:2px 0 0 2px;box-shadow:0 .4px 0 rgba(74,13,16,.6),0 -.4px 0 rgba(74,13,16,.4);pointer-events:none}.progress::after{content:'';position:absolute;left:calc(100% - 1px);bottom:-4.92px;width:94.8px;height:44px;background:url(assets/dog-walk-thick.png) left bottom/contain no-repeat}@media (max-width: 640px){.progress{height:1.91px;width:calc(var(--p,0) * (100% - 77.5px))}.progress::after{width:77.5px;height:36px;bottom:-4.03px}}
+.spine{position:absolute;top:0;height:100%;left:calc(50% - 604px);width:48px;pointer-events:none;z-index:0}
+.spine path{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,0))}
+@media (max-width: 1200px){.spine{display:none}}
+@supports (animation-timeline: view()){.rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 35%}@keyframes rv{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}}
+@media (prefers-reduced-motion: reduce){.rv{animation:none !important}.spine path{stroke-dashoffset:0}.progress{display:none}}
+.chapter{background:var(--tint);border-radius:40px 30px 44px 34px;margin:48px auto !important;box-shadow:0 18px 44px rgba(46,42,59,0.10);border:1.5px solid rgba(46,42,59,0.06)}
+.chap-open{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px 26px;padding:0 0 18px;border-bottom:2px dashed rgba(46,42,59,0.25);scroll-margin-top:140px}
+.chap-num{position:relative;font-family:'Fraunces',serif;font-weight:700;font-size:84px;line-height:.85;letter-spacing:-0.03em}
+.bloom{position:absolute;left:-26px;top:45%;width:170px;height:140px;translate:0 -50%;pointer-events:none}
+@supports (animation-timeline: view()){
+.chapter{animation:panelIn linear both;animation-timeline:view();animation-range:entry 0% entry 25%}
+.chap-num{animation:numIn linear both;animation-timeline:view();animation-range:entry 5% cover 25%}
+.bloom{animation:bloom linear both;animation-timeline:view();animation-range:entry 5% cover 30%}
+@keyframes panelIn{from{opacity:0;translate:0 70px;scale:.96}to{opacity:1;translate:0 0;scale:1}}
+@keyframes numIn{from{opacity:0;translate:-60px 0}to{opacity:1;translate:0 0}}
+@keyframes bloom{from{opacity:0;scale:.3}to{opacity:1;scale:1}}
+}
+.toc a{border-radius:999px;padding:0 12px;transition:background .3s ease,color .3s ease}
+html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc a[href="#research"],html[data-part="decisions"] .toc a[href="#decisions"],html[data-part="results"] .toc a[href="#results"]{background:#2E2A3B;color:#FBF7EF}
+@media (max-width: 640px){.chap-num{font-size:64px}.chapter{border-radius:28px;margin:28px 12px !important}}
+@media (prefers-reduced-motion: reduce){.chapter,.chap-num,.bloom{animation:none !important}}
+.tile{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:150px;padding:20px;text-align:center;background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:24px 18px 26px 20px;text-decoration:none;color:#2E2A3B;box-shadow:0 10px 24px rgba(46,42,59,0.08);transition:transform .2s ease,box-shadow .2s ease}
+.tile:hover{transform:translateY(-6px) rotate(-0.6deg);box-shadow:0 18px 34px rgba(46,42,59,0.14)}
+.tile-num{position:absolute;left:50%;top:50%;translate:-50% -50%;font-family:'Fraunces',serif;font-weight:700;font-size:120px;line-height:1;opacity:.12;pointer-events:none}
+.chap-open{justify-content:center !important;text-align:center;background:#FFFDF8;border:1.5px solid #E6DCCB !important;border-radius:28px 22px 30px 24px;padding:30px 24px !important;max-width:600px;width:100%;margin:0 auto 10px;box-shadow:0 10px 24px rgba(46,42,59,0.08);overflow:hidden}
+.chap-open > div{align-items:center}
+.chap-num{position:absolute !important;left:50%;top:50%;translate:-50% -50%;font-size:150px !important;opacity:.13;pointer-events:none}
+.chap-open .bloom{display:none}
+@supports (animation-timeline: view()){.chap-num{animation:none !important}}
+.stars{display:flex;justify-content:center;gap:18px;margin:8px 0}
+@media (max-width: 640px){.tile-num{font-size:90px}.chap-num{font-size:110px !important}}
+@media (prefers-reduced-motion: reduce){.tile:hover{transform:none}}
+.drift-a{animation:drift 14s ease-in-out infinite alternate}
+.drift-b{animation:drift 19s ease-in-out infinite alternate-reverse}
+.drift-c{animation:drift 24s ease-in-out infinite alternate}
+@keyframes drift{from{translate:-28px 0}to{translate:28px 0}}
+.float{animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -10px}}
+.breathe{transform-box:fill-box;transform-origin:center;animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{scale:1}50%{scale:1.06}}
+.mag{animation:mag 5s ease-in-out infinite}
+@keyframes mag{0%,100%{translate:0 0}30%{translate:-70px -40px}60%{translate:-40px 10px}}
+.hl{stroke-dasharray:90;animation:hl 5s ease-in-out infinite}
+@keyframes hl{0%{stroke-dashoffset:90}35%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-90}}
+.pin{animation:pin 2.4s ease-in-out infinite}
+@keyframes pin{0%,100%{translate:0 0}40%{translate:0 -14px}55%{translate:0 0}65%{translate:0 -4px}}
+.wob{animation:wob 3.6s ease-in-out infinite}
+@keyframes wob{0%,100%{translate:0 0}50%{translate:-4px 5px}}
+.hov{animation:hov 3s ease-in-out infinite}
+@keyframes hov{0%,100%{translate:0 0}50%{translate:6px -12px}}
+.rotor{transform-box:fill-box;transform-origin:center;animation:rotor .25s linear infinite}
+@keyframes rotor{0%,100%{scale:1 1}50%{scale:.55 1}}
+.p1{animation:walk 1.6s ease-in-out infinite}
+.p2{animation:walk 1.6s ease-in-out -.5s infinite}
+.p3{animation:walk 1.6s ease-in-out -1s infinite}
+@keyframes walk{0%,100%{translate:0 0}50%{translate:0 -6px}}
+.check{stroke-dasharray:60;animation:hl2 3.2s ease-in-out infinite}
+@keyframes hl2{0%{stroke-dashoffset:60}40%,90%{stroke-dashoffset:0}100%{stroke-dashoffset:60}}
+.card:hover .hov,.card:hover .pin,.card:hover .mag,.card:hover .p1,.card:hover .p2,.card:hover .p3{animation-duration:1s}
+@media (prefers-reduced-motion: reduce){.drift-a,.drift-b,.drift-c,.float,.breathe,.mag,.hl,.pin,.wob,.hov,.rotor,.p1,.p2,.p3,.check{animation:none !important}}
+.chap-open h2{font-size:30px !important}
+.chap-num{font-size:110px !important}
+@media (max-width: 640px){.chap-open{position:relative !important;top:auto}}
+.tocbar::after{content:"";position:absolute;left:0;right:0;top:100%;height:36px;pointer-events:none;background:linear-gradient(rgba(251,247,239,0.85),rgba(251,247,239,0))}
+
+.obtn{font:inherit;font-weight:700;color:#2E2A3B;background:#FFFDF8;border:2px solid #2E2A3B;border-radius:16px 22px 14px 24px;padding:10px 18px;min-height:48px;cursor:pointer}
+.obtn.dark{background:#2E2A3B;color:#FBF7EF}
+.obar{display:block;height:12px;border-radius:6px;background:rgba(46,42,59,.08);overflow:hidden}.obar>i{display:block;height:100%;border-radius:6px;transition:width .8s ease}
+.odoc{height:360px;overflow-y:auto;padding:8px 10px 40px;scroll-behavior:smooth;font-family:Georgia,'Times New Roman',serif}
+.opage{margin:14px 6px 4px;font-family:'DM Sans',system-ui,sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#A39886;border-top:1px dashed #E6DCCB;padding-top:8px}
+.opara{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;font:inherit;font-size:15px;line-height:1.55;color:#3B3646;background:none;border:none;border-radius:6px;padding:4px 8px;cursor:text;flex-wrap:wrap}
+.osim[data-mode="hunt"] .opara{cursor:pointer}.osim[data-mode="hunt"] .opara:hover{background:rgba(42,95,143,.08)}
+.opg{flex:0 0 40px;font-family:'DM Sans',system-ui,sans-serif;font-size:12px;font-weight:700;color:#A39886}
+.otext{flex:1 1 0;min-width:0;background-image:linear-gradient(transparent 0,transparent 0);background-repeat:no-repeat;background-size:0 100%}
+.opara.hl .otext{background-image:linear-gradient(rgba(233,185,73,.55),rgba(233,185,73,.55));background-size:100% 100%}
+.opara.warn .otext{background-image:linear-gradient(rgba(229,154,140,.6),rgba(229,154,140,.6));background-size:100% 100%}
+.opara.hl.k0 .otext,.opara.warn.k0 .otext{animation:osw0 .7s ease-out}.opara.hl.k1 .otext,.opara.warn.k1 .otext{animation:osw1 .7s ease-out}.opara.hl.k2 .otext,.opara.warn.k2 .otext{animation:osw2 .7s ease-out}.opara.hl.k3 .otext,.opara.warn.k3 .otext{animation:osw3 .7s ease-out}
+@keyframes osw0{from{background-size:0 100%}to{background-size:100% 100%}}@keyframes osw1{from{background-size:0 100%}to{background-size:100% 100%}}@keyframes osw2{from{background-size:0 100%}to{background-size:100% 100%}}@keyframes osw3{from{background-size:0 100%}to{background-size:100% 100%}}
+.opara.found .otext{background-image:linear-gradient(rgba(125,176,140,.5),rgba(125,176,140,.5));background-size:100% 100%}
+.opara.nope{animation:onope .35s}@keyframes onope{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.otag{flex:0 0 auto;margin-left:50px;font-family:'DM Sans',system-ui,sans-serif;font-size:12px;font-weight:700;color:#2E2A3B;border-radius:10px;padding:2px 10px}
+@media (prefers-reduced-motion: reduce){.otext{animation:none !important}.odoc{scroll-behavior:auto}.opara.nope{animation:none}}
+
+.cstrip{position:relative;max-width:1040px;margin:0 auto;padding:30px 32px 26px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.cstrip .tease{margin:0;max-width:640px;font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1.3;color:#2E2A3B}
+.cstrip .tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.cstrip .st{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border-radius:14px 18px 12px 16px;font-weight:700;font-size:14px;text-decoration:none;color:#5A5468;background:#FFFDF8;border:1.5px dashed rgba(46,42,59,.22)}
+.cstrip .st.done{color:#2F6B45;border-style:solid;border-color:#B9D6C1;background:#F1F7F2}
+.cstrip .st.next{color:#2E2A3B;background:#FFFDF8;border:2px solid #2E2A3B;font-size:16px;padding:8px 16px;flex-direction:column;align-items:flex-start;gap:0;line-height:1.25}.cstrip .st.next .up{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7A5BA8}
+@media (prefers-reduced-motion: reduce){.cstrip .st.next,.cstrip .st.next .arr{animation:none}}
+@supports (animation-timeline: view()){section.chapter{animation:chin linear both;animation-timeline:view();animation-range:entry 0% entry 60%}}
+@keyframes chin{from{opacity:0;translate:0 60px}to{opacity:1;translate:0 0}}
+@media (prefers-reduced-motion: reduce){section.chapter{animation:none}}
+
+.thread{display:flex;flex-direction:column;gap:12px}
+.thread .tk{margin:0;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5468}
+.tnotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.tnote{position:relative;display:flex;gap:10px;align-items:flex-start;padding:16px 16px 18px;background:#FFF6CF;border-radius:4px 4px 14px 4px;box-shadow:0 8px 14px rgba(46,42,59,.10);font-size:15.5px;line-height:1.45;color:#2E2A3B}
+.tnote:nth-child(4n+1){transform:rotate(-1.2deg)}.tnote:nth-child(4n+2){transform:rotate(.9deg);background:#FDE6DE}.tnote:nth-child(4n+3){transform:rotate(-.6deg);background:#E3F0E6}.tnote:nth-child(4n+4){transform:rotate(1.1deg);background:#E8E2F5}
+.tnote::before{content:'';position:absolute;top:-8px;left:50%;width:54px;height:16px;transform:translateX(-50%) rotate(-3deg);background:rgba(255,255,255,.65);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.tnum{flex:0 0 30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:700;background:#2E2A3B;color:#FBF7EF;font-size:15px}
+.tnote .arrow{display:block;font-family:'Caveat',cursive;font-size:20px;font-weight:700;color:#5A5468;margin-bottom:2px}
+.tcheck{flex:0 0 30px;height:30px}
+.tcheck circle{fill:none;stroke:#2E2A3B;stroke-width:2}
+.tcheck path{fill:none;stroke:#2F6B45;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:0}
+.tnote.open .tcheck circle{stroke-dasharray:4 4}
+@supports (animation-timeline: view()){.tcheck path{animation:tdraw linear both;animation-timeline:view();animation-range:entry 30% cover 45%}.tnote{animation:tpin linear both;animation-timeline:view();animation-range:entry 0% cover 30%}}
+@keyframes tdraw{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}
+@keyframes tpin{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+@media (prefers-reduced-motion: reduce){.tcheck path,.tnote{animation:none}}
+
+.endnav{position:relative;max-width:1040px;margin:0 auto;padding:16px 32px 72px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.endnav .thanks{margin:0;text-align:center;font-family:'Caveat',cursive;font-size:30px;font-weight:700;color:#5A5468}
+.endnav .row{width:100%;display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
+.endnav a{min-height:52px;box-sizing:border-box;display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;color:#2E2A3B}
+.endnav .prev{justify-self:start;font-size:16px;padding:12px 4px}
+.endnav .prev small,.endnav .next small{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.7;font-weight:700}
+.endnav .home{justify-self:center;background:#FFFDF8;border:2px solid #2E2A3B;border-radius:22px 28px 20px 26px;padding:12px 22px;font-size:16px}
+.endnav .next{justify-self:end;text-align:right;background:#2E2A3B;color:#FBF7EF;border-radius:26px 20px 28px 22px;padding:12px 22px;font-size:16px}
+.endnav a:hover{transform:translateY(-2px)}.endnav a:focus-visible{outline:3px solid #7A5BA8;outline-offset:3px}
+@media (max-width: 640px){.endnav .row{grid-template-columns:1fr;justify-items:stretch}.endnav .prev,.endnav .home,.endnav .next{justify-self:stretch;justify-content:center;text-align:center}.endnav .home{order:3}}
+</style>
+<style>#app{min-height:100vh}</style>
+</head>
+<body>
+<div id="app"></div>
+<template id="dc-template">
+
+<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.65; overflow-x: clip">
+
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0">
+<defs>
+<filter id="wc" x="-25%" y="-25%" width="150%" height="150%">
+<feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="4" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feGaussianBlur in="d" stdDeviation="1.6" result="b"></feGaussianBlur>
+<feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="9" result="m"></feTurbulence>
+<feColorMatrix in="m" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.9 1.25" result="ma"></feColorMatrix>
+<feComposite in="b" in2="ma" operator="in"></feComposite>
+</filter>
+<filter id="pc" x="-10%" y="-10%" width="120%" height="120%">
+<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="2" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="5" result="g"></feTurbulence>
+<feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2 1.6" result="ga"></feColorMatrix>
+<feComposite in="d" in2="ga" operator="in"></feComposite>
+</filter>
+<filter id="paper" x="0" y="0" width="100%" height="100%">
+<feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="11" result="n"></feTurbulence>
+<feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0 0.28  0 0 0 0.10 0"></feColorMatrix>
+</filter>
+</defs>
+</svg>
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"><rect width="100%" height="100%" filter="url(#paper)"></rect></svg>
+
+<header style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="index.html" style="text-decoration: none; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">Chih-Chi (Joan) Huang</a>
+<a href="index.html#work" style="font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← back to all work</a>
+</header>
+
+<nav class="tocbar" aria-label="On this page" style="position: sticky; top: 0; z-index: 5; background: rgba(251,247,239,0.72); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1.5px solid rgba(230,220,203,0.8)">
+<div class="toc" style="max-width: 1040px; margin: 0 auto; padding: 8px 32px; display: flex; flex-wrap: wrap; gap: 6px 10px; font-weight: 700; font-size: 15px">
+<a href="#basics" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">1 · The team</a>
+<a href="#research" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">2 · The puzzle</a>
+<a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · Cracking it</a>
+<a href="#results" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">4 · Decoded</a>
+</div>
+<div class="lane" aria-hidden="true"><div class="progress"></div></div>
+</nav>
+
+<section style="position: relative; padding: 40px 32px 56px; overflow-x: clip">
+<svg viewBox="0 0 1440 600" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<rect x="-40" y="0" width="1520" height="600" fill="#EFEAF7"></rect>
+<path class="drift-b" d="M-40 380 C 300 350, 700 400, 1060 365 S 1400 380, 1480 370 L 1480 470 C 1100 490, 700 455, 300 485 S 0 470, -40 475 Z" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.6"></path>
+</svg>
+<div style="position: relative; max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center">
+<svg viewBox="0 0 400 210" style="position: relative; width: 100%; max-width: 520px; height: auto; display: block; margin: 0 auto" role="img" aria-label="Watercolor illustration of stacked documents under a magnifying glass">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.5"></ellipse>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round">
+<rect x="118" y="46" width="120" height="140" rx="6" fill="#FFFDF8" transform="rotate(-6 178 116)"></rect>
+<rect x="138" y="38" width="120" height="140" rx="6" fill="#FFFDF8"></rect>
+<path d="M156 70 H 240 M156 92 H 228 M156 114 H 236 M156 136 H 214" fill="none"></path>
+<circle class="mag" cx="268" cy="130" r="34" fill="none"></circle>
+<path class="mag" d="M292 154 L 322 184" fill="none" style="stroke-width: 5"></path>
+</g>
+<path class="hl" d="M154 92 H 230" stroke="#E9B949" filter="url(#wc)" style="stroke-width: 12; opacity: 0.7"></path>
+<path class="hl" d="M154 136 H 216" stroke="#E9B949" filter="url(#wc)" style="stroke-width: 12; opacity: 0.7"></path>
+</svg>
+
+<p style="position: relative; margin: 0 auto; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A4790">Case study · U-M Office of the VP for Research</p>
+<h1 style="position: relative; margin: 0 auto; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 860px">Turning 30-page funding calls into setup-ready data</h1>
+<p style="position: relative; margin: 0 auto; font-size: 21px; color: #4A4458; max-width: 720px">An AI assistant that reads a funding call and fills in what the research office needs, with every answer tied to its source, so staff check instead of hunt.</p>
+<dl class="hfacts">
+<div><dt>My role</dt><dd>Product Manager</dd></div>
+<div><dt>Team</dt><dd>4 · <a href="#basics">see who</a></dd></div>
+<div><dt>Timeline</dt><dd>Fall 2026 · about 2 months</dd></div>
+<div><dt>Tools</dt><dd>Figma · Notion · U-M GPT</dd></div>
+</dl>
+
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px 8px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center">
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg><svg width="30" height="30" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10" fill="#E9F0F8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2.5"></circle><path d="M24 24 L 35 35" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 4; stroke-linecap: round"></path></svg></div>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 36px">Let's break my process down:</h2>
+<div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px">
+<a href="#basics" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">01</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the team:</span><span style="position: relative; color: #4A4458">the project · role, team, timeline, tools</span></a>
+<a href="#research" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">02</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">the puzzle:</span><span style="position: relative; color: #4A4458">problem &amp; research · users, problem, methods, insights</span></a>
+<a href="#decisions" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">03</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">cracking it:</span><span style="position: relative; color: #4A4458">decisions &amp; pivot · what changed, and why</span></a>
+<a href="#results" class="tile"><span class="tile-num" style="color: #5A4790" aria-hidden="true">04</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">decoded:</span><span style="position: relative; color: #4A4458">solution &amp; results · what we built, what happened</span></a>
+</div>
+</section>
+
+<section class="chapter" style="--tint: #FBEFE6; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="basics" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #A04A2E">01</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A04A2E">Part 1 of 4 · The project</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The team</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Who, when, and what I owned</p>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 28px">
+<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My role · Product Manager</p>
+<p style="margin: 0">I owned the "what" and the "why": I ran the user interviews, wrote the PRD and planned the roadmap. Specifically, I:</p>
+<ul style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px">
+<li>Wrote our interview questions, then mapped how a funding call becomes a competition today from the client's answers</li>
+<li>Asked the client for hands-on access to InfoReady, and logged every field and its limits</li>
+<li>Wrote the PRD: users, essential fields, the four-screen flow, and success metrics</li>
+<li>Planned the roadmap, starting with the most painful step</li>
+</ul>
+</div>
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team</p><ul class="team"><sc-for list="{{team}}" as="m" hint-placeholder-count="4"><li><sc-if value="{{m.linked}}" hint-placeholder-val="{{ false }}"><a href="{{m.url}}" target="_blank" rel="noopener">{{m.name}}</a></sc-if><sc-if value="{{m.plain}}" hint-placeholder-val="{{ true }}"><b>{{m.name}}</b></sc-if><span>{{m.role}}</span></li></sc-for></ul></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Fall 2026 · about 2 months</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Figma (prototype, flowcharts) · Notion (project management) · U-M GPT</p></div>
+</div>
+</div>
+</section>
+
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">Four of us, and a research office buried in long funding calls. What exactly was slowing them down?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The team</a><a href="#research" class="st next"><span class="up">Up next</span> 2 · The puzzle</a><span class="st">3 · Cracking it</span><span class="st">4 · Decoded</span></div>
+</nav>
+<section class="chapter" style="--tint: #F1ECF8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="research" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #5A4790">02</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5A4790">Part 2 of 4 · Problem &amp; research</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">The puzzle</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What was really broken?</p>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 36px; align-items: center">
+<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Target user</p>
+<p style="margin: 0">The research office staff who set up internal competitions for limited-submission funding calls.</p>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Problem statement</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 22px; line-height: 1.4">Staff read every long, dense funding call by hand and map its rules into the right fields in InfoReady, their competition platform. The rules hide in different places in each document, and one missed limit goes out to the whole campus.</p>
+</div>
+<div style="flex: 1 1 280px; display: flex; justify-content: center">
+<svg viewBox="0 0 320 300" style="width: 100%; max-width: 340px; height: auto" role="img" aria-label="Illustration of a tall stack of paper with one highlighted line buried in the middle">
+<ellipse cx="160" cy="160" rx="150" ry="120" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.4"></ellipse>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round">
+<rect x="70" y="70" width="170" height="200" rx="6" fill="#FFFDF8" transform="rotate(-7 155 170)"></rect>
+<rect x="80" y="60" width="170" height="200" rx="6" fill="#FFFDF8" transform="rotate(4 165 160)"></rect>
+<rect x="76" y="50" width="170" height="200" rx="6" fill="#FFFDF8"></rect>
+<path d="M96 80 H 226 M96 98 H 214 M96 116 H 222 M96 134 H 200 M96 152 H 226 M96 170 H 210 M96 188 H 220 M96 206 H 190 M96 224 H 216" fill="none" style="stroke-width: 1.6"></path>
+</g>
+<path d="M94 170 H 212" stroke="#E9B949" filter="url(#wc)" style="stroke-width: 13; opacity: 0.8"></path>
+<text x="226" y="40" style="font-family: 'Caveat', cursive; font-size: 24px; fill: #5A5468">30 pages…</text>
+<text x="316" y="292" text-anchor="end" style="font-family: 'Caveat', cursive; font-size: 22px; fill: #5A5468">the one rule you need</text>
+</svg>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome we aimed for</p><p style="margin: 6px 0 0">Get every key field from a funding call in one step, each tied to its source, with at least 90% accuracy and zero missed critical rules.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Business outcome we aimed for</p><p style="margin: 6px 0 0">Show the office, within the pilot, that university-approved AI can make setup faster and more consistent, and leave behind assets staff can maintain without engineers.</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we researched</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">3</p><p style="margin: 0">client staff answered our question list in one structured session</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">1</p><p style="margin: 0">hands-on walkthrough of the client's competition system</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">7</p><p style="margin: 0">real, public funding calls as our test set</p></div>
+</div>
+<p style="margin: 0; font-size: 16px; color: #4A4458">No competitive analysis: this is an internal tool for one office, so the comparison that mattered was against today's manual process.</p>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Key insights</p>
+<ol style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px">
+<li><strong>The pain is translation, not search.</strong> Finding funding calls was fine. Turning one into a competition was slow and risky.</li>
+<li><strong>Trust needs a source.</strong> Staff would only rely on an answer they could check against the original text in seconds.</li>
+<li><strong>The system has no door.</strong> No API meant any tool had to fit around the system, not inside it.</li>
+</ol>
+<p style="margin: 0; font-size: 15px; color: #5A5468">Our interview notes, flowcharts and wireframes are covered by an NDA, so they are not shown here.</p>
+<div class="thread">
+<p class="tk">What we had to solve</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700">Four notes we pinned to the wall</p>
+<div class="tnotes">
+<div class="tnote"><span class="tnum">1</span><span>Staff find each call on a sponsor's site or in an email, download the criteria, then read every page to map it into the right InfoReady fields.</span></div>
+<div class="tnote"><span class="tnum">2</span><span>Without a source, staff can't trust an AI answer.</span></div>
+<div class="tnote"><span class="tnum">3</span><span>No API, no internal data, and no view of their system.</span></div>
+<div class="tnote"><span class="tnum">4</span><span>Will the staff who use it every day find it helpful?</span></div>
+</div></div>
+</section>
+
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">We knew the pain. But no API, no internal data, no view of their system. How do you build for that?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The team</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · The puzzle</a><a href="#decisions" class="st next"><span class="up">Up next</span> 3 · Cracking it</a><span class="st">4 · Decoded</span></div>
+</nav>
+<section class="chapter" style="--tint: #EAF1F8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="decisions" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #2A5F8F">03</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2A5F8F">Part 3 of 4 · Decisions &amp; pivot</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Cracking it</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What changed our plan?</p>
+</div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The pivot</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch">
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">plan A</p><p style="margin: 4px 0 0">Build the tool <strong>into</strong> the existing competition system, so staff never leave it.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">what changed</p><p style="margin: 4px 0 0">The office's IT policy does not let students build into its systems.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">plan B</p><p style="margin: 4px 0 0">A standalone tool whose output follows the system's exact field order, with one-click copy for each field.</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Working around the constraints · tap a card</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin-top: 6px">
+<sc-for list="{{cards}}" as="c" hint-placeholder-count="3">
+<button type="button" class="flip" onClick="{{c.toggle}}" aria-expanded="{{c.expanded}}" style="position: relative; text-align: left; font: inherit; color: #2E2A3B; background: none; border: none; padding: 30px 26px; min-height: 280px; cursor: pointer; display: flex; flex-direction: column; gap: 10px">
+<svg viewBox="0 0 300 280" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M14 22 C 100 8, 200 16, 286 12 C 294 100, 290 190, 284 266 C 190 274, 100 270, 18 268 C 8 180, 10 100, 14 22 Z" fill="{{c.fill}}" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2; opacity: {{c.op}}"></path></svg>
+<sc-if value="{{c.front}}" hint-placeholder-val="{{ true }}">
+<span style="position: relative; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">What we wanted</span>
+<span style="position: relative; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; line-height: 1.2">{{c.want}}</span>
+<span style="position: relative; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #A04A2E; margin-top: 8px">What we got</span>
+<span style="position: relative; font-family: 'Fraunces', serif; font-size: 22px; line-height: 1.25; text-decoration: line-through; text-decoration-color: #D9705E; text-decoration-thickness: 3px">{{c.got}}</span>
+<span style="position: relative; font-family: 'Caveat', cursive; font-size: 23px; font-weight: 700; margin-top: auto">so what did we do? →</span>
+</sc-if>
+<sc-if value="{{c.back}}" hint-placeholder-val="{{ false }}">
+<span class="pop" style="position: relative; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2F6B45">Our workaround</span>
+<span class="pop" style="position: relative; font-family: 'Fraunces', serif; font-size: 21px; line-height: 1.35">{{c.fix}}</span>
+<span style="position: relative; font-family: 'Caveat', cursive; font-size: 23px; font-weight: 700; margin-top: auto">← flip back</span>
+</sc-if>
+</button>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Key decisions and the evidence behind them</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">AI drafts, a person approves</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: in interviews, one wrong limit goes out to the whole campus. Staff must stay in control of every value.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">Every value shows its source</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: staff said they would only trust an answer they could check against the original text.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">Flag conflicts instead of guessing</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: funding calls often state a rule one way on the overview and another way in the FAQ.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-weight: 700">Start with one step, not the whole workflow</p><p style="margin: 6px 0 0; color: #4A4458">Evidence: the office named translating funding calls as its top priority.</p></div>
+</div>
+<div class="thread">
+<p class="tk">Back to the notes</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700">How each decision answers them</p>
+<div class="tnotes">
+<div class="tnote"><span class="tnum">1</span><span><span class="arrow">answers note 1 &#x2192;</span>Drop in the downloaded criteria. AI maps the content to InfoReady’s fields, in InfoReady’s order, ready to copy with one click.</span></div>
+<div class="tnote"><span class="tnum">2</span><span><span class="arrow">answers note 2 &#x2192;</span>Every value cites its source page. When rules conflict, the tool flags them for a person instead of guessing.</span></div>
+<div class="tnote"><span class="tnum">3</span><span><span class="arrow">answers note 3 &#x2192;</span>We got hands-on access, logged every field and its limits, and tested on public funding calls.</span></div>
+<div class="tnote"><span class="tnum">4</span><span><span class="arrow">answers note 4 &#x2192;</span>Only daily use can answer this one.</span></div>
+</div></div>
+</section>
+
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">A tool staff could trust, on paper. Would it hold up on real funding calls?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · The team</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · The puzzle</a><a href="#decisions" class="st done"><span aria-hidden="true">&#x2713;</span> 3 · Cracking it</a><a href="#results" class="st next"><span class="up">Up next</span> 4 · Decoded</a></div>
+</nav>
+<section class="chapter" style="--tint: #EAF4EC; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="results" class="chap-open">
+<svg class="bloom" viewBox="0 0 260 220" aria-hidden="true"><ellipse cx="130" cy="110" rx="115" ry="92" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.55"></ellipse></svg>
+<span class="chap-num" style="color: #2F6B45">04</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2F6B45">Part 4 of 4 · Solution &amp; results</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Decoded</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Did it work?</p>
+</div>
+</div>
+<div class="thread">
+<p class="tk">The four notes, one last time</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700">Did we solve them?</p>
+<div class="tnotes">
+<div class="tnote"><span class="tnum">1</span><span><b style="display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: #2F6B45">Solved</b>97.4% of fields correct (38 of 39) on 7 real calls, against a 90% goal.</span><svg class="tcheck" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13"></circle><path d="M8 15.5 L 13 20.5 L 22.5 9.5"></path></svg><span class="sr"></span></div>
+<div class="tnote"><span class="tnum">2</span><span><b style="display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: #2F6B45">Solved</b>Every value cites its source page, so staff can check any answer in seconds.</span><svg class="tcheck" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13"></circle><path d="M8 15.5 L 13 20.5 L 22.5 9.5"></path></svg><span class="sr"></span></div>
+<div class="tnote"><span class="tnum">3</span><span><b style="display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: #2F6B45">Solved</b>No system integration needed. The office manager said the interface and the flow were exactly what they had expected.</span><svg class="tcheck" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13"></circle><path d="M8 15.5 L 13 20.5 L 22.5 9.5"></path></svg><span class="sr"></span></div>
+<div class="tnote open"><span class="tnum">4</span><span><b style="display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: #B0573F">Still open</b>The staff who will use it daily have not tried it yet.</span><svg class="tcheck" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13"></circle></svg><span class="sr"></span></div>
+</div></div>
+
+<p style="margin: 0; max-width: 760px">Our working demo is under NDA, so here is a hands-on simulation with a made-up funding call. First, try it the old way.</p>
+<div class="osim" data-mode="{{oMode}}" style="position: relative; padding: 26px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 1000 520" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 30 C 300 8, 700 22, 988 14 C 996 200, 994 380, 984 506 C 700 516, 300 512, 16 508 C 6 360, 8 180, 12 30 Z" fill="#CFE0F0" filter="url(#wc)" style="opacity: 0.7"></path></svg>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 320px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">{{oKicker}}</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; line-height: 1.25">{{oTitle}}</p>
+</div>
+<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap">
+<sc-if value="{{oShowTimer}}" hint-placeholder-val="{{ true }}"><span aria-live="off" style="font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; min-width: 86px; text-align: right; font-variant-numeric: tabular-nums">&#x23F1; {{oClock}}s</span></sc-if>
+<sc-if value="{{oCanStart}}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{oStart}}" class="obtn dark">Start the clock</button></sc-if>
+<sc-if value="{{oRunning}}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{oGiveUp}}" class="obtn">I give up</button></sc-if>
+<sc-if value="{{oShowTool}}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{oUseTool}}" class="obtn dark">Now use our tool &#x2192;</button></sc-if>
+<sc-if value="{{oInTool}}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{oReset}}" class="obtn">Try again</button></sc-if>
+</div>
+</div>
+<sc-if value="{{oShowScore}}" hint-placeholder-val="{{ false }}">
+<div class="pop" style="position: relative; display: grid; grid-template-columns: auto 1fr auto; gap: 6px 12px; align-items: center; background: #FFFDF8; border-radius: 14px; padding: 12px 16px; font-weight: 700">
+<span>By hand</span><span class="obar"><i style="width: 100%; background: #E59A8C"></i></span><span style="font-variant-numeric: tabular-nums">{{oYou}}</span>
+<span>Our tool</span><span class="obar"><i style="width: {{oToolPct}}%; background: #2F6B45"></i></span><span style="font-variant-numeric: tabular-nums">under 1 s</span>
+</div>
+</sc-if>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 18px; align-items: stretch">
+<div style="flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; background: #FFFDF8; border: 1.5px solid #D9CDB8; border-radius: 10px; box-shadow: 0 10px 24px rgba(46,42,59,0.08); overflow: hidden">
+<div style="display: flex; justify-content: space-between; gap: 10px; padding: 10px 16px; border-bottom: 1px solid #E6DCCB; font-size: 13px; font-weight: 700; color: #5A5468"><span>horizon-early-career-2027.pdf</span><span>30 pages</span></div>
+<div id="odoc" class="odoc" tabindex="0" aria-label="Sample funding call, scrollable">
+<sc-for list="{{oParas}}" as="p" hint-placeholder-count="8">
+<sc-if value="{{p.newPage}}" hint-placeholder-val="{{ false }}"><p class="opage">Page {{p.pg}}</p></sc-if>
+<button type="button" id="{{p.id}}" class="opara {{p.cls}}" onClick="{{p.pick}}" aria-label="{{p.aria}}"><span class="opg">p. {{p.pg}}</span><span class="otext">{{p.text}}</span><sc-if value="{{p.tag}}" hint-placeholder-val="{{ false }}"><span class="otag" style="background: {{p.tagBg}}">{{p.tagText}}</span></sc-if></button>
+</sc-for>
+</div>
+</div>
+<div style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #2A5F8F">InfoReady fields</p>
+<sc-for list="{{oFields}}" as="f" hint-placeholder-count="4">
+<button type="button" class="field" onClick="{{f.pick}}" aria-pressed="{{f.pressed}}" aria-disabled="{{f.ariaDis}}" style="text-align: left; font: inherit; color: #2E2A3B; background: {{f.bg}}; border: 2px solid {{f.border}}; border-radius: 18px 14px 20px 12px; padding: 12px 16px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; min-height: 64px; opacity: {{f.op}}">
+<span style="display: flex; justify-content: space-between; gap: 10px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #5A5468">{{f.label}}<span style="color: {{f.statusInk}}">{{f.status}}</span></span>
+<span style="font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700">{{f.value}}</span>
+</button>
+</sc-for>
+<p class="pop" style="margin: 4px 0 0; font-family: 'Caveat', cursive; font-size: 23px; font-weight: 700; color: #2A5F8F">{{oNote}}</p>
+</div>
+</div>
+</div>
+<p style="margin: 0; font-size: 15px; color: #5A5468">Illustration with a made-up funding call. The real tool and the client's documents are confidential.</p>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Test results · 7 real funding calls</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px">
+<div style="position: relative; padding: 30px 26px">
+<svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.45"></ellipse></svg>
+<p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1">97.4%</p>
+<p style="position: relative; margin: 8px 0 0">of fields correct: 38 of 39, scored against competitions staff had already built by hand</p>
+</div>
+<div style="position: relative; padding: 30px 26px">
+<svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#E9B949" filter="url(#wc)" style="opacity: 0.45"></ellipse></svg>
+<p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1">~$0.02</p>
+<p style="position: relative; margin: 8px 0 0">in AI cost per funding call</p>
+</div>
+<div style="position: relative; padding: 30px 26px">
+<svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg>
+<p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1">100%</p>
+<p style="position: relative; margin: 8px 0 0">of values cite their source page, so staff can check any answer in seconds</p>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0"><strong>Accuracy target met:</strong> 97.4% against a 90% goal. <strong>Not yet tested by daily users:</strong> the staff who will use it have not tried it yet.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Client feedback</p><p style="margin: 6px 0 0">The office manager told us the interface and the flow were exactly what they had expected.</p></div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">notes in the margin · my reflection</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.5deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what went well</p><p style="margin: 6px 0 0">Asking for system access instead of guessing. It let the AI fill in answers that actually fit each field.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(0.4deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">what didn't</p><p style="margin: 6px 0 0">A standalone tool is a workaround. Without building into the real system, there may be problems we haven't seen yet, and daily users haven't tried it.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.3deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">next time</p><p style="margin: 6px 0 0">Work with IT from day one to find a path into the existing system, and put the tool in front of daily users early.</p></div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px 56px; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">what's next</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 24px; line-height: 1.4; max-width: 820px">Phase 2: helping staff build review panels. I mapped the panel-selection flow with the client, and the team is now turning it into low-fi wireframes.</p>
+<div style="display: flex; justify-content: center; padding: 32px 0 8px">
+<div style="position: relative; max-width: 620px; padding: 40px 44px; transform: rotate(-1.5deg)">
+<svg viewBox="0 0 620 220" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M10 14 C 200 4, 420 10, 610 8 C 616 80, 614 150, 608 212 C 420 218, 200 216, 14 214 C 6 150, 6 80, 10 14 Z" fill="#F7E3A8" filter="url(#wc)"></path><path d="M270 2 H 350 V 26 H 270 Z" fill="#E59A8C" style="opacity: 0.6"></path></svg>
+<p style="position: relative; margin: 0; font-family: 'Caveat', cursive; font-size: 40px; font-weight: 700; line-height: 1.15; text-align: center">"The best student team we've ever worked with."</p>
+<p style="position: relative; margin: 12px 0 0; text-align: center; font-size: 15px; color: #5A5468">Research Development team, U-M Office of the VP for Research</p>
+</div>
+</div>
+</section>
+
+<nav class="endnav" aria-label="Case studies">
+<p class="thanks">Thanks for reading to the end!</p>
+<div class="row">
+<a class="prev" href="catalyst.html"><span aria-hidden="true">&#x2190;</span><span><small>Previous case</small>BCC Catalyst Lab</span></a>
+<a class="home" href="index.html"><span aria-hidden="true">&#x2302;</span> Back to Homepage</a>
+<a class="next" href="campusbite.html"><span><small>Next case</small>CampusBite</span><span aria-hidden="true">&#x2192;</span></a>
+</div>
+</nav>
+
+</div>
+</template>
+<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":7400}}'>
+class Component extends DCLogic {
+componentDidMount() {
+const set = () => {
+const h = document.documentElement;
+const max = (h.scrollHeight - window.innerHeight) || 1;
+h.style.setProperty('--p', Math.min(1, Math.max(0, window.scrollY / max)).toFixed(4));
+h.style.setProperty('--d', Math.min(1, (window.scrollY + window.innerHeight * 0.75) / (h.scrollHeight || 1)).toFixed(4));
+};
+set();
+window.addEventListener('scroll', set, { passive: true });
+window.addEventListener('resize', set);
+const parts = ['basics', 'research', 'decisions', 'results'].map(id => document.getElementById(id)).filter(Boolean);
+if (window.IntersectionObserver && parts.length) {
+const io = new IntersectionObserver(entries => {
+entries.forEach(e => { if (e.isIntersecting) document.documentElement.setAttribute('data-part', e.target.id); });
+}, { rootMargin: '-40% 0px -55% 0px' });
+parts.forEach(p => io.observe(p));
+}
+}
+renderVals() {
+// ===== EDIT ME =====
+// Teammates: paste each portfolio or LinkedIn URL. A name without a URL shows as plain text.
+const TEAM = [
+  { name: "Chih-Chi (Joan) Huang", role: "Product Manager (me)", url: '' },
+  { name: "Ric", role: "", url: '' },
+  { name: "Joyce", role: "", url: '' },
+  { name: "Emrys", role: "", url: '' }
+];
+// ===================
+const st = this.state || {};
+const open = st.open || {};
+const cardData = [
+{ want: 'An API into InfoReady', got: 'No API at all', fill: '#F4C1B6',
+  fix: 'We laid out the output in the exact field order of InfoReady, with one-click copy for each field. No integration needed.' },
+{ want: 'Internal documents and past data', got: 'Only public information', fill: '#D9D0F0',
+  fix: 'Funding calls are public, so we used real ones as our test set and scored the tool against competitions staff had already built.' },
+{ want: 'To know what the system needs', got: 'No view of the system', fill: '#F7E3A8',
+  fix: 'I asked the client for access. We clicked through every screen and wrote down each field and its limits, so the AI fills in answers that actually fit.' }
+];
+const cards = cardData.map((c, i) => {
+const flipped = !!open[i];
+return Object.assign({}, c, {
+front: !flipped, back: flipped,
+expanded: flipped ? 'true' : 'false',
+op: flipped ? '1' : '0.75',
+fill: flipped ? '#FFFDF8' : c.fill,
+toggle: () => { const o = Object.assign({}, open); o[i] = !flipped; this.setState({ open: o }); }
+});
+});
+const raw = [
+[1, 'The Horizon Foundation invites proposals for its Early-Career Research Award, supporting bold, curiosity-driven work by new faculty.'],
+[1, 'This announcement replaces all earlier versions. Applicants are responsible for reading it in full.'],
+[2, 'Section 1. Program background. Since 2009 the Foundation has funded more than 400 early-career investigators across the sciences.'],
+[3, 'Each award provides up to $150,000 over two years. Indirect costs are not allowed.'],
+[4, 'Funds may support personnel, equipment under $5,000, travel, and research supplies.'],
+[6, 'Section 2. Program priorities. Proposals should describe a clear research question and a realistic two-year plan.'],
+[7, 'Applicants must hold a tenure-track appointment and be within five years of their first faculty position.'],
+[8, 'Postdoctoral fellows, research scientists, and adjunct faculty are not eligible to apply.'],
+[10, 'Section 3. Letters of intent are encouraged but not required, and will not be reviewed for merit.'],
+[12, 'Each institution may submit no more than two applications.'],
+[13, 'Institutions are responsible for running an internal selection process before submitting.'],
+[15, 'Section 4. Proposal format. Narratives are limited to six pages, single-spaced, in 11-point font.'],
+[17, 'Budgets must use the Foundation template and include a one-page justification.'],
+[19, 'Section 5. Review. Proposals are scored on significance, approach, and the applicant’s potential.'],
+[21, 'Reviewers may request additional information. Incomplete proposals will be returned without review.'],
+[23, 'Section 6. Award administration. Awards begin on July 1 and may not be deferred.'],
+[25, 'Annual progress reports are due within 60 days of the end of each award year.'],
+[28, 'FAQ: Institutions with more than one campus may submit one application per campus.'],
+[29, 'FAQ: Questions should be sent to the program office at least ten days before the due date.'],
+[30, 'Full proposals are due March 3, 2027, at 5:00 p.m. Eastern Time. Late submissions will not be accepted.']];
+const TARGET = 19;
+const fieldData = [
+{ label: 'Sponsor deadline', value: 'Mar 3, 2027, 5:00 p.m. ET', status: 'Found', src: [19], note: 'Page 30 of 30. Staff check it in one glance.' },
+{ label: 'Eligibility', value: 'Tenure-track, within 5 years', status: 'Found', src: [6], note: 'Page 7, far away from the deadline.' },
+{ label: 'Award', value: 'Up to $150,000 over 2 years', status: 'Found', src: [3], note: 'Page 3. Indirect costs not allowed, noted too.' },
+{ label: 'Institutional limit', value: '2 per institution?', status: 'Check', src: [9, 17], note: 'Page 12 and page 28 disagree. The tool flags it instead of guessing, and a person decides.' }];
+const mode = st.omode || 'ready';
+const now = st.otick || 0;
+const elapsed = mode === 'hunt' ? Math.max(0, (now - (this._ot0 || now)) / 1000) : (st.oyou || 0);
+const sel = st.osel === undefined ? 0 : st.osel;
+const inTool = mode === 'tool';
+const cur = fieldData[sel];
+const stopClock = () => { if (this._oiv) { clearInterval(this._oiv); this._oiv = null; } };
+const scrollTo = (i) => setTimeout(() => { const box = document.getElementById('odoc'); const el = document.getElementById('op' + i); if (box && el) box.scrollTo({ top: el.offsetTop - box.offsetTop - 60, behavior: 'smooth' }); }, 60);
+const pickField = (i) => () => { this.setState({ osel: i }); scrollTo(fieldData[i].src[0]); };
+const oParas = raw.map((r, i) => {
+const isSrc = inTool && cur.src.indexOf(i) >= 0;
+const warn = isSrc && cur.status === 'Check';
+const found = (mode === 'found' || mode === 'gaveup' || inTool) && i === TARGET && !isSrc;
+const nope = st.onope === i;
+return { id: 'op' + i, pg: r[0], text: r[1], newPage: i === 0 || raw[i - 1][0] !== r[0],
+cls: (isSrc ? (warn ? 'warn' : 'hl') + ' k' + sel : '') + (found ? ' found' : '') + (nope ? ' nope' : ''),
+tag: isSrc, tagText: warn ? '⚠ conflicting rule, check' : '← source for ' + cur.label, tagBg: warn ? '#F4C1B6' : '#F7E3A8',
+aria: 'Page ' + r[0] + ': ' + r[1],
+pick: () => {
+if (mode !== 'hunt') return;
+if (i === TARGET) { stopClock(); this.setState({ omode: 'found', oyou: (performance.now() - this._ot0) / 1000 }); }
+else { this.setState({ onope: i }); setTimeout(() => { if ((this.state || {}).onope === i) this.setState({ onope: -1 }); }, 400); }
+} };
+});
+const oFields = fieldData.map((f, i) => {
+const on = inTool && i === sel;
+return Object.assign({}, f, {
+value: inTool ? f.value : '—', status: inTool ? f.status : '', ariaDis: inTool ? 'false' : 'true', op: inTool ? '1' : '0.6',
+pressed: on ? 'true' : 'false', bg: on ? '#FFFDF8' : 'rgba(255,253,248,0.55)', border: on ? '#2E2A3B' : 'transparent',
+statusInk: f.status === 'Check' ? '#B0573F' : '#2F6B45', pick: inTool ? pickField(i) : () => {} });
+});
+const you = st.oyou || 0;
+const kick = { ready: 'Challenge · the old way', hunt: 'Challenge · the old way', found: 'Found it!', gaveup: 'That is the point', tool: 'With our tool' }[mode];
+const title = { ready: 'Find the sponsor’s deadline in this 30-page call. Click the sentence when you see it.', hunt: 'Scroll and click the sentence with the sponsor’s deadline.',
+found: 'You found it in ' + you.toFixed(1) + ' seconds, for one field. Staff fill in dozens.', gaveup: 'Hard, right? Staff hunt like this for every field, in every call.',
+tool: 'Tap any field. The call jumps to its source and highlights it.' }[mode];
+return { cards: cards, team: TEAM.map(m => ({ name: m.name, role: m.role, url: m.url, linked: !!m.url, plain: !m.url })), oParas: oParas, oFields: oFields, oMode: mode, oKicker: kick, oTitle: title,
+oShowTimer: mode !== 'tool', oClock: elapsed.toFixed(1), oCanStart: mode === 'ready', oRunning: mode === 'hunt', oShowTool: mode === 'found' || mode === 'gaveup', oInTool: inTool,
+oShowScore: inTool && you > 0, oYou: you.toFixed(1) + ' s', oToolPct: Math.max(3, Math.round(0.8 / Math.max(you, 0.8) * 100)),
+oNote: inTool ? cur.note : (mode === 'ready' ? 'Tip: the deadline could be anywhere.' : ''),
+oStart: () => { this._ot0 = performance.now(); stopClock(); this._oiv = setInterval(() => this.setState({ otick: performance.now() }), 100); const box = document.getElementById('odoc'); if (box) box.scrollTop = 0; this.setState({ omode: 'hunt', otick: performance.now(), oyou: 0 }); },
+oGiveUp: () => { stopClock(); this.setState({ omode: 'gaveup', oyou: 0 }); scrollTo(TARGET); },
+oUseTool: () => { this.setState({ omode: 'tool', osel: 0 }); scrollTo(fieldData[0].src[0]); },
+oReset: () => { stopClock(); this.setState({ omode: 'ready', oyou: 0, osel: 0 }); const box = document.getElementById('odoc'); if (box) box.scrollTop = 0; } };
+}
+}
+</script>
+<script src="assets/morphdom.min.js"></script>
+<script src="assets/dc-lite.js"></script>
+<noscript><p style="font-family:sans-serif;padding:24px">This site needs JavaScript. Contact: chihchi@umich.edu</p></noscript>
+</body>
+</html>
