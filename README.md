@@ -23,3 +23,7 @@ Images, the CareLift demo video, company logos and the résumé PDF live in `ass
 ## Updating
 
 Replace the files with a new version and commit to `main`. The site updates within a couple of minutes.
+
+## Copyright
+
+© 2026 Chih-Chi (Joan) Huang. All rights reserved. No license is granted to reuse any part of this repository. See [COPYRIGHT.md](COPYRIGHT.md).
