@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study: OnRoute student carpooling</title>
+<meta name="description" content="Case study: OnRoute, a carpool marketplace for University of Michigan students without a car, and the assumption tests that changed it.">
+<meta property="og:title" content="Case study: OnRoute student carpooling">
+<meta property="og:description" content="Case study: OnRoute, a carpool marketplace for University of Michigan students without a car, and the assumption tests that changed it.">
+<meta property="og:image" content="assets/joan.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23E9B949'/%3E%3Cpath d='M16 36c6-14 14 8 20-8s10 2 14-6' fill='none' stroke='%232E2A3B' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500,100;9..144,700,100&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+.hfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;width:100%;max-width:860px;margin:8px auto 0;padding:0}
+.hfacts div{background:rgba(255,253,248,.85);border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:12px 14px;text-align:left}
+.hfacts dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5468}
+.hfacts dd{margin:2px 0 0;font-weight:500}
+.hwatch{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 22px;box-sizing:border-box;background:#2E2A3B;color:#FBF7EF !important;text-decoration:none;font-weight:700;border-radius:26px 20px 28px 22px}
+.team{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.team li{display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline}.team b{font-weight:500}.team a{font-weight:700}
+.team span{font-size:14px;color:#5A5468}
+body{margin:0;background:#FBF7EF}
+a{color:#2E2A3B}a:hover{color:#7A5BA8}
+.flip{transition:transform .2s ease}
+.flip:hover{transform:translateY(-4px) rotate(-0.4deg)}
+.opt{transition:transform .15s ease}
+.opt:hover{transform:translateX(4px)}
+.chap{transition:transform .15s ease}
+.chap:hover{transform:translateY(-3px)}
+.draw{stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.4s ease forwards}
+.pop{animation:pop .35s ease}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.draw{animation:none;stroke-dashoffset:0}.pop{animation:none}.flip:hover,.opt:hover,.chap:hover{transform:none}}
+@media (max-width: 640px){h1{font-size:38px !important}h2{font-size:30px !important}}
+.lane{position:relative;height:46px;border-top:1px dashed rgba(46,42,59,0.12)}.progress{position:absolute;left:0;bottom:7px;height:2.34px;width:calc(var(--p,0) * (100% - 94.8px));background:#E42E2D;border-radius:2px 0 0 2px;box-shadow:0 .4px 0 rgba(74,13,16,.6),0 -.4px 0 rgba(74,13,16,.4);pointer-events:none}.progress::after{content:'';position:absolute;left:calc(100% - 1px);bottom:-4.92px;width:94.8px;height:44px;background:url(assets/dog-walk-thick.png) left bottom/contain no-repeat}@media (max-width: 640px){.progress{height:1.91px;width:calc(var(--p,0) * (100% - 77.5px))}.progress::after{width:77.5px;height:36px;bottom:-4.03px}}
+.spine{position:absolute;top:0;height:100%;left:calc(50% - 604px);width:48px;pointer-events:none;z-index:0}
+.spine path{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--d,0))}
+@media (max-width: 1200px){.spine{display:none}}
+@supports (animation-timeline: view()){.rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 35%}@keyframes rv{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}}
+@media (prefers-reduced-motion: reduce){.rv{animation:none !important}.spine path{stroke-dashoffset:0}.progress{display:none}}
+.chapter{background:var(--tint);border-radius:40px 30px 44px 34px;margin:48px auto !important;box-shadow:0 18px 44px rgba(46,42,59,0.10);border:1.5px solid rgba(46,42,59,0.06)}
+.chap-open{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px 26px;padding:0 0 18px;border-bottom:2px dashed rgba(46,42,59,0.25);scroll-margin-top:140px}
+.chap-num{position:relative;font-family:'Fraunces',serif;font-weight:700;font-size:84px;line-height:.85;letter-spacing:-0.03em}
+.bloom{position:absolute;left:-26px;top:45%;width:170px;height:140px;translate:0 -50%;pointer-events:none}
+@supports (animation-timeline: view()){
+.chapter{animation:panelIn linear both;animation-timeline:view();animation-range:entry 0% entry 25%}
+.chap-num{animation:numIn linear both;animation-timeline:view();animation-range:entry 5% cover 25%}
+.bloom{animation:bloom linear both;animation-timeline:view();animation-range:entry 5% cover 30%}
+@keyframes panelIn{from{opacity:0;translate:0 70px;scale:.96}to{opacity:1;translate:0 0;scale:1}}
+@keyframes numIn{from{opacity:0;translate:-60px 0}to{opacity:1;translate:0 0}}
+@keyframes bloom{from{opacity:0;scale:.3}to{opacity:1;scale:1}}
+}
+.toc a{border-radius:999px;padding:0 12px;transition:background .3s ease,color .3s ease}
+html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc a[href="#research"],html[data-part="decisions"] .toc a[href="#decisions"],html[data-part="results"] .toc a[href="#results"]{background:#2E2A3B;color:#FBF7EF}
+@media (max-width: 640px){.chap-num{font-size:64px}.chapter{border-radius:28px;margin:28px 12px !important}}
+@media (prefers-reduced-motion: reduce){.chapter,.chap-num,.bloom{animation:none !important}}
+.tile{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:150px;padding:20px;text-align:center;background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:24px 18px 26px 20px;text-decoration:none;color:#2E2A3B;box-shadow:0 10px 24px rgba(46,42,59,0.08);transition:transform .2s ease,box-shadow .2s ease}
+.tile:hover{transform:translateY(-6px) rotate(-0.6deg);box-shadow:0 18px 34px rgba(46,42,59,0.14)}
+.tile-num{position:absolute;left:50%;top:50%;translate:-50% -50%;font-family:'Fraunces',serif;font-weight:700;font-size:120px;line-height:1;opacity:.12;pointer-events:none}
+.chap-open{justify-content:center !important;text-align:center;background:#FFFDF8;border:1.5px solid #E6DCCB !important;border-radius:28px 22px 30px 24px;padding:30px 24px !important;max-width:600px;width:100%;margin:0 auto 10px;box-shadow:0 10px 24px rgba(46,42,59,0.08);overflow:hidden}
+.chap-open > div{align-items:center}
+.chap-num{position:absolute !important;left:50%;top:50%;translate:-50% -50%;font-size:150px !important;opacity:.13;pointer-events:none}
+.chap-open .bloom{display:none}
+@supports (animation-timeline: view()){.chap-num{animation:none !important}}
+.stars{display:flex;justify-content:center;gap:18px;margin:8px 0}
+@media (max-width: 640px){.tile-num{font-size:90px}.chap-num{font-size:110px !important}}
+@media (prefers-reduced-motion: reduce){.tile:hover{transform:none}}
+.drift-a{animation:drift 14s ease-in-out infinite alternate}
+.drift-b{animation:drift 19s ease-in-out infinite alternate-reverse}
+.drift-c{animation:drift 24s ease-in-out infinite alternate}
+@keyframes drift{from{translate:-28px 0}to{translate:28px 0}}
+.float{animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -10px}}
+.breathe{transform-box:fill-box;transform-origin:center;animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{scale:1}50%{scale:1.06}}
+.mag{animation:mag 5s ease-in-out infinite}
+@keyframes mag{0%,100%{translate:0 0}30%{translate:-70px -40px}60%{translate:-40px 10px}}
+.hl{stroke-dasharray:90;animation:hl 5s ease-in-out infinite}
+@keyframes hl{0%{stroke-dashoffset:90}35%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-90}}
+.pin{animation:pin 2.4s ease-in-out infinite}
+@keyframes pin{0%,100%{translate:0 0}40%{translate:0 -14px}55%{translate:0 0}65%{translate:0 -4px}}
+.wob{animation:wob 3.6s ease-in-out infinite}
+@keyframes wob{0%,100%{translate:0 0}50%{translate:-4px 5px}}
+.hov{animation:hov 3s ease-in-out infinite}
+@keyframes hov{0%,100%{translate:0 0}50%{translate:6px -12px}}
+.rotor{transform-box:fill-box;transform-origin:center;animation:rotor .25s linear infinite}
+@keyframes rotor{0%,100%{scale:1 1}50%{scale:.55 1}}
+.p1{animation:walk 1.6s ease-in-out infinite}
+.p2{animation:walk 1.6s ease-in-out -.5s infinite}
+.p3{animation:walk 1.6s ease-in-out -1s infinite}
+@keyframes walk{0%,100%{translate:0 0}50%{translate:0 -6px}}
+.check{stroke-dasharray:60;animation:hl2 3.2s ease-in-out infinite}
+@keyframes hl2{0%{stroke-dashoffset:60}40%,90%{stroke-dashoffset:0}100%{stroke-dashoffset:60}}
+.card:hover .hov,.card:hover .pin,.card:hover .mag,.card:hover .p1,.card:hover .p2,.card:hover .p3{animation-duration:1s}
+@media (prefers-reduced-motion: reduce){.drift-a,.drift-b,.drift-c,.float,.breathe,.mag,.hl,.pin,.wob,.hov,.rotor,.p1,.p2,.p3,.check{animation:none !important}}
+.chap-open h2{font-size:30px !important}
+.chap-num{font-size:110px !important}
+@media (max-width: 640px){.chap-open{position:relative !important;top:auto}}
+.clue{transition:transform .2s ease, box-shadow .2s ease}
+.clue:hover{transform:rotate(0deg) translateY(-6px) scale(1.04) !important;box-shadow:0 18px 30px rgba(46,42,59,0.25) !important}
+.tocbar::after{content:"";position:absolute;left:0;right:0;top:100%;height:36px;pointer-events:none;background:linear-gradient(rgba(251,247,239,0.85),rgba(251,247,239,0))}
+
+.cbp{--g:#3F7D57;--gd:#1F4D36;--gl:#EAF3EC;--ink:#1F2328;--mute:#6B7280;font-family:Inter,'DM Sans',system-ui,sans-serif;color:var(--ink)}
+.cbp button{font:inherit;cursor:pointer}
+.cb-phone{position:relative;width:300px;height:620px;border-radius:46px;border:10px solid #2A2833;background:#F4F5F7;box-shadow:0 20px 40px rgba(46,42,59,.18),inset 0 0 0 2px #6E6A7A;overflow:hidden;flex:0 0 auto}
+.cb-notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:96px;height:26px;border-radius:14px;background:#111;z-index:3}
+.cb-screen{position:absolute;inset:0;overflow-y:auto;padding:44px 12px 18px;box-sizing:border-box;scrollbar-width:none}
+.cb-screen::-webkit-scrollbar{display:none}
+.cb-card{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(0,0,0,.08);overflow:hidden}
+.cb-btn{display:block;width:100%;border:none;border-radius:10px;background:var(--g);color:#fff;font-weight:700;font-size:14px;padding:11px 8px;min-height:44px}
+.cb-btn.soft{background:#8DB49A}
+.cb-btn.out{background:#fff;color:var(--ink);border:1px solid #D9DCE1}
+.cb-tab{border:1px solid #D9DCE1;background:#fff;color:#4B5563;border-radius:10px;padding:8px 12px;font-weight:700;font-size:13px;min-height:40px}
+.cb-tab[aria-pressed="true"]{background:var(--g);border-color:var(--g);color:#fff}
+.cb-toast{position:absolute;left:12px;right:12px;top:44px;z-index:4;background:#EAF3EC;border-left:4px solid var(--g);border-radius:10px;padding:10px 12px;font-size:12.5px;box-shadow:0 6px 16px rgba(0,0,0,.12);animation:cbToast 2.4s ease forwards}
+@keyframes cbToast{0%{opacity:0;transform:translateY(-8px)}10%,80%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-8px)}}
+.cb-tree{display:block;margin:0 auto}
+.cb-tree.s0{animation:cbGrow0 .7s cubic-bezier(.3,1.6,.5,1)}.cb-tree.s1{animation:cbGrow1 .7s cubic-bezier(.3,1.6,.5,1)}.cb-tree.s2{animation:cbGrow2 .7s cubic-bezier(.3,1.6,.5,1)}.cb-tree.s3{animation:cbGrow3 .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes cbGrow0{from{transform:scale(.7)}to{transform:none}}@keyframes cbGrow1{from{transform:scale(.7)}to{transform:none}}@keyframes cbGrow2{from{transform:scale(.7)}to{transform:none}}@keyframes cbGrow3{from{transform:scale(.7)}to{transform:none}}
+.cb-bar{height:8px;border-radius:5px;background:#E5E7EB;overflow:hidden}.cb-bar>i{display:block;height:100%;background:var(--g);border-radius:5px;transition:width .8s ease}
+.cb-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.cb-step{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:16px 12px 18px 10px;border:1.5px dashed rgba(46,42,59,.2);transition:background .3s,border-color .3s,opacity .3s}
+.cb-step[data-on="true"]{background:#FFFDF8;border:1.5px solid #2F6B45;box-shadow:0 4px 0 rgba(47,107,69,.18)}
+.cb-step[data-done="true"]{opacity:.6}
+.cb-step b.n{flex:0 0 28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#E6DCCB;font-size:14px}
+.cb-step[data-on="true"] b.n{background:#2F6B45;color:#fff}
+.cb-step[data-done="true"] b.n{background:#9CC3A5;color:#fff}
+@media (prefers-reduced-motion: reduce){.cb-tree,.cb-toast{animation:none}.cb-bar>i{transition:none}}
+
+.cstrip{position:relative;max-width:1040px;margin:0 auto;padding:30px 32px 26px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.cstrip .tease{margin:0;max-width:640px;font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1.3;color:#2E2A3B}
+.cstrip .tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.cstrip .st{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border-radius:14px 18px 12px 16px;font-weight:700;font-size:14px;text-decoration:none;color:#5A5468;background:#FFFDF8;border:1.5px dashed rgba(46,42,59,.22)}
+.cstrip .st.done{color:#2F6B45;border-style:solid;border-color:#B9D6C1;background:#F1F7F2}
+.cstrip .st.next{color:#2E2A3B;background:#FFFDF8;border:2px solid #2E2A3B;font-size:16px;padding:8px 16px;flex-direction:column;align-items:flex-start;gap:0;line-height:1.25}.cstrip .st.next .up{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7A5BA8}
+@media (prefers-reduced-motion: reduce){.cstrip .st.next,.cstrip .st.next .arr{animation:none}}
+@supports (animation-timeline: view()){section.chapter{animation:chin linear both;animation-timeline:view();animation-range:entry 0% entry 60%}}
+@keyframes chin{from{opacity:0;translate:0 60px}to{opacity:1;translate:0 0}}
+@media (prefers-reduced-motion: reduce){section.chapter{animation:none}}
+
+.endnav{position:relative;max-width:1040px;margin:0 auto;padding:16px 32px 72px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.endnav .thanks{margin:0;text-align:center;font-family:'Caveat',cursive;font-size:30px;font-weight:700;color:#5A5468}
+.endnav .row{width:100%;display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
+.endnav a{min-height:52px;box-sizing:border-box;display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:none;color:#2E2A3B}
+.endnav .prev{justify-self:start;font-size:16px;padding:12px 4px}
+.endnav .prev small,.endnav .next small{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.7;font-weight:700}
+.endnav .home{justify-self:center;background:#FFFDF8;border:2px solid #2E2A3B;border-radius:22px 28px 20px 26px;padding:12px 22px;font-size:16px}
+.endnav .next{justify-self:end;text-align:right;background:#2E2A3B;color:#FBF7EF;border-radius:26px 20px 28px 22px;padding:12px 22px;font-size:16px}
+.endnav a:hover{transform:translateY(-2px)}.endnav a:focus-visible{outline:3px solid #7A5BA8;outline-offset:3px}
+@media (max-width: 640px){.endnav .row{grid-template-columns:1fr;justify-items:stretch}.endnav .prev,.endnav .home,.endnav .next{justify-self:stretch;justify-content:center;text-align:center}.endnav .home{order:3}}
+
+.orp{--g:#185CBE}
+.orp .cb-btn.out{color:#17354A}
+.orp .fld{display:flex;flex-direction:column;background:#F4F7F9;border-radius:10px;padding:7px 10px;font-size:13px}
+.orp .fld span{font-size:11px;color:#6B7280;font-weight:700}
+.orp .back{border:none;background:none;color:#185CBE;font-weight:700;font-size:13px;padding:4px 0 8px;min-height:32px}
+.orp .host{width:100%;display:flex;gap:10px;align-items:center;background:#fff;border:1.5px solid #DFE8EC;border-radius:14px;padding:10px;margin-bottom:8px;font-size:13px;color:#17354A;text-align:left}
+.orp button.host{border-color:#185CBE;box-shadow:0 0 0 3px #E8F0FB}
+.orp div.host{opacity:.7}
+.orp .host span span{font-size:11.5px;color:#6B7280}
+.orp .av{flex:0 0 38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#E8F0FB;color:#145BB5;font-weight:800;font-size:13px}
+.orp .av.b{background:#E2F7ED;color:#0C8D73}
+.orp .badge{align-self:flex-start;background:#E2F7ED;color:#0B6E5A;border-radius:8px;padding:3px 9px;font-size:12px;font-weight:700}
+.orp .badge.gray{background:#F1F4F6;color:#364F60}
+.orp .fare{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #DFE8EC}
+.orp .fare.tot{border-bottom:none;font-size:14px}
+.orp .rep{display:flex;align-items:center;gap:8px;width:100%;margin:10px 0;background:#fff;border:1.5px solid #DFE8EC;border-radius:12px;padding:10px;font-weight:700;font-size:13px;color:#17354A;min-height:44px}
+.orp .rep .box{width:20px;height:20px;border-radius:6px;border:2px solid #185CBE;display:grid;place-items:center;font-size:13px;color:#fff}
+.orp .rep[aria-pressed="true"] .box{background:#185CBE}
+.orp .alert{background:#FDECE8;border-left:4px solid #BC5846;border-radius:10px;padding:10px 12px;font-size:12.5px;color:#5C2A20}
+.arts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.arts figure{margin:0;background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:10px}
+.arts img{display:block;width:100%;height:auto;border-radius:10px}.arts figcaption{font-size:14px;color:#4A4458;margin-top:6px}
+.board{background:#1F2733;color:#F3F4F6;border-radius:22px 18px 24px 16px;padding:16px 20px;box-shadow:0 12px 26px rgba(46,42,59,.16)}
+.brow{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:10px 0;border-bottom:1px dashed rgba(255,255,255,.16)}
+.brow .bt{font-family:'Fraunces',serif;font-weight:700;font-size:20px;min-width:56px}
+.brow .bn{flex:1 1 160px}
+.chip{font-size:12.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:8px;padding:4px 10px}
+.chip.full{background:#F6C9BE;color:#5C2A20}.chip.late{background:#F7E3A8;color:#5A3D00}.chip.due{background:#BFE3CB;color:#163D27}
+.ghost{animation:ghost 2.6s ease-in-out infinite}
+@keyframes ghost{0%,60%{opacity:1}80%{opacity:.15}100%{opacity:1}}
+.ghostbus{animation:ghostbus 4s ease-in-out infinite}
+@keyframes ghostbus{0%,100%{opacity:.85}50%{opacity:.2}}
+.tests{display:flex;flex-direction:column;gap:10px}
+.trow{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:14px 18px}
+.trow .tn{font-family:'Fraunces',serif;font-weight:700;font-size:28px;color:#2A5F8F;width:28px;text-align:center}
+.lbl{font-size:13px;font-weight:700;border-radius:10px;padding:5px 12px;white-space:nowrap}
+.lbl.sup{background:#E2F0E4;color:#1F5A36}.lbl.inc{background:#FBEBC4;color:#6B4700}.lbl.not{background:#FADBD2;color:#8A2E1E}
+.mine{display:inline-block;margin-left:6px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:#2E2A3B;color:#FBF7EF;border-radius:8px;padding:2px 8px;vertical-align:2px}
+@media (max-width: 640px){.trow{grid-template-columns:auto 1fr}.trow .lbl{grid-column:2;justify-self:start}}
+@media (prefers-reduced-motion: reduce){.ghost,.ghostbus{animation:none}}
+</style>
+<style>#app{min-height:100vh}</style>
+</head>
+<body>
+<div id="app"></div>
+<template id="dc-template">
+
+<div style="position: relative; background: #FBF7EF; color: #2E2A3B; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.65; overflow-x: clip">
+
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0">
+<defs>
+<filter id="wc" x="-25%" y="-25%" width="150%" height="150%">
+<feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="4" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="26" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feGaussianBlur in="d" stdDeviation="1.6" result="b"></feGaussianBlur>
+<feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="9" result="m"></feTurbulence>
+<feColorMatrix in="m" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.9 1.25" result="ma"></feColorMatrix>
+<feComposite in="b" in2="ma" operator="in"></feComposite>
+</filter>
+<filter id="pc" x="-10%" y="-10%" width="120%" height="120%">
+<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="2" result="n"></feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="n" scale="2.5" xChannelSelector="R" yChannelSelector="G" result="d"></feDisplacementMap>
+<feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="5" result="g"></feTurbulence>
+<feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2 1.6" result="ga"></feColorMatrix>
+<feComposite in="d" in2="ga" operator="in"></feComposite>
+</filter>
+<filter id="paper" x="0" y="0" width="100%" height="100%">
+<feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" seed="11" result="n"></feTurbulence>
+<feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0 0.28  0 0 0 0.10 0"></feColorMatrix>
+</filter>
+</defs>
+</svg>
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none"><rect width="100%" height="100%" filter="url(#paper)"></rect></svg>
+
+<header style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="index.html" style="text-decoration: none; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px">Chih-Chi (Joan) Huang</a>
+<a href="index.html#work" style="font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center">← back to all work</a>
+</header>
+
+<nav class="tocbar" aria-label="On this page" style="position: sticky; top: 0; z-index: 5; background: rgba(251,247,239,0.72); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1.5px solid rgba(230,220,203,0.8)">
+<div class="toc" style="max-width: 1040px; margin: 0 auto; padding: 8px 32px; display: flex; flex-wrap: wrap; gap: 6px 10px; font-weight: 700; font-size: 15px">
+<a href="#basics" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">1 · Due in 2 min</a>
+<a href="#research" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">2 · Ghost bus</a>
+<a href="#decisions" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">3 · Rerouting</a>
+<a href="#results" style="text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">4 · Arrived</a>
+</div>
+<div class="lane" aria-hidden="true"><div class="progress"></div></div>
+</nav>
+
+<section style="position: relative; padding: 40px 32px 56px; overflow-x: clip">
+<svg viewBox="0 0 1440 600" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true">
+<rect x="-40" y="0" width="1520" height="600" fill="#FBF1DA"></rect>
+<path class="drift-b" d="M-40 380 C 300 350, 700 400, 1060 365 S 1400 380, 1480 370 L 1480 470 C 1100 490, 700 455, 300 485 S 0 470, -40 475 Z" fill="#E9B949" filter="url(#wc)" style="opacity: 0.5"></path>
+</svg>
+<div style="position: relative; max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center">
+<svg viewBox="0 0 400 210" style="position: relative; width: 100%; max-width: 520px; height: auto; display: block; margin: 0 auto" role="img" aria-label="Watercolor illustration of a faded ghost bus and a small car driving toward a map pin">
+<ellipse cx="200" cy="108" rx="170" ry="90" fill="#E9B949" filter="url(#wc)" style="opacity: 0.45"></ellipse>
+<g class="ghostbus" style="stroke: #5A5468; stroke-width: 2.2; fill: none; stroke-dasharray: 7 6; stroke-linecap: round">
+<rect x="44" y="62" width="150" height="78" rx="14"></rect>
+<path d="M58 80 H 180 M58 104 H 180"></path>
+<circle cx="78" cy="146" r="11"></circle><circle cx="160" cy="146" r="11"></circle>
+</g>
+<rect x="104" y="28" width="112" height="28" rx="10" fill="#FFFDF8" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></rect>
+<text x="160" y="48" text-anchor="middle" style="font-family: 'Caveat', cursive; font-size: 20px; font-weight: 700; fill: #B0302A">Due 2 min?</text>
+<path class="wob" d="M222 150 C 236 128, 250 126, 262 126 L 300 126 C 314 126, 324 136, 330 150 Z" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.9"></path>
+<path class="pin" d="M346 52 C 322 52, 312 74, 322 92 L 346 128 L 370 92 C 380 74, 370 52, 346 52 Z" fill="#E59A8C" filter="url(#wc)" style="opacity: 0.85"></path>
+<g filter="url(#pc)" style="stroke: #2E2A3B; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; fill: none">
+<path class="wob" d="M214 150 H 338 C 338 140, 334 132, 326 130 L 312 126 C 304 112, 292 108, 272 108 C 252 108, 240 116, 232 128 L 218 132 C 214 136, 212 142, 214 150 Z"></path>
+<path class="wob" d="M240 128 C 246 118, 258 114, 270 114 L 270 128 Z M280 114 C 292 114, 300 118, 304 128 L 280 128 Z"></path>
+<circle class="wob" cx="244" cy="152" r="11" fill="#FFFDF8"></circle><circle class="wob" cx="310" cy="152" r="11" fill="#FFFDF8"></circle>
+<path class="pin" d="M346 52 C 322 52, 312 74, 322 92 L 346 128 L 370 92 C 380 74, 370 52, 346 52 Z"></path>
+<circle class="pin" cx="346" cy="80" r="10"></circle>
+<path d="M40 182 C 120 172, 200 190, 280 178 S 360 176, 380 180" style="stroke-width: 1.8; stroke-dasharray: 2 8"></path>
+</g>
+</svg>
+
+<p style="position: relative; margin: 0 auto; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8A5A00">Case study · OnRoute · Product course</p>
+<h1 style="position: relative; margin: 0 auto; font-family: 'Fraunces', serif; font-weight: 700; font-size: 56px; line-height: 1.08; letter-spacing: -0.015em; max-width: 860px">A late bus wasn't enough. Being late was.</h1>
+<p style="position: relative; margin: 0 auto; font-size: 21px; color: #4A4458; max-width: 760px">OnRoute matches U-M students without a car with classmates already driving to campus. Testing showed riders won't pay to escape a bad bus, only to protect a trip that matters, so we rerouted the product around planned rides.</p>
+<dl class="hfacts">
+<div><dt>My role</dt><dd>Product Manager</dd></div>
+<div><dt>Team</dt><dd>4 PMs · <a href="#basics">see who</a></dd></div>
+<div><dt>Timeline</dt><dd>Product course · fall 2026</dd></div>
+<div><dt>Tools</dt><dd>Google Forms · Sheets · Figma · Claude Code</dd></div>
+</dl>
+<a href="#demo" class="hwatch"><span aria-hidden="true">&#9654;</span> Watch the demo</a>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 56px 32px 8px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center">
+<div class="stars" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 4 C 10 4, 6 12, 10 20 L 20 36 L 30 20 C 34 12, 30 4, 20 4 Z" fill="#E59A8C" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="20" cy="15" r="4" fill="#FFFDF8" stroke="#2E2A3B" style="stroke-width: 1.6"></circle></svg><svg width="40" height="40" viewBox="0 0 40 40" style="margin-top: -8px"><path d="M20 4 C 10 4, 6 12, 10 20 L 20 36 L 30 20 C 34 12, 30 4, 20 4 Z" fill="#E9B949" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="20" cy="15" r="4" fill="#FFFDF8" stroke="#2E2A3B" style="stroke-width: 1.6"></circle></svg><svg width="30" height="30" viewBox="0 0 40 40"><path d="M20 4 C 10 4, 6 12, 10 20 L 20 36 L 30 20 C 34 12, 30 4, 20 4 Z" fill="#8FB3D9" stroke="#2E2A3B" filter="url(#pc)" style="stroke-width: 2"></path><circle cx="20" cy="15" r="4" fill="#FFFDF8" stroke="#2E2A3B" style="stroke-width: 1.6"></circle></svg></div>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 36px">Let's break my process down:</h2>
+<div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px">
+<a href="#basics" class="tile"><span class="tile-num" style="color: #8A5A00" aria-hidden="true">01</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">due in 2 min:</span><span style="position: relative; color: #4A4458">the project · role, team, timeline, tools</span></a>
+<a href="#research" class="tile"><span class="tile-num" style="color: #8A5A00" aria-hidden="true">02</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">ghost bus:</span><span style="position: relative; color: #4A4458">problem &amp; research · users, problem, methods, insights</span></a>
+<a href="#decisions" class="tile"><span class="tile-num" style="color: #8A5A00" aria-hidden="true">03</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">rerouting:</span><span style="position: relative; color: #4A4458">tests &amp; pivot · what changed, and why</span></a>
+<a href="#results" class="tile"><span class="tile-num" style="color: #8A5A00" aria-hidden="true">04</span><span style="position: relative; font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px">arrived:</span><span style="position: relative; color: #4A4458">solution &amp; results · what we built, what's next</span></a>
+</div>
+</section>
+
+<!-- ===== PART 1 ===== -->
+<section class="chapter" style="--tint: #FBEFE6; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="basics" class="chap-open">
+<span class="chap-num" style="color: #A04A2E">01</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A04A2E">Part 1 of 4 · The project</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Due in 2 min</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">Who, when, and what I owned</p>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 28px">
+<div style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My role · Product Manager</p>
+<p style="margin: 0">This was a team project in a product management course, so all four of us worked as PMs and split the research. I owned the work that pointed us at the problem, and the two tests that changed the concept. I:</p>
+<ul style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px">
+<li>Designed our campus survey in English and Chinese, which made transportation the problem to solve</li>
+<li>Built the Value Proposition Canvas, our value proposition statement and the market ecosystem map</li>
+<li>Designed and ran the rider willingness-to-pay test and the Host supply test</li>
+<li>Built the results log, and called each result against pass/fail bars we set before testing</li>
+</ul>
+</div>
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Team · Double AJ</p><ul class="team"><sc-for list="{{team}}" as="m" hint-placeholder-count="4"><li><sc-if value="{{m.linked}}" hint-placeholder-val="{{ false }}"><a href="{{m.url}}" target="_blank" rel="noopener">{{m.name}}</a></sc-if><sc-if value="{{m.plain}}" hint-placeholder-val="{{ true }}"><b>{{m.name}}</b></sc-if><span>{{m.role}}</span></li></sc-for></ul></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Timeline</p><p style="margin: 4px 0 0">Product course · fall 2026 · survey in October, tests in November</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Tools</p><p style="margin: 4px 0 0">Google Forms · Google Sheets · Figma · Claude Code for the clickable demo</p></div>
+</div>
+</div>
+</section>
+
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">Four PMs and one crowded bus stop. How bad was it, really?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · Due in 2 min</a><a href="#research" class="st next"><span class="up">Up next</span> 2 · Ghost bus</a><span class="st">3 · Rerouting</span><span class="st">4 · Arrived</span></div>
+</nav>
+
+<!-- ===== PART 2 ===== -->
+<section class="chapter" style="--tint: #F1ECF8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="research" class="chap-open">
+<span class="chap-num" style="color: #5A4790">02</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5A4790">Part 2 of 4 · Problem &amp; research</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Ghost bus</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What was really broken?</p>
+</div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">A normal morning in Ann Arbor · what the bus app promises</p>
+<div class="board" role="img" aria-label="Illustration of a bus arrivals board: one bus full, one delayed 15 minutes, one marked due that never arrives">
+<div class="brow"><span class="bt">8:20</span><span class="bn">Bus to Central Campus</span><span class="chip full">Full · can't board</span></div>
+<div class="brow"><span class="bt">8:32</span><span class="bn">Next bus</span><span class="chip late">Delayed 15 min</span></div>
+<div class="brow"><span class="bt">8:40</span><span class="bn">Bus to Central Campus</span><span class="chip due ghost">Due 2 min</span></div>
+<p style="margin: 10px 0 0; font-size: 13px; color: #C9CED6">That last one never shows up. Students call it a ghost bus. Illustration built from the incidents students described.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Target users</p><p style="margin: 6px 0 0"><strong>Riders:</strong> U-M students without a car who need to reach class, exams and errands on time. <strong>Carpool Hosts:</strong> students who already drive to campus with an empty seat.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Problem statement</p><p style="margin: 6px 0 0">Students without a car choose between a free bus that may be full, late or never come, and an Uber too expensive to use every day, while classmates drive the same way with empty seats.</p></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome we aimed for</p><p style="margin: 6px 0 0">Students without a car reach class, exams and errands on time, at a fraction of ride-hailing prices.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Business outcome we aimed for</p><p style="margin: 6px 0 0">A two-sided carpool marketplace that covers its costs from a small booking fee, while Hosts only get their gas money back.</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we researched</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">46</p><p style="margin: 0">students in my bilingual survey; 27 chose Chinese</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">32</p><p style="margin: 0">assumptions mapped by importance and evidence</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">5</p><p style="margin: 0">riskiest assumptions tested with riders and drivers</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">9</p><p style="margin: 0">alternatives compared, from Magic Bus to Zipcar and Instacart+</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">What the survey showed</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px">
+<div style="position: relative; padding: 28px 24px"><svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#E9B949" filter="url(#wc)" style="opacity: 0.45"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1">74%</p><p style="position: relative; margin: 8px 0 0">put transportation in their top three campus frustrations (34 of 46)</p></div>
+<div style="position: relative; padding: 28px 24px"><svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#B7A6DB" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1">76%</p><p style="position: relative; margin: 8px 0 0">have no regular access to a car (35 of 46)</p></div>
+<div style="position: relative; padding: 28px 24px"><svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1">68%</p><p style="position: relative; margin: 8px 0 0">of those hit by it have no fix and just put up with it (23 of 34)</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">In their words · 17 of 46 stories were about full or late buses</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 24px 26px; padding: 10px 0">
+<div class="clue" style="position: relative; flex: 1 1 220px; max-width: 290px; background: #FFF6C8; padding: 22px 18px 16px; transform: rotate(-2deg); box-shadow: 0 10px 18px rgba(46,42,59,0.15)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; line-height: 1.2">"The bus was so full I couldn't get on, and I missed my pre-exam review session."</p></div>
+<div class="clue" style="position: relative; flex: 1 1 220px; max-width: 290px; background: #E4ECF8; padding: 22px 18px 16px; transform: rotate(1.5deg); box-shadow: 0 10px 18px rgba(46,42,59,0.15)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; line-height: 1.2">"I waited a full hour. Every bus came too early or too late, then the driver skipped four stops."</p></div>
+<div class="clue" style="position: relative; flex: 1 1 220px; max-width: 290px; background: #FDE2DA; padding: 22px 18px 16px; transform: rotate(-1deg); box-shadow: 0 10px 18px rgba(46,42,59,0.15)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; line-height: 1.2">"$60 for uber to DTW alone."</p></div>
+</div>
+<p style="margin: 0; font-size: 14px; color: #5A5468">Survey answers; quotes from the Chinese version are translated.</p>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">From my desk · the two maps I built</p>
+<div class="arts">
+<figure><a href="assets/onroute-vpc.jpg" target="_blank" rel="noopener"><img src="assets/onroute-vpc.jpg" alt="OnRoute Value Proposition Canvas: rider jobs, pains and gains matched to OnRoute's products, pain relievers and gain creators" loading="lazy"></a><figcaption><strong>Value Proposition Canvas.</strong> Every pain reliever had to answer a pain students actually wrote about. Tap to enlarge.</figcaption></figure>
+<figure><a href="assets/onroute-ecosystem.jpg" target="_blank" rel="noopener"><img src="assets/onroute-ecosystem.jpg" alt="OnRoute ecosystem map: riders, Hosts, partners, competitors, the regulator and phase-two partners around the platform" loading="lazy"></a><figcaption><strong>Ecosystem map.</strong> Who OnRoute depends on, who it competes with, and the state carpool rule that keeps Hosts to a gas share. Tap to enlarge.</figcaption></figure>
+</div>
+<div style="max-width: 720px; margin: 6px auto 0; background: #FFFDF8; border: 2px solid #2E2A3B; border-radius: 18px 14px 20px 12px; padding: 16px 20px; text-align: center">
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 20px; line-height: 1.4"><strong>Key insight:</strong> a free bus isn't free if you can't get on it. The real cost is a missed class. No option was <strong>reserved, cheap and with verified students</strong> at the same time.</p>
+</div>
+</section>
+
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">Students were stuck while classmates drove past with empty seats. But would anyone pay $1.29 when the bus is free?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · Due in 2 min</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · Ghost bus</a><a href="#decisions" class="st next"><span class="up">Up next</span> 3 · Rerouting</a><span class="st">4 · Arrived</span></div>
+</nav>
+
+<!-- ===== PART 3 ===== -->
+<section class="chapter" style="--tint: #EAF1F8; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="decisions" class="chap-open">
+<span class="chap-num" style="color: #2A5F8F">03</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2A5F8F">Part 3 of 4 · Tests &amp; pivot</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Rerouting</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What changed our plan?</p>
+</div>
+</div>
+<p style="margin: 0; max-width: 800px">Our first plan was a rescue: when your bus fails, book a seat with a student already driving your way, for about $1.29. I tested it with 10 riders who take the bus at least three times a week. Try the two scenarios I gave them.</p>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">My test · would you pay $1.29?</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px">
+<sc-for list="{{scenarios}}" as="q" hint-placeholder-count="2">
+<div style="position: relative; padding: 26px 24px; display: flex; flex-direction: column; gap: 12px">
+<svg viewBox="0 0 300 360" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><path d="M12 20 C 100 8, 200 14, 288 10 C 296 120, 294 240, 286 350 C 200 356, 100 354, 14 352 C 6 240, 8 120, 12 20 Z" fill="{{q.fill}}" filter="url(#wc)" style="opacity: 0.55"></path></svg>
+<p style="position: relative; margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">{{q.tag}}</p>
+<p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-size: 21px; font-weight: 700; line-height: 1.35">{{q.question}}</p>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" onClick="{{q.pickA}}" aria-pressed="{{q.aPressed}}" style="font: inherit; font-weight: 700; font-size: 15px; color: {{q.aInk}}; background: {{q.aBg}}; border: 2px solid #2E2A3B; border-radius: 14px 10px 16px 8px; padding: 8px 14px; min-height: 44px; cursor: pointer">Wait for the next bus</button>
+<button type="button" onClick="{{q.pickB}}" aria-pressed="{{q.bPressed}}" style="font: inherit; font-weight: 700; font-size: 15px; color: {{q.bInk}}; background: {{q.bBg}}; border: 2px solid #2E2A3B; border-radius: 10px 16px 8px 14px; padding: 8px 14px; min-height: 44px; cursor: pointer">Book a seat · $1.29</button>
+</div>
+<sc-if value="{{q.answered}}" hint-placeholder-val="{{ false }}">
+<div class="pop" style="position: relative; display: flex; align-items: baseline; gap: 12px"><span style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1; color: {{q.statInk}}">{{q.stat}}</span><span style="font-weight: 700">{{q.statLabel}}</span></div>
+<p class="pop" style="position: relative; margin: 0">{{q.why}}</p>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{payBoth}}" hint-placeholder-val="{{ false }}">
+<div class="pop" style="max-width: 760px; margin: 0 auto; background: #FFFDF8; border: 2px solid #2E2A3B; border-radius: 18px 14px 20px 12px; padding: 16px 20px; text-align: center">
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 20px; line-height: 1.4"><strong>What I learned:</strong> riders don't pay to escape a bad bus. They pay to protect something that matters, and those moments are mostly ones they can see coming.</p>
+</div>
+</sc-if>
+<sc-if value="{{payWaiting}}" hint-placeholder-val="{{ true }}"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468; text-align: center">Answer both to see what I learned.</p></sc-if>
+<p style="margin: 0; font-size: 14px; color: #5A5468">Honest caveat: these are stated answers. All 10 agreed to a refundable $1.29 deposit, but we never collected one, so I labeled this test inconclusive, not supported.</p>
+
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">All five tests · pass bars written down before we ran them</p>
+<div class="tests">
+<sc-for list="{{tests}}" as="t" hint-placeholder-count="5">
+<div class="trow rv">
+<span class="tn">{{t.n}}</span>
+<div style="min-width: 0"><p style="margin: 0; font-weight: 700">{{t.title}} <sc-if value="{{t.mine}}" hint-placeholder-val="{{ false }}"><span class="mine">my test</span></sc-if></p><p style="margin: 2px 0 0; font-size: 15px; color: #4A4458">{{t.result}}</p></div>
+<span class="lbl {{t.cls}}">{{t.label}}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 14px; color: #5A5468">Three of five came back inconclusive, mostly because samples fell short of plan. I kept those labels rather than rounding them up.</p>
+
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The Host side of my test · 4 drivers</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">$31</p><p style="margin: 0">a week on gas, on average. All 4 usually drive with an empty seat, and all liked getting gas money back.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">2 of 4</p><p style="margin: 0">picked a real hosting slot (8:30 and 11:00 a.m.). Both have longer drives into North Campus.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 34px">2–10 min</p><p style="margin: 0">drives for the 2 who said no. Too busy, and the payback too small to matter. Supply will come from longer commutes.</p></div>
+</div>
+
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The pivot · from rescue rides to planned rides</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch">
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #A04A2E">first plan</p><p style="margin: 4px 0 0">An on-demand rescue: book a seat the moment your bus fails you.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #5A5468">what we learned</p><p style="margin: 4px 0 0">Rider need was urgent and last-minute, but Hosts could only commit to fixed slots. That timing gap was the biggest risk we found.</p></div>
+<div style="flex: 0 0 auto; display: flex; align-items: center; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700">→</div>
+<div class="rv" style="flex: 1 1 260px; background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">new focus</p><p style="margin: 4px 0 0">Planned trips where being on time matters, like morning classes and exams: standing weekly rides, a flexible time window, and a backup if the Host runs late.</p></div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Other changes the tests forced</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">a time window</p><p style="margin: 4px 0 0">8 of 12 riders had a potential match, and the rest failed on departure time. So matching searches within a window.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 24px 16px 22px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">keep no documents</p><p style="margin: 4px 0 0">Only 3 of 6 Hosts would upload a license and insurance. So a verification partner would check them, and OnRoute would keep only a badge.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 24px 16px 22px 18px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">safety both ways</p><p style="margin: 4px 0 0">Riders asked for an emergency button and to see who's driving. A woman Host wanted to know a rider's gender, so the revised concept offers a same-gender option to both sides.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 16px 22px 18px 24px; padding: 20px"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">grow by building</p><p style="margin: 4px 0 0">Every match paired neighbors from the same apartment complex. Building-based groups may be the fastest way to get enough riders and Hosts.</p></div>
+</div>
+</section>
+
+<nav class="cstrip" aria-label="Story progress">
+<p class="tease">Planned rides, a time window and a backup. Did the new flow hold together?</p>
+<div class="tiles"><a href="#basics" class="st done"><span aria-hidden="true">&#x2713;</span> 1 · Due in 2 min</a><a href="#research" class="st done"><span aria-hidden="true">&#x2713;</span> 2 · Ghost bus</a><a href="#decisions" class="st done"><span aria-hidden="true">&#x2713;</span> 3 · Rerouting</a><a href="#results" class="st next"><span class="up">Up next</span> 4 · Arrived</a></div>
+</nav>
+
+<!-- ===== PART 4 ===== -->
+<section class="chapter" style="--tint: #EAF4EC; position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<div id="results" class="chap-open">
+<span class="chap-num" style="color: #2F6B45">04</span>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2F6B45">Part 4 of 4 · Solution &amp; results</p>
+<h2 style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 38px; line-height: 1.1">Arrived</h2>
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #4A4458">What did we build?</p>
+</div>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Try the revised flow · rebuilt from our clickable demo</p>
+<div class="cbp orp" style="display: flex; flex-wrap: wrap; gap: 36px; align-items: center; justify-content: center">
+<div style="flex: 1 1 300px; max-width: 420px; display: flex; flex-direction: column; gap: 14px; font-family: 'DM Sans', system-ui, sans-serif; color: #2E2A3B">
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; line-height: 1.15">Book a Wednesday ride to class, then survive a late Host.</p>
+<p style="margin: 0; font-size: 16px; color: #4A4458">Sample routes and people. Tap inside the phone.</p>
+<ol class="cb-steps">
+<sc-for list="{{phSteps}}" as="sp" hint-placeholder-count="4">
+<li class="cb-step" data-on="{{sp.on}}" data-done="{{sp.done}}"><b class="n">{{sp.n}}</b><span><b style="display: block; font-size: 15px">{{sp.title}}</b><span style="font-size: 14px; color: #5A5468">{{sp.hint}}</span></span></li>
+</sc-for>
+</ol>
+<sc-if value="{{phAllDone}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; color: #2F6B45">Planned, repeatable, with a backup. That's the pivot in four taps.</p></sc-if>
+<button type="button" onClick="{{phReset}}" style="align-self: flex-start; font: inherit; font-weight: 700; color: #2E2A3B; background: none; border: 2px solid #2E2A3B; border-radius: 16px 22px 14px 24px; padding: 8px 18px; min-height: 44px; cursor: pointer">Start over</button>
+</div>
+<div class="cb-phone" aria-label="Interactive OnRoute prototype" role="group">
+<div class="cb-notch" aria-hidden="true"></div>
+<div class="cb-screen" aria-live="polite">
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px">
+<span style="width: 28px; height: 28px; border-radius: 9px; background: #185CBE; display: grid; place-items: center; color: #fff; font-size: 13px; font-weight: 800" aria-hidden="true">OR</span>
+<b style="font-size: 17px; flex: 1; letter-spacing: -0.03em">On<span style="color: #185CBE">Route</span></b>
+</div>
+<p style="margin: 0 0 10px; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #708697">Concept demo · sample data</p>
+
+<sc-if value="{{phSearch}}" hint-placeholder-val="{{ true }}">
+<div class="cb-card" style="padding: 12px; display: flex; flex-direction: column; gap: 8px">
+<b style="font-size: 15px">Find a ride</b>
+<div class="fld"><span>From</span><b>Beekman on Broadway</b></div>
+<div class="fld"><span>To</span><b>North Campus · Leinweber</b></div>
+<div class="fld"><span>When</span><b>Wednesday · leave 10:20</b></div>
+<span style="font-size: 12px; color: #6B7280; font-weight: 700">Time window</span>
+<div style="display: flex; gap: 6px"><button type="button" class="cb-tab" aria-pressed="{{phExactOn}}" onClick="{{phExact}}" style="flex: 1">Exact time</button><button type="button" class="cb-tab" aria-pressed="{{phWinOn}}" onClick="{{phWin}}" style="flex: 1">± 15 min</button></div>
+<button type="button" class="cb-btn" onClick="{{phFind}}">Find rides</button>
+</div>
+</sc-if>
+
+<sc-if value="{{phResults}}" hint-placeholder-val="{{ false }}">
+<button type="button" class="back" onClick="{{phBackSearch}}">&#x2039; Search</button>
+<sc-if value="{{phNoMatch}}" hint-placeholder-val="{{ false }}">
+<div class="cb-card" style="padding: 14px 12px; text-align: center; display: flex; flex-direction: column; gap: 8px">
+<b style="font-size: 15px">No Host leaves at exactly 10:20</b>
+<span style="font-size: 12.5px; color: #4B5563">In our route test, the riders who didn't match missed on time, not on route.</span>
+<button type="button" class="cb-btn" onClick="{{phWiden}}">Widen to ± 15 min</button>
+</div>
+</sc-if>
+<sc-if value="{{phHasMatch}}" hint-placeholder-val="{{ true }}">
+<p style="margin: 0 0 8px; font-size: 12.5px; color: #4B5563">2 Hosts already drive this way · 10:05–10:35</p>
+<button type="button" class="host" onClick="{{phPickMaya}}"><span class="av">ML</span><span style="flex: 1; text-align: left"><b>Maya L. · 10:15</b><br><span>&#x2605; 4.9 · 32 trips · 3 seats</span></span><b>$1.29</b></button>
+<div class="host" aria-disabled="true"><span class="av b">JK</span><span style="flex: 1; text-align: left"><b>Jordan K. · 10:35</b><br><span>&#x2605; 4.8 · 17 trips · 1 seat</span></span><b>$1.29</b></div>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{phHost}}" hint-placeholder-val="{{ false }}">
+<button type="button" class="back" onClick="{{phBackResults}}">&#x2039; Rides</button>
+<div class="cb-card" style="padding: 12px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; gap: 10px; align-items: center"><span class="av">ML</span><span><b style="font-size: 15px">Maya L.</b><br><span style="font-size: 12px; color: #6B7280">Drives this route to class every Wednesday</span></span></div>
+<span class="badge">&#x2713; U-M email verified</span>
+<span class="badge">&#x2713; License &amp; insurance checked</span>
+<span class="badge gray">&#x2605; 4.9 from 32 trips</span>
+</div>
+<div class="cb-card" style="padding: 12px; margin-top: 10px; font-size: 13px">
+<b style="font-size: 14px">Fare, shown before you book</b>
+<div class="fare"><span>Gas share · all to Maya</span><b>$0.80</b></div>
+<div class="fare"><span>OnRoute booking fee</span><b>$0.49</b></div>
+<div class="fare tot"><span>Total</span><b>$1.29</b></div>
+<span style="font-size: 11px; color: #6B7280">4 mi ÷ 25 MPG × $4.97 a gallon. No surge.</span>
+</div>
+<button type="button" class="rep" aria-pressed="{{phRepeatOn}}" onClick="{{phToggleRepeat}}"><span class="box" aria-hidden="true">{{phRepeatMark}}</span> Repeat every Wednesday</button>
+<button type="button" class="cb-btn" onClick="{{phBook}}">Reserve seat · $1.29</button>
+</sc-if>
+
+<sc-if value="{{phBooked}}" hint-placeholder-val="{{ false }}">
+<div class="cb-card" style="padding: 16px 12px; text-align: center; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 34px; color: #0C8D73" aria-hidden="true">&#x2714;</span>
+<b style="font-size: 16px">Seat reserved</b>
+<span style="font-size: 13px; color: #4B5563">{{phPlan}}</span>
+<span style="font-size: 12px; color: #6B7280">Live location is shared with Maya and one friend during the trip only.</span>
+</div>
+<button type="button" class="cb-btn" onClick="{{phJump}}" style="margin-top: 10px">Jump to Wednesday, 10:08 &#x203A;</button>
+</sc-if>
+
+<sc-if value="{{phLate}}" hint-placeholder-val="{{ false }}">
+<div class="alert"><b>Maya is running 12 min late</b><br>New pickup around 10:27. You decide what to do.</div>
+<div class="cb-card" style="padding: 12px; margin-top: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #6B7280">Suggested backup</span>
+<div style="display: flex; gap: 10px; align-items: center"><span class="av b">JK</span><span><b>Jordan K. · 10:35</b><br><span style="font-size: 12px; color: #6B7280">Same route · 1 seat · $1.29</span></span></div>
+<sc-if value="{{phUndecided}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; gap: 6px"><button type="button" class="cb-btn out" onClick="{{phKeep}}">Keep Maya</button><button type="button" class="cb-btn" onClick="{{phSwitch}}">Switch</button></div>
+</sc-if>
+<sc-if value="{{phDecided}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; font-weight: 700; color: #0C8D73">&#x2713; {{phDecision}}</span></sc-if>
+</div>
+<p style="margin: 8px 2px 0; font-size: 11px; color: #6B7280">A backup depends on who's driving, so we never promise one.</p>
+</sc-if>
+</div>
+</div>
+</div>
+
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Our demo video · the full concept walkthrough</p>
+<div id="demo" style="position: relative; scroll-margin-top: 120px; padding: 14px; background: #2E2A3B; border-radius: 22px 18px 24px 16px">
+<video src="assets/onroute-demo.mp4" poster="assets/onroute-poster.jpg" controls="controls" playsinline="playsinline" preload="none" style="display: block; width: 100%; height: auto; border-radius: 12px; background: #FFFFFF"></video>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="onroute-demo.html" target="_blank" rel="noopener" style="text-decoration: none; background: #2E2A3B; color: #FBF7EF; font-weight: 700; border-radius: 26px 20px 28px 22px; padding: 12px 22px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">Open the full clickable demo →</a>
+</div>
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Results</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px">
+<div style="position: relative; padding: 28px 24px"><svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#E9B949" filter="url(#wc)" style="opacity: 0.45"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1">7 of 10</p><p style="position: relative; margin: 8px 0 0">riders missed or nearly missed a time-critical trip in two weeks: 24 times in all</p></div>
+<div style="position: relative; padding: 28px 24px"><svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#9CC3A5" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1">8 of 12</p><p style="position: relative; margin: 8px 0 0">riders had a potential Host match on trips they already make</p></div>
+<div style="position: relative; padding: 28px 24px"><svg viewBox="0 0 300 200" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%" aria-hidden="true"><ellipse cx="150" cy="100" rx="140" ry="90" fill="#8FB3D9" filter="url(#wc)" style="opacity: 0.5"></ellipse></svg><p style="position: relative; margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 52px; line-height: 1">6 of 6</p><p style="position: relative; margin: 8px 0 0">qualifying riders would share live location during a trip, once we explained why</p></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">What we built</p><p style="margin: 6px 0 0">A clickable concept demo of the revised flow: standing rides, time-window matching, Host safety info, a late-Host backup, same-day requests and the Host view. Bookings, checks and payments are simulated.</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px"><p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">Product outcome</p><p style="margin: 6px 0 0"><strong>Shown:</strong> the problem is real and frequent, and routes do overlap. <strong>Not yet proven:</strong> that riders will actually pay, that enough Hosts will drive, and that they'll show up on time.</p></div>
+</div>
+<div class="tplan">
+<p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">How we'll know it works · the next round</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-top: 10px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 14px 20px 12px; padding: 18px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 24px">5 of 10</p><p style="margin: 2px 0 0; font-size: 15px">new riders pay a real, refundable $1.29 deposit for a specific morning class or exam</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 14px 20px 12px; padding: 18px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 24px">4 of 8</p><p style="margin: 2px 0 0; font-size: 15px">Hosts with longer commutes actually drive the pilot slot they picked</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 14px 20px 12px; padding: 18px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 24px">Plan ahead?</p><p style="margin: 2px 0 0; font-size: 15px">riders set standing rides before the week starts, instead of searching when the bus fails</p></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 18px 14px 20px 12px; padding: 18px"><p style="margin: 0; font-family: 'Fraunces', serif; font-weight: 700; font-size: 24px">On time?</p><p style="margin: 2px 0 0; font-size: 15px">Hosts arrive on time without a big financial reason to</p></div>
+</div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 22px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 30px; font-weight: 700; color: #6A4F9A">end of the line · my reflection</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px">
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.5deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2F6B45">what went well</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Writing pass bars before testing, then reporting the weak number (2 of 10) next to the strong one (10 of 10).</li><li>A bilingual survey: 27 of 46 students chose the Chinese version.</li><li>Asking about behavior, not opinions: the last two weeks, and a real hosting slot.</li><li>Letting the evidence change the concept, instead of defending the first idea.</li></ul></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(0.4deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #B0573F">what didn't</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Too few Hosts. I planned 8 and reached 4, and the drivers from our route survey were anonymous, so I couldn't invite them back.</li><li>"Would you pay if you were running late?" was too easy to say yes to. 10 of 10 did, and nobody paid.</li></ul></div>
+<div class="rv" style="background: #FFFDF8; border: 1.5px solid #E6DCCB; border-radius: 22px 18px 24px 16px; padding: 22px 24px; transform: rotate(-0.3deg)"><p style="margin: 0; font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700; color: #2A5F8F">next time</p><ul style="margin: 6px 0 0; padding-left: 20px"><li>Ask for a real deposit, tied to one specific trip.</li><li>Ask permission to follow up in every short survey.</li><li>Count a Host as committed only once they drive the slot.</li></ul></div>
+</div>
+</section>
+
+<section style="position: relative; max-width: 1040px; margin: 0 auto; padding: 24px 32px 56px; display: flex; flex-direction: column; gap: 14px">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: #2F6B45">what's next</p>
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 24px; line-height: 1.4; max-width: 840px">Next stop is our final pitch. After that, the plan is a small pilot on one crowded route, with real deposits, Hosts who actually drive their slot, and riders who book before the week starts.</p>
+</section>
+
+<nav class="endnav" aria-label="Case studies">
+<p class="thanks">Thanks for reading to the end!</p>
+<div class="row">
+<a class="prev" href="carelift.html"><span aria-hidden="true">&#x2190;</span><span><small>Previous case</small>CareLift</span></a>
+<a class="home" href="index.html"><span aria-hidden="true">&#x2302;</span> Back to Homepage</a>
+<a class="next" href="catalyst.html"><span><small>Next case</small>BCC Catalyst Lab</span><span aria-hidden="true">&#x2192;</span></a>
+</div>
+</nav>
+<footer style="position: relative; max-width: 1040px; margin: 0 auto; padding: 0 32px 40px; font-size: 13px; color: #5A5468; text-align: center"><p style="margin: 0">© 2026 Chih-Chi (Joan) Huang. All rights reserved. Text, illustrations, and design may not be reused without permission.</p></footer>
+
+</div>
+
+</template>
+<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1280,"height":9000}}'>
+class Component extends DCLogic {
+componentDidMount() {
+const set = () => {
+const h = document.documentElement;
+const max = (h.scrollHeight - window.innerHeight) || 1;
+h.style.setProperty('--p', Math.min(1, Math.max(0, window.scrollY / max)).toFixed(4));
+h.style.setProperty('--d', Math.min(1, (window.scrollY + window.innerHeight * 0.75) / (h.scrollHeight || 1)).toFixed(4));
+};
+set();
+window.addEventListener('scroll', set, { passive: true });
+window.addEventListener('resize', set);
+const parts = ['basics', 'research', 'decisions', 'results'].map(id => document.getElementById(id)).filter(Boolean);
+if (window.IntersectionObserver && parts.length) {
+const io = new IntersectionObserver(entries => {
+entries.forEach(e => { if (e.isIntersecting) document.documentElement.setAttribute('data-part', e.target.id); });
+}, { rootMargin: '-40% 0px -55% 0px' });
+parts.forEach(p => io.observe(p));
+}
+}
+renderVals() {
+// ===== EDIT ME =====
+// Teammates: paste each portfolio or LinkedIn URL. A name without a URL shows as plain text.
+const TEAM = [
+  { name: "Chih-Chi (Joan) Huang", role: "Product Manager (me)", url: '' },
+  { name: "Jeannelle Lee", role: "Product Manager", url: '' },
+  { name: "Alison Chang", role: "Product Manager", url: '' },
+  { name: "Adam Deng", role: "Product Manager", url: '' }
+];
+// ===================
+const st = this.state || {};
+const dark = '#2E2A3B', light = '#FBF7EF';
+
+// --- Would you pay $1.29? (Test 2 scenarios) ---
+const scData = [
+{ tag: 'Scenario 1 · the bus fails', question: '8:20 a.m. Your bus app says "Due 2 min," but the bus never comes. Nothing important starts soon.', fill: '#F7E3A8',
+  stat: '2 of 10', statLabel: 'riders would book', statInk: '#B0573F',
+  why: 'A late bus alone wasn’t enough. 8 of 10 said they’d just wait, and neither rider who already walks or takes an Uber said they’d use OnRoute here.' },
+{ tag: 'Scenario 2 · being late has a cost', question: '9:40 a.m. Your exam on North Campus starts at 10:00. The bus is full, and the next one is 15 minutes away.', fill: '#C5DFCB',
+  stat: '10 of 10', statLabel: 'riders would pay $1.29', statInk: '#2F6B45',
+  why: 'Once being late had a real cost, every rider said yes, most with the same condition: “only if I were at risk of being late for something important.”' }
+];
+const pay = st.pay || {};
+const scenarios = scData.map((q, i) => {
+const p = pay[i];
+const setPick = (v) => () => { const o = Object.assign({}, pay); o[i] = v; this.setState({ pay: o }); };
+return Object.assign({}, q, {
+answered: !!p,
+aPressed: p === 'a' ? 'true' : 'false', bPressed: p === 'b' ? 'true' : 'false',
+aBg: p === 'a' ? dark : '#FFFDF8', aInk: p === 'a' ? light : dark,
+bBg: p === 'b' ? dark : '#FFFDF8', bInk: p === 'b' ? light : dark,
+pickA: setPick('a'), pickB: setPick('b')
+});
+});
+const payBoth = !!(pay[0] && pay[1]);
+
+// --- Test results ---
+const tests = [
+{ n: '1', title: 'Rider and Host routes overlap', result: 'Route survey of 12 riders and 10 drivers: 8 of 12 riders had a potential match.', label: 'Supported', cls: 'sup', mine: false },
+{ n: '2', title: 'Riders pay $1.29 when the bus fails', result: 'Interviews and a price test with 10 riders: 2 of 10 when the bus fails, 10 of 10 when late has a cost. No deposit collected.', label: 'Inconclusive', cls: 'inc', mine: true },
+{ n: '3', title: 'Hosts offer seats for a gas share', result: 'Interviews and a slot commitment: 2 of 4 drivers picked a slot, with only half the planned 8.', label: 'Inconclusive', cls: 'inc', mine: true },
+{ n: '4', title: 'Riders book with a verified stranger', result: 'Booking decision on a Host profile: 4 of 6 qualifying riders booked, short of the 10 planned.', label: 'Inconclusive', cls: 'inc', mine: false },
+{ n: '5', title: 'Both sides share the data we need', result: 'Permission screens: 6 of 6 riders allowed live location, but only 3 of 6 Hosts would upload documents.', label: 'Not supported', cls: 'not', mine: false }
+];
+
+// --- Phone demo ---
+const ph = st.ph || { screen: 'search', win: false, repeat: true, choice: '' };
+const setPh = (patch) => this.setState({ ph: Object.assign({}, ph, patch) });
+const order = { search: 0, results: 0, host: 1, booked: 2, late: 3 };
+const cur = order[ph.screen];
+const finished = ph.screen === 'late' && !!ph.choice;
+const stepText = [
+['Find a ride near 10:20', 'Search with the exact time first, then widen the window.'],
+['Check the Host, then reserve', 'See the checks and how $1.29 splits. Keep “Every Wednesday” on.'],
+['Jump to Wednesday', 'Your standing ride is set. Skip ahead to the morning of class.'],
+['Your Host is late. Pick a plan', 'Keep Maya, or switch to the suggested backup.']
+];
+const phSteps = stepText.map((t, i) => ({ n: i + 1, title: t[0], hint: t[1],
+on: (!finished && i === cur) ? 'true' : 'false',
+done: (i < cur || (finished && i === 3)) ? 'true' : 'false' }));
+
+return {
+team: TEAM.map(m => ({ name: m.name, role: m.role, url: m.url, linked: !!m.url, plain: !m.url })),
+scenarios: scenarios, payBoth: payBoth, payWaiting: !payBoth,
+tests: tests,
+phSteps: phSteps, phAllDone: finished,
+phReset: () => this.setState({ ph: { screen: 'search', win: false, repeat: true, choice: '' } }),
+phSearch: ph.screen === 'search', phResults: ph.screen === 'results', phHost: ph.screen === 'host', phBooked: ph.screen === 'booked', phLate: ph.screen === 'late',
+phExactOn: ph.win ? 'false' : 'true', phWinOn: ph.win ? 'true' : 'false',
+phExact: () => setPh({ win: false }), phWin: () => setPh({ win: true }),
+phFind: () => setPh({ screen: 'results' }),
+phNoMatch: !ph.win, phHasMatch: !!ph.win,
+phWiden: () => setPh({ win: true }),
+phBackSearch: () => setPh({ screen: 'search' }),
+phPickMaya: () => setPh({ screen: 'host' }),
+phBackResults: () => setPh({ screen: 'results' }),
+phRepeatOn: ph.repeat ? 'true' : 'false', phRepeatMark: ph.repeat ? '✓' : '',
+phToggleRepeat: () => setPh({ repeat: !ph.repeat }),
+phBook: () => setPh({ screen: 'booked' }),
+phPlan: ph.repeat ? 'Every Wednesday · 10:15 · Beekman → Leinweber' : 'This Wednesday only · 10:15 · Beekman → Leinweber',
+phJump: () => setPh({ screen: 'late', choice: '' }),
+phUndecided: !ph.choice, phDecided: !!ph.choice,
+phKeep: () => setPh({ choice: 'keep' }), phSwitch: () => setPh({ choice: 'switch' }),
+phDecision: ph.choice === 'switch' ? 'Switched to Jordan K. Your $1.29 moved with you.' : 'Kept Maya. We’ll ping you when she’s 2 minutes away.'
+};
+}
+}
+</script>
+<script src="assets/morphdom.min.js"></script>
+<script src="assets/dc-lite.js"></script>
+<noscript><p style="font-family:sans-serif;padding:24px">This site needs JavaScript. Contact: chihchi@umich.edu</p></noscript>
+</body>
+</html>

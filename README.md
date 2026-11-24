@@ -12,12 +12,14 @@ A plain static site (HTML, CSS, a little JavaScript). No build step: GitHub Page
 | `orvp.html` | Case study: ORVP funding-call tool |
 | `campusbite.html` | Case study: CampusBite |
 | `carelift.html` | Case study: CareLift |
+| `onroute.html` | Case study: OnRoute student carpooling |
+| `onroute-demo.html` | OnRoute clickable concept demo (linked from the case study) |
 | `catalyst.html` | Case study: Catalyst Labs |
 | `notes-saw-it-solved-it.html` | Field note: Saw it, solved it |
 
 ## Assets
 
-Images, the CareLift demo video, company logos and the résumé PDF live in `assets/`.
+Images, the CareLift and OnRoute demo videos, company logos and the résumé PDF live in `assets/`.
 `assets/dc-lite.js` and `assets/morphdom.min.js` power the interactive parts (tabs, flip cards, toggles). Leave them in place.
 
 ## Updating
