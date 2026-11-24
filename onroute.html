@@ -170,6 +170,16 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 .orp .rep .box{width:20px;height:20px;border-radius:6px;border:2px solid #185CBE;display:grid;place-items:center;font-size:13px;color:#fff}
 .orp .rep[aria-pressed="true"] .box{background:#185CBE}
 .orp .alert{background:#FDECE8;border-left:4px solid #BC5846;border-radius:10px;padding:10px 12px;font-size:12.5px;color:#5C2A20}
+.zoomable{position:relative;display:block;width:100%;padding:0;border:none;background:none;cursor:zoom-in;border-radius:10px}
+.zoomable img{display:block;width:100%;height:auto;border-radius:10px}
+.zhint{position:absolute;right:10px;bottom:10px;background:#2E2A3B;color:#FBF7EF;font-size:13px;font-weight:700;border-radius:999px;padding:6px 12px}
+.zoomable:hover .zhint,.zoomable:focus-visible .zhint{background:#7A5BA8}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(30,27,40,.96);display:flex;flex-direction:column}
+.lb-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;color:#FBF7EF;font-size:16px}
+.lb-btn{font:inherit;font-weight:700;color:#2E2A3B;background:#FBF7EF;border:none;border-radius:999px;padding:8px 16px;min-height:44px;min-width:44px;cursor:pointer}
+.lb-scroll{flex:1;overflow:auto;display:flex;padding:0 16px 16px}
+.lb-img{display:block;margin:auto;max-width:100%;max-height:100%;background:#fff;border-radius:8px;cursor:zoom-in}
+.lb-img[data-zoom="true"]{max-width:none;max-height:none;width:2000px;cursor:zoom-out;margin:0 auto}
 .arts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
 .arts figure{margin:0;background:#FFFDF8;border:1.5px solid #E6DCCB;border-radius:18px 14px 20px 12px;padding:10px}
 .arts img{display:block;width:100%;height:auto;border-radius:10px}.arts figcaption{font-size:14px;color:#4A4458;margin-top:6px}
@@ -372,12 +382,13 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="margin: 0; font-size: 14px; color: #5A5468">Survey answers; quotes from the Chinese version are translated.</p>
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">From my desk · the two maps I built</p>
 <div class="arts">
-<figure><a href="assets/onroute-vpc.jpg" target="_blank" rel="noopener"><img src="assets/onroute-vpc.jpg" alt="OnRoute Value Proposition Canvas: rider jobs, pains and gains matched to OnRoute's products, pain relievers and gain creators" loading="lazy"></a><figcaption><strong>Value Proposition Canvas.</strong> Every pain reliever had to answer a pain students actually wrote about. Tap to enlarge.</figcaption></figure>
-<figure><a href="assets/onroute-ecosystem.jpg" target="_blank" rel="noopener"><img src="assets/onroute-ecosystem.jpg" alt="OnRoute ecosystem map: riders, Hosts, partners, competitors, the regulator and phase-two partners around the platform" loading="lazy"></a><figcaption><strong>Ecosystem map.</strong> Who OnRoute depends on, who it competes with, and the state carpool rule that keeps Hosts to a gas share. Tap to enlarge.</figcaption></figure>
+<figure><button type="button" class="zoomable" onClick="{{openVpc}}" aria-label="Enlarge the Value Proposition Canvas"><img src="assets/onroute-vpc.jpg" alt="OnRoute Value Proposition Canvas: rider jobs, pains and gains matched to OnRoute's products, pain relievers and gain creators" loading="lazy"><span class="zhint" aria-hidden="true">&#x2922; Enlarge</span></button><figcaption><strong>Value Proposition Canvas.</strong> Every fix maps to a real pain.</figcaption></figure>
+<figure><button type="button" class="zoomable" onClick="{{openEco}}" aria-label="Enlarge the ecosystem map"><img src="assets/onroute-ecosystem.jpg" alt="OnRoute ecosystem map: riders, Hosts, partners, competitors, the regulator and phase-two partners around the platform" loading="lazy"><span class="zhint" aria-hidden="true">&#x2922; Enlarge</span></button><figcaption><strong>Ecosystem map.</strong> Partners, rivals and rules.</figcaption></figure>
 </div>
-<div style="max-width: 720px; margin: 6px auto 0; background: #FFFDF8; border: 2px solid #2E2A3B; border-radius: 18px 14px 20px 12px; padding: 16px 20px; text-align: center">
-<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 20px; line-height: 1.4"><strong>Key insight:</strong> a free bus isn't free if you can't get on it. The real cost is a missed class. No option was <strong>reserved, cheap and with verified students</strong> at the same time.</p>
+<div style="max-width: 640px; margin: 6px auto 0; background: #FFFDF8; border: 2px solid #2E2A3B; border-radius: 18px 14px 20px 12px; padding: 14px 20px; text-align: center">
+<p style="margin: 0; font-family: 'Fraunces', serif; font-size: 20px; line-height: 1.4"><strong>Key insight:</strong> a free bus isn't free if you can't get on it.</p>
 </div>
+
 </section>
 
 <nav class="cstrip" aria-label="Story progress">
@@ -619,6 +630,12 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 </div>
 </nav>
 <footer style="position: relative; max-width: 1040px; margin: 0 auto; padding: 0 32px 40px; font-size: 13px; color: #5A5468; text-align: center"><p style="margin: 0">© 2026 Chih-Chi (Joan) Huang. All rights reserved. Text, illustrations, and design may not be reused without permission.</p></footer>
+<sc-if value="{{lbOpen}}" hint-placeholder-val="{{ false }}">
+<div class="lb" role="dialog" aria-modal="true" aria-label="{{lbTitle}}" onClick="{{lbClose}}">
+<div class="lb-bar"><b>{{lbTitle}}</b><span style="flex: 1"></span><button type="button" class="lb-btn" onClick="{{lbZoom}}">{{lbZoomLabel}}</button><button type="button" class="lb-btn" onClick="{{lbClose}}" aria-label="Close">&#x2715;</button></div>
+<div class="lb-scroll"><img src="{{lbSrc}}" alt="{{lbTitle}}" class="lb-img" data-zoom="{{lbZoomed}}" onClick="{{lbZoom}}"></div>
+</div>
+</sc-if>
 
 </div>
 
@@ -642,6 +659,7 @@ entries.forEach(e => { if (e.isIntersecting) document.documentElement.setAttribu
 }, { rootMargin: '-40% 0px -55% 0px' });
 parts.forEach(p => io.observe(p));
 }
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && (this.state || {}).lb) { document.body.style.overflow = ''; this.setState({ lb: '', lbz: false }); } });
 }
 renderVals() {
 // ===== EDIT ME =====
@@ -704,7 +722,16 @@ const phSteps = stepText.map((t, i) => ({ n: i + 1, title: t[0], hint: t[1],
 on: (!finished && i === cur) ? 'true' : 'false',
 done: (i < cur || (finished && i === 3)) ? 'true' : 'false' }));
 
+const lb = st.lb || '';
+const lbData = { vpc: ['assets/onroute-vpc.jpg', 'Value Proposition Canvas'], eco: ['assets/onroute-ecosystem.jpg', 'Ecosystem map'] };
+const openLb = (k) => () => { document.body.style.overflow = 'hidden'; this.setState({ lb: k, lbz: false }); };
+const closeLb = (e) => { if (e && e.target && e.target.closest && e.target.closest('.lb-img') ) return; document.body.style.overflow = ''; this.setState({ lb: '', lbz: false }); };
 return {
+openVpc: openLb('vpc'), openEco: openLb('eco'),
+lbOpen: !!lb, lbSrc: lb ? lbData[lb][0] : '', lbTitle: lb ? lbData[lb][1] : '',
+lbZoomed: st.lbz ? 'true' : 'false', lbZoomLabel: st.lbz ? 'Fit to screen' : 'Zoom in',
+lbZoom: (e) => { if (e && e.nativeEvent) e.nativeEvent.stopPropagation(); this.setState({ lbz: !st.lbz }); },
+lbClose: closeLb,
 team: TEAM.map(m => ({ name: m.name, role: m.role, url: m.url, linked: !!m.url, plain: !m.url })),
 scenarios: scenarios, payBoth: payBoth, payWaiting: !payBoth,
 tests: tests,
