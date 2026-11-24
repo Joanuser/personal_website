@@ -532,7 +532,7 @@ html[data-part="basics"] .toc a[href="#basics"],html[data-part="research"] .toc 
 <p style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5A5468">The app · built in Lovable</p>
 <div id="demo" style="scroll-margin-top: 120px; display: flex; flex-direction: column; gap: 14px">
 <sc-if value="{{hasVideo}}" hint-placeholder-val="{{ false }}">
-<div style="position: relative; width: 100%; max-width: 600px; box-sizing: border-box; margin: 0 auto; padding: 14px; background: #2E2A3B; border-radius: 22px 18px 24px 16px">
+<div style="position: relative; width: 100%; box-sizing: border-box; padding: 14px; background: #2E2A3B; border-radius: 22px 18px 24px 16px">
 <video src="{{videoSrc}}" poster="{{videoPoster}}" controls="controls" playsinline="playsinline" preload="none" style="display: block; width: 100%; height: auto; border-radius: 12px; background: #FFFFFF"></video>
 </div>
 </sc-if>
@@ -637,7 +637,7 @@ const TEAM = [
 ];
 // Demo: paste the published Lovable URL and the video file path when ready.
 const APP_URL = 'https://onroute-wayfinder.lovable.app';
-const VIDEO_SRC = 'assets/onroute-joan-demo.mp4';
+const VIDEO_SRC = 'assets/onroute-joan-demo.mp4?v=169';
 const VIDEO_POSTER = 'assets/onroute-joan-poster.jpg';
 // ===================
 const st = this.state || {};
