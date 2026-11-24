@@ -658,12 +658,12 @@ const dark = '#2E2A3B', light = '#FBF7EF';
 
 // --- Would you pay $1.29? (Test 2 scenarios) ---
 const scData = [
-{ tag: 'Scenario 1 · the bus fails', question: '8:20 a.m. Your bus app says "Due 2 min," but the bus never comes. Nothing important starts soon.', fill: '#F7E3A8',
+{ tag: 'Scenario 1 · the bus fails', question: '8:20 a.m. Your bus app says "Due 2 min," but the bus never comes.', fill: '#F7E3A8',
   stat: '2 of 10', statLabel: 'riders would book', statInk: '#B0573F',
   why: 'A late bus alone wasn’t enough. 8 of 10 said they’d just wait, and neither rider who already walks or takes an Uber said they’d use OnRoute here.' },
 { tag: 'Scenario 2 · being late has a cost', question: '9:40 a.m. Your exam on North Campus starts at 10:00. The bus is full, and the next one is 15 minutes away.', fill: '#C5DFCB',
   stat: '10 of 10', statLabel: 'riders would pay $1.29', statInk: '#2F6B45',
-  why: 'Once being late had a real cost, every rider said yes, most with the same condition: “only if I were at risk of being late for something important.”' }
+  why: 'Once being late had a real cost, every rider said yes, most with the same condition: “only if I were in a hurry or at risk of being late for something important.”' }
 ];
 const pay = st.pay || {};
 const scenarios = scData.map((q, i) => {
